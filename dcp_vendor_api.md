@@ -447,6 +447,7 @@ Get single order info by order_id or client_order_id
         "redeem_amount": "1", //string, redeem principal amount,equal order deposit amount, in string format
         "redeem_settle_amount": "1", //string, redeem settle amount in string format
         "redeem_status": 0, //int, 0 : Processing, 110 : success, 120 : failed 
+        "redeem_active_time": 1692926956000, //int,redeem active time
         "redeem_option":{ //object, option traded for redeem
             "underlying_pair": "BTC-USDC", //string, underlying pair
             "type": "CALL", //string, option type
