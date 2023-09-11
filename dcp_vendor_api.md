@@ -430,7 +430,6 @@ Get single order info by order_id or client_order_id
     "type": "CALL", //string, option type
     "settle_time_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
     "strike_price": "30000" //string, strike price in string format
-    "side": "BUY" //string, side, BUY or SELL
     "deposit_currency": "BTC", //string, deposit currency
     "deposit_amount": "1", //string, deposit amount in string format
     "actual_settled_time_mill": 1692950400000 //int, vendor settled time
@@ -471,7 +470,6 @@ Get single order info by order_id or client_order_id
 | type                                          | string | option type                                                                         |
 | settle_time_mill                              | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
 | strike_price                                  | string | strike price in string format                                                       |
-| side                                          | string | side, BUY or SELL                                                                   |
 | deposit_currency                              | string | deposit currency                                                                    |
 | deposit_amount                                | string | deposit amount in string format                                                     |
 | active_time                                   | int    | when order success,filled this item with order success time                         |
@@ -535,7 +533,6 @@ Get order list by various conditions.
         "type": "CALL", //string, option type
         "settle_time_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
         "strike_price": "30000" //string, strike price in string format
-        "side": "BUY" //string, side, BUY or SELL
         "deposit_currency": "BTC", //string, deposit currency
         "deposit_amount": "1", //string, deposit amount in string format
         "actual_settled_time_mill": 1692950400000 //int, vendor settled time
