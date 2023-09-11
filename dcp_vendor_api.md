@@ -437,7 +437,7 @@ Get single order info by order_id or client_order_id
     "actual_settled_currency": "BTC" //int, settled currency
     "actual_settled_amount": "1" //int, settled amount
     "premium_amount": "1" //int, premium amount
-    "active_time": 1692926956000, //int,active time
+    "active_time_mill": 1692926956000, //int,active time
     "redeemable":true, //bool, is order redeemable
     "redeem_records":[
       {
@@ -447,7 +447,7 @@ Get single order info by order_id or client_order_id
         "redeem_amount": "1", //string, redeem principal amount,equal order deposit amount, in string format
         "redeem_settle_amount": "1", //string, redeem settle amount in string format
         "redeem_status": 0, //int, 0 : Processing, 110 : success, 120 : failed 
-        "redeem_active_time": 1692926956000, //int,redeem active time
+        "redeem_active_time_mill": 1692926956000, //int,redeem active time
         "redeem_option":{ //object, option traded for redeem
             "underlying_pair": "BTC-USDC", //string, underlying pair
             "type": "CALL", //string, option type
@@ -473,7 +473,7 @@ Get single order info by order_id or client_order_id
 | strike_price                                  | string | strike price in string format                                                       |
 | deposit_currency                              | string | deposit currency                                                                    |
 | deposit_amount                                | string | deposit amount in string format                                                     |
-| active_time                                   | int    | when order success,filled this item with order success time                         |
+| active_time_mill                              | int    | when order success,filled this item with order success time                         |
 | redeemable                                    | bool   | is order redeemable                                                                 |
 | actual_settled_time_mill                      | int    | vendor settled time                                                                 |
 | actual_settled_price                          | int    | actual option settled price in string format                                        |
@@ -485,7 +485,7 @@ Get single order info by order_id or client_order_id
 | redeem_records.redeem_currency                | string | redeemable currency                                                                 |
 | redeem_records.redeem_amount                  | string | redeem amount in string format                                                      |
 | redeem_records.redeem_status                  | int    | 0 : Processing, 100 : success, 110 : failed                                         |
-| redeem_records.redeem_active_time             | int    | when order redeem success,filled this item with order redeem success time           |
+| redeem_records.redeem_active_time_mill        | int    | when order redeem success,filled this item with order redeem success time           |
 | redeem_records.redeem_settle_amount           | string | redeem settle amount in string format                                               |
 | redeem_records.redeem_option                  | object | option traded for redeem                                                            |
 | redeem_records.redeem_option.underlying_pair  | string | underlying pair                                                                     |
@@ -541,7 +541,7 @@ Get order list by various conditions.
         "actual_settled_currency": "BTC" //int, settled currency
         "actual_settled_amount": "1" //int, settled amount
         "premium_amount": "1" //int, premium amount
-        "active_time": 1692926956000, //int,active time
+        "active_time_mill": 1692926956000, //int,active time
         "redeemable":true, //bool, is order redeemable
         "redeem_records":[
           {
@@ -551,6 +551,7 @@ Get order list by various conditions.
             "redeem_amount": "1", //string, redeem principal amount,equal order deposit amount, in string format
             "redeem_settle_amount": "1", //string, redeem settle amount in string format
             "redeem_status": 0, //int, 0 : Processing, 110 : success, 120 : failed 
+            "redeem_active_time_mill": 1692926956000, //int,redeem active time
             "redeem_option":{ //object, option traded for redeem
               "underlying_pair": "BTC-USDC", //string, underlying pair
               "type": "CALL", //string, option type
