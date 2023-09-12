@@ -189,7 +189,7 @@ Example:
 
 - URL: /mp/api/v1/dcp/quote
 
-- method: Post
+- method: Get
 
 - Parameters: json in body
 
@@ -252,7 +252,7 @@ Error Code:
 
 ### 1.6.3. Place Order
 
-- Place Order by quote id.
+- Place Order by quote id,before place order will call quote api to get a quote.
 
 - The timeout for this interface call is 2000ms. Peak QPS: 50.
 
@@ -331,7 +331,7 @@ Error Code:
     "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
     "redeem_currency": "BTC", //string, redeemable currency
     "min_redeemable_amount": "0.1", //string, min redeemable amount in string format, eg. 0.1
-    "max_redeemable_amount": "1", //string, max redeemable amount in string format
+    "max_redeemable_amount": "1" //string, max redeemable amount in string format
   }
 }
 ```
@@ -421,7 +421,7 @@ Get single order info by order_id or client_order_id
 {
   "code": 0,
   "message": "",
-  "data": { //object, order
+  "data": { //object,
     "order_id": "7080019906774802432", //string, order id
     "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
     "order_status": 0, //int, 0 : Processing, 110 : success, 120 : failed 
@@ -438,36 +438,18 @@ Get single order info by order_id or client_order_id
     "actual_settled_amount": "1" //int, settled amount
     "premium_amount": "1" //int, premium amount
     "active_time_mill": 1692926956000, //int,active time
-    "redeemable":true, //bool, is order redeemable
-    "redeem_records":[
-      {
-        "order_id": "7080019906774802432", //string, order id
-        "redeem_id": "redeem_7080019906774802432", //string, redeem id
-        "redeem_currency": "BTC", //string, redeemable currency
-        "redeem_amount": "1", //string, redeem principal amount,equal order deposit amount, in string format
-        "redeem_settle_amount": "1", //string, redeem settle amount in string format
-        "redeem_status": 0, //int, 0 : Processing, 110 : success, 120 : failed 
-        "redeem_active_time_mill": 1692926956000, //int,redeem active time
-        "redeem_option":{ //object, option traded for redeem
-            "underlying_pair": "BTC-USDC", //string, underlying pair
-            "type": "CALL", //string, option type
-            "settle_time_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
-            "strike_price": "30000", //string, strike price in string format
-            "premium_amount": "-1", //int, premium amount
-          }
-      }
-    ]
+    "redeemable":true //bool, is order redeemable
   }
 }
 ```
 
 | Parameter Name                                | Type   | Description                                                                         |
 |:----------------------------------------------|:-------|:------------------------------------------------------------------------------------|
-| quote_id                                      | string | quote id                                                                            |
-| order_id                                      | string | order id                                                                            |
-| client_order_id                               | string | client_order_id                                                                     |
+| order_id                                      | string | vendor order id                                                                     |
+| client_order_id                               | string | dcp client_order_id                                                                 |
 | order_status                                  | int    | 0 : Processing, 100 : success, 110 : failed                                         |
 | underlying_pair                               | string | underlying pair                                                                     |
+| tracking_source                               | string | tracking source,deribit binance                                                     |
 | type                                          | string | option type                                                                         |
 | settle_time_mill                              | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
 | strike_price                                  | string | strike price in string format                                                       |
@@ -480,19 +462,6 @@ Get single order info by order_id or client_order_id
 | actual_settled_currency                       | int    | settled currency                                                                    |
 | actual_settled_amount                         | int    | settled amount                                                                      |
 | premium_amount                                | int    | premium amount                                                                      |
-| redeem_records.order_id                       | string | order id                                                                            |
-| redeem_records.redeem_id                      | string | redeem id                                                                           |
-| redeem_records.redeem_currency                | string | redeemable currency                                                                 |
-| redeem_records.redeem_amount                  | string | redeem amount in string format                                                      |
-| redeem_records.redeem_status                  | int    | 0 : Processing, 100 : success, 110 : failed                                         |
-| redeem_records.redeem_active_time_mill        | int    | when order redeem success,filled this item with order redeem success time           |
-| redeem_records.redeem_settle_amount           | string | redeem settle amount in string format                                               |
-| redeem_records.redeem_option                  | object | option traded for redeem                                                            |
-| redeem_records.redeem_option.underlying_pair  | string | underlying pair                                                                     |
-| redeem_records.redeem_option.type             | string | option type                                                                         |
-| redeem_records.redeem_option.settle_time_mill | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
-| redeem_records.redeem_option.strike_price     | string | strike price in string format                                                       |
-| redeem_records.redeem_option.premium_amount   | string | premium amount                                                                      |
 
 ### 1.6.7. Query Orders
 
@@ -542,25 +511,7 @@ Get order list by various conditions.
         "actual_settled_amount": "1" //int, settled amount
         "premium_amount": "1" //int, premium amount
         "active_time_mill": 1692926956000, //int,active time
-        "redeemable":true, //bool, is order redeemable
-        "redeem_records":[
-          {
-            "order_id": "7080019906774802432", //string, order id
-            "redeem_id": "redeem_7080019906774802432", //string, redeem id
-            "redeem_currency": "BTC", //string, redeemable currency
-            "redeem_amount": "1", //string, redeem principal amount,equal order deposit amount, in string format
-            "redeem_settle_amount": "1", //string, redeem settle amount in string format
-            "redeem_status": 0, //int, 0 : Processing, 110 : success, 120 : failed 
-            "redeem_active_time_mill": 1692926956000, //int,redeem active time
-            "redeem_option":{ //object, option traded for redeem
-              "underlying_pair": "BTC-USDC", //string, underlying pair
-              "type": "CALL", //string, option type
-              "settle_time_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
-              "strike_price": "30000", //string, strike price in string format
-              "premium_amount": "-1", //int, premium amount
-            }
-          }
-        ]
+        "redeemable":true //bool, is order redeemable
       }
     ]
   }
@@ -572,7 +523,69 @@ Get order list by various conditions.
 | count          | int     | total count                                                                        |
 | items          | objects | order list, order info is same as in get order api, except for redeem record list. |
 
-### 1.6.8. settle price check
+
+### 1.6.8. Query Redeem Order by Redeem ID or Client Order ID
+
+Get single order info by redeem_id or client_redeem_id
+
+- URL: /mp/api/v1/dcp/redeem_order
+
+- method: Get
+
+- Parameters: in query
+
+| Key              | Type   | Required | Description                |
+|------------------|--------|----------|----------------------------|
+| redeem_id        | string | yes      | vendor redeem id           |
+| client_redeem_id | string | no       | dcp client redeem order id |
+
+- Response: application/json
+  Example:
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": { //object, redeem order
+    "order_id": "7080019906774802432", //string,vendor order id
+    "client_order_id": "client_order_id_7080019906774802432", //string,dcp client_order_id
+    "redeem_id": "redeem_7080019906774802432", //string,vendor redeem id
+    "client_redeem_id": "redeem_7080019906774802432", //string,dcp redeem id
+    "redeem_currency": "BTC", //string, redeemable currency
+    "redeem_amount": "1", //string, redeem principal amount,equal order deposit amount, in string format
+    "redeem_settle_amount": "1", //string, redeem settle amount in string format
+    "redeem_status": 0, //int, 0 : Processing, 110 : success, 120 : failed 
+    "redeem_active_time_mill": 1692926956000, //int,redeem active time
+    "underlying_pair": "BTC-USDC", //string, underlying pair
+    "tracking_source": "deribit",  //trade source
+    "type": "CALL", //string, option type
+    "settle_time_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
+    "strike_price": "30000", //string, strike price in string format
+    "premium_amount": "-1" //int, premium amount, <= 0 
+  }
+}
+```
+
+| Parameter Name          | Type   | Description                                                                         |
+|:------------------------|:-------|:------------------------------------------------------------------------------------|
+| order_id                | string | order id                                                                            |
+| client_order_id         | string | client_order_id                                                                     |
+| redeem_id               | string | order id                                                                            |
+| client_redeem_id        | string | redeem id                                                                           |
+| redeem_currency         | string | redeemable currency                                                                 |
+| redeem_amount           | string | redeem amount in string format                                                      |
+| redeem_status           | int    | 0 : Processing, 100 : success, 110 : failed                                         |
+| redeem_active_time_mill | int    | when order redeem success,filled this item with order redeem success time           |
+| redeem_settle_amount    | string | redeem settle amount in string format                                               |
+| underlying_pair         | string | underlying pair                                                                     |
+| tracking_source         | string | tracking source,deribit binance                                                     |
+| type                    | string | option type                                                                         |
+| settle_time_mill        | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
+| strike_price            | string | strike price in string format                                                       |
+| premium_amount          | string | premium amount                                                                      |
+
+
+### 1.6.9. settle price check
 vendor check settle price
 - post matrixport settle price,vendor check and retrun check result,if check failed response an error code.
 
@@ -606,7 +619,7 @@ Example:
         "tracking_source":"deribit",  // tracking source eg. deribit binance
         "settlement_index":"26000" // vendor settlement index price
       }
-    ],
+    ]
   }
 }
 ```
@@ -620,7 +633,7 @@ Example:
 | infos.settlement_index | string | vendor settlement index.               | 26000         |
 
 
-### 1.6.9. Check Settlement summary
+### 1.6.10. Check Settlement summary
 vendor check settlement summary
 
 - URL: /mp/api/v1/dcp/settlement/summary
@@ -673,9 +686,7 @@ vendor check settlement summary
 }
 ```
 
-
-
-### 1.6.10. quarterly profit check
+### 1.6.11. quarterly profit check
 - post matrixport calc quarterly profit,if check failed response an error code.
 - quarterly profit = (end_time_aum-start_time_aum) + last_quarter_profit - replenish_skitg
 - URL: /mp/api/v1/dcp/profit/check
