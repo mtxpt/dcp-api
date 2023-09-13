@@ -262,17 +262,18 @@ Error Code:
 
 - Parameters: json in body
 
-| Key                    | Type   | Required | Description                                                                                               |
-|------------------------|--------|----------|-----------------------------------------------------------------------------------------------------------|
-| quote_id               | string | no       | quote id, unique (if get quote api don't response quote id,place order will don't filled this item empty) |
-| client_order_id        | string | yes      | client order id ,for idempotent                                                                           |
-| type                   | string | yes      | option type  (CALL or PUT)                                                                                |
-| settle_time_mill       | int    | yes      | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.                       |
-| strike_price           | string | yes      | strike price in string format                                                                             |
-| premium_amount         | string | yes      | premium_amount want get,in string format                                                                  |
-| side                   | string | yes      | side, BUY or SELL                                                                                         |
-| deposit_currency       | string | yes      | currency                                                                                                  |
-| deposit_amount         | string | yes      | amount in string format                                                                                   |
+| Key              | Type   | Required | Description                                                                                               |
+|------------------|--------|----------|-----------------------------------------------------------------------------------------------------------|
+| quote_id         | string | no       | quote id, unique (if get quote api don't response quote id,place order will don't filled this item empty) |
+| client_order_id  | string | yes      | client order id, for idempotent                                                                           |
+| underlying_pair  | string | yes      | underlying pair, BTC-USDT,ETH-USDT                                                                        |
+| type             | string | yes      | option type  (CALL or PUT)                                                                                |
+| settle_time_mill | int    | yes      | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.                       |
+| strike_price     | string | yes      | strike price in string format                                                                             |
+| premium_amount   | string | yes      | premium_amount want get,in string format                                                                  |
+| side             | string | yes      | side, BUY or SELL                                                                                         |
+| deposit_currency | string | yes      | currency                                                                                                  |
+| deposit_amount   | string | yes      | amount in string format                                                                                   |
 
 - Response: application/json
 
