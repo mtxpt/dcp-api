@@ -189,7 +189,7 @@ Example:
 
 - URL: /mp/api/v1/dcp/quote
 
-- method: Get
+- method: Post
 
 - Parameters: json in body
 
@@ -303,47 +303,6 @@ Error Code:
 | 1001 | some error (will retry several time according to product logic) |
 | 1002 | other error1  eg. No price (will **NOT** retry)                 |
 | 1003 | other error2  eg. price expire (will **NOT** retry)             |
-
-### 1.6.4. Get Redeemable Info (Deprecated)
-
-- Returns the total amount that can be obtained for redeeming the specified order in advance. The currency is always the same as the investment currency, i.e., no currency exchange.
-
-- The accepted time range for redemption is from 24 hours after the order is purchased to 24 hours before the order expires. The timeout for this interface call is 200ms. Peak QPS: 50.
-
-- URL: /mp/api/v1/dcp/order/redeemable
-
-- method: get
-
-- Parameters: in query
-
-| Key      | Type   | Required | Description |
-|----------|--------|----------|-------------|
-| order_id | string | yes      | order id    |
-
-- Response: application/json
-  Example:
-
-```js
-{
-  "code": 0,
-  "message": "",
-  "data": {
-    "order_id": "7080019906774802432", //string, order id
-    "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
-    "redeem_currency": "BTC", //string, redeemable currency
-    "min_redeemable_amount": "0.1", //string, min redeemable amount in string format, eg. 0.1
-    "max_redeemable_amount": "1" //string, max redeemable amount in string format
-  }
-}
-```
-
-| Parameter Name        | Type   | Description                            |
-|:----------------------|:-------|:---------------------------------------|
-| order_id              | string | order id                               |
-| client_order_id       | string | client order id                        |
-| redeem_currency       | string | redeemable currency                    |
-| max_redeemable_amount | string | max redeemable amount in string format |
-| min_redeemable_amount | string | min redeemable amount in string format |
 
 ### 1.6.5. Redeem Order
 
