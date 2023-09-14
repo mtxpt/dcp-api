@@ -267,6 +267,7 @@ Error Code:
 | quote_id         | string | no       | quote id, unique (if get quote api don't response quote id,place order will don't filled this item empty) |
 | client_order_id  | string | yes      | client order id, for idempotent                                                                           |
 | underlying_pair  | string | yes      | underlying pair, BTC-USDT,ETH-USDT                                                                        |
+| tracking_source  | string | yes      | tracking source (eg. deribit, binance)                                                                    |
 | type             | string | yes      | option type  (CALL or PUT)                                                                                |
 | settle_time_mill | int    | yes      | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.                       |
 | strike_price     | string | yes      | strike price in string format                                                                             |
@@ -322,6 +323,7 @@ Error Code:
 | client_redeem_id | string | yes      | client redeem id, for idempotent                                                                  |
 | quote_id         | string | no       | quote id (if get quote api don't response quote id,place order will don't filled this item empty) |
 | underlying_pair  | string | yes      | underlying pair, BTC-USDT,ETH-USDT                                                                |
+| tracking_source  | string | yes      | tracking source (eg. deribit, binance)                                                            |
 | type             | string | yes      | option type                                                                                       |
 | settle_time_mill | int    | yes      | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.               |
 | strike_price     | string | yes      | strike price in string format                                                                     |
