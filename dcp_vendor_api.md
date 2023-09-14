@@ -193,15 +193,16 @@ Example:
 
 - Parameters: json in body
 
-| Key                   | Type   | Required        | Description                                                                         |
-|-----------------------|--------|-----------------|-------------------------------------------------------------------------------------|
-| deposit_currency      | string | yes             | deposit currency                                                                    |
-| deposit_amount        | string | yes             | deposit_amount in string format                                                     |
-| side                  | string | yes             | BUY or SELL; SELL: place new order, BUY: redeem exist order                         |
-| underlying_pair       | string | yes             | underlying pair                                                                     |
-| type                  | string | yes             | option type                                                                         |
-| settle_time_mill      | int    | yes             | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
-| strike_price          | string | yes             | strike price in string format                                                       |
+| Key              | Type   | Required | Description                                                                         |
+|------------------|--------|----------|-------------------------------------------------------------------------------------|
+| deposit_currency | string | yes      | deposit currency                                                                    |
+| deposit_amount   | string | yes      | deposit_amount in string format                                                     |
+| side             | string | yes      | BUY or SELL; SELL: place new order, BUY: redeem exist order                         |
+| underlying_pair  | string | yes      | underlying pair                                                                     |
+| tracking_source  | string | yes      | tracking source (eg. deribit, binance)                                              |
+| type             | string | yes      | option type                                                                         |
+| settle_time_mill | int    | yes      | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
+| strike_price     | string | yes      | strike price in string format                                                       |
 
 - Response: application/json
 
