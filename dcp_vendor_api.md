@@ -12,13 +12,12 @@
     - [1.6.1. Get Products](#161-get-products)
     - [1.6.2. Get Quote](#162-get-quote)
     - [1.6.3. Place Order](#163-place-order)
-    - [1.6.4. Get Redeemable Info](#164-get-redeemable-info)
-    - [1.6.5. Redeem Order](#165-redeem-order)
-    - [1.6.6. Query Order by Order ID or Client Order ID](#166-query-order-by-order-id-or-client-order-id)
-    - [1.6.7. Query Orders](#167-query-orders)
-    - [1.6.8. settle price check](#168-settle-price-check)
-    - [1.6.9. Check Settlement summary](#169-check-settlement-summary)
-    - [1.6.10. quarterly profit check](#1610-quarterly-profit-check)
+    - [1.6.4. Redeem Order](#164-redeem-order)
+    - [1.6.5. Query Order by Order ID or Client Order ID](#165-query-order-by-order-id-or-client-order-id)
+    - [1.6.6. Query Orders](#166-query-orders)
+    - [1.6.7. settle price check](#167-settle-price-check)
+    - [1.6.8. Check Settlement summary](#168-check-settlement-summary)
+    - [1.6.9. quarterly profit check](#169-quarterly-profit-check)
 
 <!-- /TOC -->
 
@@ -306,7 +305,7 @@ Error Code:
 | 1002 | other error1  eg. No price (will **NOT** retry)                 |
 | 1003 | other error2  eg. price expire (will **NOT** retry)             |
 
-### 1.6.5. Redeem Order
+### 1.6.4. Redeem Order
 
 - Redeem order,before call redeem order api,caller will call quote api get a redeem quote.
 
@@ -363,7 +362,7 @@ Error Code:
 | 1002 | other error1  eg. No price (will **NOT** retry)                 |
 | 1003 | other error2  eg. price expire (will **NOT** retry)             |
 
-### 1.6.6. Query Order by Order ID or Client Order ID
+### 1.6.5. Query Order by Order ID or Client Order ID
 
 Get single order info by order_id or client_order_id
 
@@ -375,8 +374,8 @@ Get single order info by order_id or client_order_id
 
 | Key             | Type   | Required | Description         |
 |-----------------|--------|----------|---------------------|
-| order_id        | string | yes      | vendor order id     |
-| client_order_id | string | no       | dcp client order id |
+| order_id        | string | optional | vendor order id     |
+| client_order_id | string | yes      | dcp client order id |
 
 - Response: application/json
   Example:
@@ -427,7 +426,7 @@ Get single order info by order_id or client_order_id
 | actual_settled_amount                         | int    | settled amount                                                                      |
 | premium_amount                                | int    | premium amount                                                                      |
 
-### 1.6.7. Query Orders
+### 1.6.6. Query Orders
 
 Get order list by various conditions.
 
@@ -488,7 +487,7 @@ Get order list by various conditions.
 | items          | objects | order list, order info is same as in get order api, except for redeem record list. |
 
 
-### 1.6.8. Query Redeem Order by Redeem ID or Client Order ID
+### 1.6.7. Query Redeem Order by Redeem ID or Client Order ID
 
 Get single order info by redeem_id or client_redeem_id
 
@@ -500,8 +499,8 @@ Get single order info by redeem_id or client_redeem_id
 
 | Key              | Type   | Required | Description                |
 |------------------|--------|----------|----------------------------|
-| redeem_id        | string | yes      | vendor redeem id           |
-| client_redeem_id | string | no       | dcp client redeem order id |
+| redeem_id        | string | optional | vendor redeem id           |
+| client_redeem_id | string | yes      | dcp client redeem order id |
 
 - Response: application/json
   Example:
@@ -549,7 +548,7 @@ Get single order info by redeem_id or client_redeem_id
 | premium_amount          | string | premium amount                                                                      |
 
 
-### 1.6.9. settle price check
+### 1.6.8. settle price check
 vendor check settle price
 - post matrixport settle price,vendor check and retrun check result,if check failed response an error code.
 
@@ -567,6 +566,21 @@ vendor check settle price
 | infos.tracking_source  | string | yes      | tracking source eg. deribit binance...                                              |
 | infos.settlement_index | string | yes      | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
 
+Post Data Example:
+
+```js
+{
+  "settle_time_mill": 1692950400000,
+  "infos": [
+    {
+      "underlying_pair": "BTC-USDT", // underlying pair
+      "tracking_source": "deribit", // tracking source eg. deribit binance
+      "settlement_index": "26000" // dcp settlement index price
+    }
+  ]
+}
+```
+
 - Response: application/json
 
 Example:
@@ -579,7 +593,7 @@ Example:
     "settle_time_mill": 1692950400000,
     "infos":[ 
       {
-        "underlying_pair":"BTC-USDT", // nderlying pair
+        "underlying_pair":"BTC-USDT", // underlying pair
         "tracking_source":"deribit",  // tracking source eg. deribit binance
         "settlement_index":"26000" // vendor settlement index price
       }
@@ -597,7 +611,7 @@ Example:
 | infos.settlement_index | string | vendor settlement index.               | 26000         |
 
 
-### 1.6.10. Check Settlement summary
+### 1.6.9. Check Settlement summary
 vendor check settlement summary
 
 - URL: /mp/api/v1/dcp/settlement/summary
@@ -611,6 +625,7 @@ vendor check settlement summary
 | infos.currency   | string | yes      | settle currency                   |               |
 | infos.amount     | string | yes      | settle amount                     |               |
 
+Post Data Example:
 
 ```js
 {
@@ -618,18 +633,11 @@ vendor check settlement summary
   "infos":[ 
     {
         "currency":"BTC", //string, settle currency
-        "amount":"100", //string, currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor.
+        "amount":"100", //string,dcp calc need settle amount currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor.
       }
-  ],
+  ]
 }
 ```
-
-| Parameter Name   | Type   | Description                       | Example       |
-|:-----------------|:-------|:----------------------------------|:--------------|
-| settle_time_mill | int    | option settle time in millisecond | 1692950400000 |
-| infos            | list   | settle info                       |               |
-| infos.currency   | string | settle currency                   | BTC           |
-| infos.amount     | string | currency need settle amount       | 100           |
 
 - Response: application/json
   Example:
@@ -645,10 +653,18 @@ vendor check settlement summary
         "currency":"BTC", //string, settle currency
         "amount":"100", //string, vendor calc need settle amount   
       }
-    ],
+    ]
   }
 }
 ```
+
+| Parameter Name   | Type   | Description                       | Example       |
+|:-----------------|:-------|:----------------------------------|:--------------|
+| settle_time_mill | int    | option settle time in millisecond | 1692950400000 |
+| infos            | list   | settle info                       |               |
+| infos.currency   | string | settle currency                   | BTC           |
+| infos.amount     | string | currency need settle amount       | 100           |
+
 
 ### 1.6.11. quarterly profit check
 - post matrixport calc quarterly profit,if check failed response an error code.
