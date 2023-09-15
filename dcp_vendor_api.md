@@ -15,9 +15,10 @@
     - [1.6.4. Redeem Order](#164-redeem-order)
     - [1.6.5. Query Order by Order ID or Client Order ID](#165-query-order-by-order-id-or-client-order-id)
     - [1.6.6. Query Orders](#166-query-orders)
-    - [1.6.7. settle price check](#167-settle-price-check)
-    - [1.6.8. Check Settlement summary](#168-check-settlement-summary)
-    - [1.6.9. quarterly profit check](#169-quarterly-profit-check)
+    - [1.6.7. Query Redeem Order by Redeem ID or Client Order ID](#167-query-redeem-order-by-redeem-id-or-client-order-id)
+    - [1.6.8. settle price check](#168-settle-price-check)
+    - [1.6.9. Check Settlement summary](#169-check-settlement-summary)
+    - [1.6.10. Quarterly profit check](#1610-quarterly-profit-check)
 
 <!-- /TOC -->
 
@@ -666,7 +667,7 @@ Post Data Example:
 | infos.amount     | string | currency need settle amount       | 100           |
 
 
-### 1.6.11. quarterly profit check
+### 1.6.10. Quarterly profit check
 - post matrixport calc quarterly profit,if check failed response an error code.
 - quarterly profit = (end_time_aum-start_time_aum) + last_quarter_profit - replenish_skitg
 - URL: /mp/api/v1/dcp/profit/check
