@@ -637,7 +637,7 @@ Post Data Example:
   "infos":[ 
     {
         "currency":"BTC", //string, settle currency
-        "amount":"100", //string,dcp calc need settle amount currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor.
+        "vender_net_pay":"100", //string,dcp calc need settle amount currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor.
       }
   ]
 }
@@ -656,8 +656,8 @@ Post Data Example:
     "infos":[ 
       {
         "currency":"BTC", //string, settle currency
-        "amount":"100", //string, currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor. 
-        "request_amount":"100", 
+        "vender_net_pay":"100", //string, currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor. 
+        "request_vender_net_pay":"100", 
         "valid":true
       }
     ]
