@@ -131,9 +131,9 @@ Explanation:
 
 | Key             | Type   | Required | Description                                                                                   | Example            |
 |-----------------|--------|----------|-----------------------------------------------------------------------------------------------|--------------------|
-| underlying_pair | string | yes      | Option's underlying currency pair, separate by "-"; Empty means all underlying currency pairs | BTC-USDT, BTC-USDC |
-| tracking_source | string | yes      | trade source deribit or binance                                                               | DERIBIT            |
-| type            | string | yes      | option's type , in upper case; Empty means all types                                          | CALL, PUT          |
+| underlying_pair | string | no       | Option's underlying currency pair, separate by "-"; Empty means all underlying currency pairs | BTC-USDT, BTC-USDC |
+| tracking_source | string | no       | trade source deribit or binance                                                               | DERIBIT            |
+| type            | string | no       | option's type , in upper case; Empty means all types                                          | CALL, PUT          |
 
 - Response: application/json
 
