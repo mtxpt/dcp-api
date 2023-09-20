@@ -132,7 +132,7 @@ Explanation:
 | Key             | Type   | Required | Description                                                                                   | Example            |
 |-----------------|--------|----------|-----------------------------------------------------------------------------------------------|--------------------|
 | underlying_pair | string | no       | Option's underlying currency pair, separate by "-"; Empty means all underlying currency pairs | BTC-USDT, BTC-USDC |
-| tracking_source | string | no       | trade source deribit or binance                                                               | DERIBIT            |
+| tracking_source | string | no       | tracking source refers to the fixing convention used to settle product payment                | DERIBIT            |
 | type            | string | no       | option's type , in upper case; Empty means all types                                          | CALL, PUT          |
 
 - Response: application/json
@@ -200,7 +200,7 @@ Example:
 | deposit_amount   | string | yes      | deposit_amount in string format                                                     |
 | action           | string | yes      | NEW or REDEEM; NEW place new order, REDEEM: redeem exist order                      |
 | underlying_pair  | string | yes      | underlying pair                                                                     |
-| tracking_source  | string | yes      | tracking source (eg. deribit, binance)                                              |
+| tracking_source  | string | yes      | tracking source refers to the fixing convention used to settle product payment      |
 | type             | string | yes      | option type                                                                         |
 | settle_time_mill | int    | yes      | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
 | strike_price     | string | yes      | strike price in string format                                                       |
@@ -233,7 +233,7 @@ Example:
 |:------------------------|:-------|:----------------------------------------------------------------------------------------------------|
 | quote_id                | string | quote id  (if response emtpy,place order will post an empty quote id)                               |
 | underlying_pair         | string | underlying pair                                                                                     |
-| tracking_source         | string | tracking source (eg. deribit, binance)                                                              |
+| tracking_source         | string | tracking source refers to the fixing convention used to settle product payment                      |
 | type                    | string | option type   (CALL or PUT)                                                                         |
 | settle_time_mill        | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.                 |
 | strike_price            | string | strike price in string format                                                                       |
@@ -269,7 +269,7 @@ Error Code:
 | quote_id         | string | no       | quote id, unique (if get quote api don't response quote id,place order will don't filled this item empty) |
 | client_order_id  | string | yes      | client order id, for idempotent                                                                           |
 | underlying_pair  | string | yes      | underlying pair, BTC-USDT,ETH-USDT                                                                        |
-| tracking_source  | string | yes      | tracking source (eg. deribit, binance)                                                                    |
+| tracking_source  | string | yes      | tracking source refers to the fixing convention used to settle product payment                            |
 | type             | string | yes      | option type  (CALL or PUT)                                                                                |
 | settle_time_mill | int    | yes      | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.                       |
 | strike_price     | string | yes      | strike price in string format                                                                             |
@@ -406,7 +406,7 @@ Get single order info by order_id or client_order_id
 | client_order_id                               | string | dcp client_order_id                                                                 |
 | order_status                                  | int    | 0 : Processing, 100 : success, 110 : failed                                         |
 | underlying_pair                               | string | underlying pair                                                                     |
-| tracking_source                               | string | tracking source,deribit binance                                                     |
+| tracking_source                               | string | tracking source refers to the fixing convention used to settle product payment      |
 | type                                          | string | option type                                                                         |
 | settle_time_mill                              | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
 | strike_price                                  | string | strike price in string format                                                       |
@@ -535,7 +535,7 @@ Get single order info by redeem_id or client_redeem_id
 | redeem_active_time_mill | int    | when order redeem success,filled this item with order redeem success time           |
 | redeem_settle_amount    | string | redeem settle amount in string format                                               |
 | underlying_pair         | string | underlying pair                                                                     |
-| tracking_source         | string | tracking source,deribit binance                                                     |
+| tracking_source         | string | tracking source refers to the fixing convention used to settle product payment      |
 | type                    | string | option type                                                                         |
 | settle_time_mill        | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
 | strike_price            | string | strike price in string format                                                       |
@@ -557,7 +557,7 @@ vendor check settle price
 | settle_time_mill       | int    | yes      | option settle time in millisecond                                                   |
 | infos                  | array  | yes      | infos                                                                               |
 | infos.underlying_pair  | string | yes      | underlying pair                                                                     |
-| infos.tracking_source  | string | yes      | tracking source eg. deribit binance...                                              |
+| infos.tracking_source  | string | yes      | tracking source refers to the fixing convention used to settle product payment      |
 | infos.settlement_index | string | yes      | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
 
 Post Data Example:
