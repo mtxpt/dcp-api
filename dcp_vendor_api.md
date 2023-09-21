@@ -564,18 +564,14 @@ Post Data Example:
 
 ```js
 {
-    "code":0,
-    "message":"",
-    "data":{
-        "settle_time_mill":1692950400000,
-        "infos":[
-            {
-                "underlying_pair":"BTC-USDT",// underlying pair
-                "tracking_source":"deribit",// tracking source eg. deribit binance
-                "settlement_index":"26000"// dcp settlement index price
-            }
-        ]
-    }
+    "settle_time_mill":1692950400000,
+    "infos":[
+        {
+            "underlying_pair":"BTC-USDT",// underlying pair
+            "tracking_source":"deribit",// tracking source eg. deribit binance
+            "settlement_index":"26000"// dcp settlement index price
+        }
+    ]
 }
 ```
 
