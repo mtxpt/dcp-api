@@ -572,7 +572,7 @@ Post Data Example:
             {
                 "underlying_pair":"BTC-USDT",// underlying pair
                 "tracking_source":"deribit",// tracking source eg. deribit binance
-                "settlement_index":"26000",// dcp settlement index price
+                "settlement_index":"26000"// dcp settlement index price
             }
         ]
     }
@@ -594,9 +594,9 @@ Example:
       {
         "underlying_pair":"BTC-USDT", // underlying pair
         "tracking_source":"deribit",  // tracking source eg. deribit binance
-        "settlement_index":"26000" // vendor settlement index price
-        "valid":true,
-        "request_settlement_index":"26000"
+        "settlement_index":"26000", // vendor settlement index price
+        "request_settlement_index":"26000",
+        "valid":true
       }
     ]
   }
@@ -622,12 +622,12 @@ vendor check settlement summary
 
 - method: POST
 
-| Parameter Name   | Type   | Required | Description                       | Example       |
-|:-----------------|:-------|:---------|:----------------------------------|:--------------|
-| settle_time_mill | int    | yes      | option settle time in millisecond | 1692950400000 |
-| infos            | list   | yes      | settlement info                   |               |
-| infos.currency   | string | yes      | settle currency                   |               |
-| infos.amount     | string | yes      | settle amount                     |               |
+| Parameter Name        | Type   | Required | Description                       | Example       |
+|:----------------------|:-------|:---------|:----------------------------------|:--------------|
+| settle_time_mill      | int    | yes      | option settle time in millisecond | 1692950400000 |
+| infos                 | list   | yes      | settlement info                   |               |
+| infos.currency        | string | yes      | settle currency                   |               |
+| infos.vendor_net_pay  | string | yes      | settle amount                     |               |
 
 Post Data Example:
 
@@ -637,7 +637,7 @@ Post Data Example:
   "infos":[ 
     {
         "currency":"BTC", //string, settle currency
-        "vender_net_pay":"100", //string,dcp calc need settle amount currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor.
+        "vendor_net_pay":"100" //string,dcp calc need settle amount currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor.
       }
   ]
 }
@@ -656,8 +656,8 @@ Post Data Example:
     "infos":[ 
       {
         "currency":"BTC", //string, settle currency
-        "vender_net_pay":"100", //string, currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor. 
-        "request_vender_net_pay":"100", 
+        "vendor_net_pay":"100", //string, currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor. 
+        "request_vendor_net_pay":"100", 
         "valid":true
       }
     ]
@@ -665,15 +665,15 @@ Post Data Example:
 }
 ```
 
-| Parameter Name       | Type   | Description                       | Example       |
-|:---------------------|:-------|:----------------------------------|:--------------|
-| settle_time_mill     | int    | option settle time in millisecond | 1692950400000 |
-| valid                | bool   |                                   |               |
-| infos                | list   | settle info                       |               |
-| infos.currency       | string | settle currency                   | BTC           |
-| infos.amount         | string | currency need settle amount       | 100           |
-| infos.request_amount | string |                                   |               |
-| infos.valid          | bool   |                                   |               |
+| Parameter Name                | Type   | Description                       | Example       |
+|:------------------------------|:-------|:----------------------------------|:--------------|
+| settle_time_mill              | int    | option settle time in millisecond | 1692950400000 |
+| valid                         | bool   |                                   |               |
+| infos                         | list   | settle info                       |               |
+| infos.currency                | string | settle currency                   | BTC           |
+| infos.vendor_net_pay          | string | currency need settle amount       | 100           |
+| infos.request_vendor_net_pay  | string |                                   |               |
+| infos.valid                   | bool   |                                   |               |
 
 
 ### 1.6.10. Quarterly profit check
