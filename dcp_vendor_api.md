@@ -627,7 +627,7 @@ vendor check settlement summary
 | settle_time_mill      | int    | yes      | option settle time in millisecond | 1692950400000 |
 | infos                 | list   | yes      | settlement info                   |               |
 | infos.currency        | string | yes      | settle currency                   |               |
-| infos.vender_net_pay  | string | yes      | settle amount                     |               |
+| infos.vendor_net_pay  | string | yes      | settle amount                     |               |
 
 Post Data Example:
 
@@ -637,7 +637,7 @@ Post Data Example:
   "infos":[ 
     {
         "currency":"BTC", //string, settle currency
-        "vender_net_pay":"100" //string,dcp calc need settle amount currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor.
+        "vendor_net_pay":"100" //string,dcp calc need settle amount currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor.
       }
   ]
 }
@@ -656,8 +656,8 @@ Post Data Example:
     "infos":[ 
       {
         "currency":"BTC", //string, settle currency
-        "vender_net_pay":"100", //string, currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor. 
-        "request_vender_net_pay":"100", 
+        "vendor_net_pay":"100", //string, currnecy need settle amount,if amount > 0 means vendor need to transfer to matrixport, if less than zero means matripxort need to transfer to vendor. 
+        "request_vendor_net_pay":"100", 
         "valid":true
       }
     ]
@@ -671,8 +671,8 @@ Post Data Example:
 | valid                         | bool   |                                   |               |
 | infos                         | list   | settle info                       |               |
 | infos.currency                | string | settle currency                   | BTC           |
-| infos.vender_net_pay          | string | currency need settle amount       | 100           |
-| infos.request_vender_net_pay  | string |                                   |               |
+| infos.vendor_net_pay          | string | currency need settle amount       | 100           |
+| infos.request_vendor_net_pay  | string |                                   |               |
 | infos.valid                   | bool   |                                   |               |
 
 
