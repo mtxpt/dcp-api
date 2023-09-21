@@ -40,7 +40,7 @@ Below common parameters in HTTP headers are recommended to added in request, fac
 ## 1.3. Authentication
 
 ## 1.4. Private API mandatory fields
-
+- Client put Access Key in http request header X-Access-Key
 - Client and Server use same private secret key to sign the request.
 - Client must add `timestamp` (epoch in millisecond) field in request parameter (query string for GET, json body for POST), API server will check this timestamp, if `abs(server_timestamp - request_timestamp) > 5000`, the request will be rejected.
 - `timestamp` must be integer, not quoted string.
