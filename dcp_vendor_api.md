@@ -388,7 +388,7 @@ Get single order info by order_id or client_order_id
   "data": { //object,
     "order_id": "7080019906774802432", //string, order id
     "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
-    "order_status": 0, //int, 0 : Processing, 110 : success, 120 : failed 
+    "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
     "underlying_pair": "BTC-USDC" //string, underlying pair
     "tracking_source": "deribit",  //trade source
     "type": "CALL", //string, option type
@@ -461,7 +461,7 @@ Get order list by various conditions.
       { //object, order
         "order_id": "7080019906774802432", //string, order id
         "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
-        "order_status": 0, //int, 0 : Processing, 110 : success, 120 : failed 
+        "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
         "underlying_pair": "BTC-USDC" //string, underlying pair
         "tracking_source": "deribit",  //trade source
         "type": "CALL", //string, option type
@@ -518,7 +518,7 @@ Get single order info by redeem_id or client_redeem_id
     "redeem_currency": "BTC", //string, redeemable currency
     "redeem_amount": "1", //string, redeem principal amount,equal order deposit amount, in string format
     "redeem_settle_amount": "1", //string, redeem settle amount in string format
-    "redeem_status": 0, //int, 0 : Processing, 110 : success, 120 : failed 
+    "redeem_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
     "redeem_active_time_mill": 1692926956000, //int,redeem active time
     "underlying_pair": "BTC-USDC", //string, underlying pair
     "tracking_source": "deribit",  //trade source
