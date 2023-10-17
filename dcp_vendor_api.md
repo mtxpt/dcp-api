@@ -132,7 +132,7 @@ Explanation:
 | Key             | Type   | Required | Description                                                                                   | Example            |
 |-----------------|--------|----------|-----------------------------------------------------------------------------------------------|--------------------|
 | underlying_pair | string | no       | Option's underlying currency pair, separate by "-"; Empty means all underlying currency pairs | BTC-USDT, BTC-USDC |
-| tracking_source | string | no       | tracking source refers to the fixing convention used to settle product payment                | DERIBIT            |
+| tracking_source | string | no       | tracking source refers to the fixing convention used to settle product payment                | DERIBIT,BINANCE    |
 | type            | string | no       | option's type , in upper case; Empty means all types                                          | CALL, PUT          |
 
 - Response: application/json
@@ -147,7 +147,7 @@ Example:
     "items": [ //array, products
         {
             "underlying_pair": "BTC-USDC", //string, underlying pair
-            "tracking_source": "deribit",  //trade source deribit or binance 
+            "tracking_source": "DERIBIT",  //trade source DERIBIT or BINANCE 
             "type": "CALL", // optionstring, type
             "settle_time_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
             "strike_price": "30000", //string, strike price in string format
@@ -216,11 +216,11 @@ Example:
   "data": {
     "quote_id": "6633327782363410432", //string, quote id  (if response emtpy,place order will post an empty quote id)
     "underlying_pair": "BTC-USDC", //string, underlying pair
-    "tracking_source": "deribit",  //trade source  deribit,binance etc...
+    "tracking_source": "DERIBIT",  //trade source  DERIBIT,BINANCE etc...
     "type": "CALL", //string, option type
     "settle_time_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
     "strike_price": "30000", //string, strike price in string format
-    "premium_amount": "0.1", //string, premium_amount in string format
+    "premium_amount": "0.1", //string, premium_amount in string format,for action NEW premium_amount > 0,for REDEEM premium_amount <= 0
     "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond,
     "action": "NEW", //string, NEW or REDEEM; NEW place new order, REDEEM: redeem exist order 
     "deposit_currency": "BTC", //string, currency
@@ -229,19 +229,19 @@ Example:
 }
 ```
 
-| Parameter Name          | Type   | Description                                                                                         |
-|:------------------------|:-------|:----------------------------------------------------------------------------------------------------|
-| quote_id                | string | quote id  (if response emtpy,place order will post an empty quote id)                               |
-| underlying_pair         | string | underlying pair                                                                                     |
-| tracking_source         | string | tracking source refers to the fixing convention used to settle product payment                      |
-| type                    | string | option type   (CALL or PUT)                                                                         |
-| settle_time_mill        | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.                 |
-| strike_price            | string | strike price in string format                                                                       |
-| premium_amount          | string | premium_amount in string format                                                                     |
-| price_expire_time_mill  | int    | price expire time in millisecond                                                                    |
-| action                  | string | NEW or REDEEM; NEW place new order, REDEEM: redeem exist order                                      |
-| deposit_currency        | string | currency                                                                                            |
-| deposit_amount          | string | amount in string format                                                                             |
+| Parameter Name         | Type   | Description                                                                                      |
+|:-----------------------|:-------|:-------------------------------------------------------------------------------------------------|
+| quote_id               | string | quote id  (if response emtpy,place order will post an empty quote id)                            |
+| underlying_pair        | string | underlying pair                                                                                  |
+| tracking_source        | string | tracking source refers to the fixing convention used to settle product payment                   |
+| type                   | string | option type   (CALL or PUT)                                                                      |
+| settle_time_mill       | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.              |
+| strike_price           | string | strike price in string format                                                                    |
+| premium_amount         | string | premium_amount in string format,for action NEW premium_amount > 0,for REDEEM premium_amount <= 0 |
+| price_expire_time_mill | int    | price expire time in millisecond                                                                 |
+| action                 | string | NEW or REDEEM; NEW place new order, REDEEM: redeem exist order                                   |
+| deposit_currency       | string | currency                                                                                         |
+| deposit_amount         | string | amount in string format                                                                          |
 
 Error Code:
 
@@ -273,7 +273,7 @@ Error Code:
 | type             | string | yes      | option type  (CALL or PUT)                                                                                |
 | settle_time_mill | int    | yes      | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.                       |
 | strike_price     | string | yes      | strike price in string format                                                                             |
-| premium_amount   | string | yes      | premium_amount want get,in string format                                                                  |
+| premium_amount   | string | yes      | premium_amount want get, premium_amount > 0,in string format                                              |
 | deposit_currency | string | yes      | currency                                                                                                  |
 | deposit_amount   | string | yes      | amount in string format                                                                                   |
 
@@ -323,8 +323,8 @@ Error Code:
 | order_id          | string | yes      | vendor order id                                                                                   |
 | client_redeem_id  | string | yes      | client redeem id, for idempotent                                                                  |
 | quote_id          | string | no       | quote id (if get quote api don't response quote id,place order will don't filled this item empty) |
-| premium_amount    | string | yes      | premium_amount want get,in string format                                                          |
-| redeem_amount     | string | yes      | amount in string format (order deposit amount)                                                    |
+| premium_amount    | string | yes      | premium_amount need cost,premium_amount <= 0, string format                                       |
+| redeem_amount     | string | yes      | redeem amount, > 0,amount in string format (order deposit amount)                                 |
 
 - Response: application/json
   Example:
@@ -383,7 +383,7 @@ Get single order info by order_id or client_order_id
     "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
     "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
     "underlying_pair": "BTC-USDC" //string, underlying pair
-    "tracking_source": "deribit",  //trade source
+    "tracking_source": "DERIBIT",  //trade source
     "type": "CALL", //string, option type
     "settle_time_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
     "strike_price": "30000" //string, strike price in string format
@@ -456,7 +456,7 @@ Get order list by various conditions.
         "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
         "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
         "underlying_pair": "BTC-USDC" //string, underlying pair
-        "tracking_source": "deribit",  //trade source
+        "tracking_source": "DERIBIT",  //trade source
         "type": "CALL", //string, option type
         "settle_time_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
         "strike_price": "30000" //string, strike price in string format
@@ -481,7 +481,7 @@ Get order list by various conditions.
 | items          | objects | order list, order info is same as in get order api, except for redeem record list. |
 
 
-### 1.6.7. Query Redeem Order by Redeem ID or Client Order ID
+### 1.6.7. Query Redeem Order by Redeem ID or Client REDEEM ID
 
 Get single order info by redeem_id or client_redeem_id
 
@@ -514,11 +514,11 @@ Get single order info by redeem_id or client_redeem_id
     "redeem_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
     "redeem_active_time_mill": 1692926956000, //int,redeem active time
     "underlying_pair": "BTC-USDC", //string, underlying pair
-    "tracking_source": "deribit",  //trade source
+    "tracking_source": "DERIBIT",  //trade source
     "type": "CALL", //string, option type
     "settle_time_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
     "strike_price": "30000", //string, strike price in string format
-    "premium_amount": "-1" //int, premium amount, <= 0 
+    "premium_amount": "-1" //string, premium amount, <= 0 
   }
 }
 ```
@@ -568,7 +568,7 @@ Post Data Example:
     "infos":[
         {
             "underlying_pair":"BTC-USDT",// underlying pair
-            "tracking_source":"deribit",// tracking source eg. deribit binance
+            "tracking_source":"DERIBIT",// tracking source eg. DERIBIT BINANCE
             "settlement_index":"26000"// dcp settlement index price
         }
     ]
@@ -589,7 +589,7 @@ Example:
     "infos":[ 
       {
         "underlying_pair":"BTC-USDT", // underlying pair
-        "tracking_source":"deribit",  // tracking source eg. deribit binance
+        "tracking_source":"DERIBIT",  // tracking source eg. DERIBIT BINANCE
         "settlement_index":"26000", // vendor settlement index price
         "request_settlement_index":"26000",
         "valid":true
@@ -605,14 +605,22 @@ Example:
 | valid                          | bool   |                                        | true          |
 | infos                          | list   | settlement index info                  |               |
 | infos.underlying_pair          | string | underlying pair                        | BTC-USDT      |
-| infos.tracking_source          | string | tracking source eg. deribit binance... |               |
+| infos.tracking_source          | string | tracking source eg. DERIBIT BINANCE... |               |
 | infos.settlement_index         | string | vendor settlement index.               | 26000         |
 | infos.request_settlement_index | string |                                        | 26000         |
 | infos.valid                    | bool   |                                        | true          |
 
 
 ### 1.6.9. Check Settlement summary
-vendor check settlement summary
+vendor check settlement summary，summary each order need settle amount by settlement index,grouy by settle currency.<br />
+underlying_pair = BTC-USDT<br />
+for CALL  user invest BTC<br />
+if settle index < strike price   settle_amount=deposit_amount + premium_amount  (BTC)<br />
+if settle index >= strike price  settle_amount=Rounddown((deposit_amount + premium_amount）* strike price,8) (USDT)<br />
+for PUT  user invest USDT<br />
+if settle index > strike price   settle_amount=deposit_amount + premium_amount  (USDT)<br />
+if settle index <= strike price  settle_amount=Rounddown((deposit_amount + premium_amount）/ strike price,8) (BTC)
+
 
 - URL: /mp/api/v1/dcp/settlement/summary
 
