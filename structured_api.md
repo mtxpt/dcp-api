@@ -9,17 +9,18 @@
   - [1.4. Private API mandatory fields](#14-private-api-mandatory-fields)
   - [1.5. Signature algorithm](#15-signature-algorithm)
   - [1.6. Structured Product Vendor RESTful API](#16-structured-product-vendor-restful-api)
-    - [1.6.1. Get Products](#161-get-products)
-    - [1.6.2. Get Quote](#162-get-quote)
-    - [1.6.3. Place Order](#163-place-order)
-    - [1.6.4. Get Redeem Quote](#164-get-redeem-quote)
-    - [1.6.5. Redeem Order](#165-redeem-order)
-    - [1.6.6. Query Order by Order ID or Client Order ID](#166-query-order-by-order-id-or-client-order-id)
-    - [1.6.7. Query Orders](#167-query-orders)
-    - [1.6.8. Query Redeem Order by Redeem ID or Client Redeem ID](#168-query-redeem-order-by-redeem-id-or-client-redeem-id)
-    - [1.6.9. Settle price check](#169-settle-price-check)
-    - [1.6.10. Check Settlement per order](#1610-check-settlement-per-order)
-    - [1.6.11. Quarterly profit check](#1611-quarterly-profit-check)
+    - [1.6.1. "Meta" Explained](#161-meta-explained)
+    - [1.6.2. Get Products](#162-get-products)
+    - [1.6.3. Get Quote](#163-get-quote)
+    - [1.6.4. Place Order](#164-place-order)
+    - [1.6.5. Get Redeem Quote](#165-get-redeem-quote)
+    - [1.6.6. Redeem Order](#166-redeem-order)
+    - [1.6.7. Query Order by Order ID or Client Order ID](#167-query-order-by-order-id-or-client-order-id)
+    - [1.6.8. Query Orders](#168-query-orders)
+    - [1.6.9. Query Redeem Order by Redeem ID or Client Redeem ID](#169-query-redeem-order-by-redeem-id-or-client-redeem-id)
+    - [1.6.10. Settle price check](#1610-settle-price-check)
+    - [1.6.11. Check Settlement per order](#1611-check-settlement-per-order)
+    - [1.6.12. Quarterly profit check](#1612-quarterly-profit-check)
 
 <!-- /TOC -->
 
@@ -120,7 +121,32 @@ Explanation:
 
 ## 1.6. Structured Product Vendor RESTful API
 
-### 1.6.1. Get Products
+### 1.6.1. "Meta" Explained
+
+In our system, we are integrating multiple financial products,
+namely Dual-Coin, Snowball, Sharkfin and Trend, into a unified platform. It is
+feasible because these products share a significant amount of common logic.
+However, certain dimensions (such as settlement procedures) are product-specific,
+hard to be unified completely.
+
+To address the variations, we use "meta" to encapsulate each product's divergent
+aspects (mostly algorithms). Technically, Dual-Coin is a meta-product, Sharkfin
+is another meta-product. They differ in their sets of **settlement rules**,
+**interest accrual rules**, **redemption policies** and **auto-renewal policies**.
+
+For example, when we initiate the "settle" action, input data are basically the same -
+`settlement time` and `settlement price`. For Dual-Coin, the price is compared with
+a strike price to decide whether the underlying option is exercised; for Sharfin,
+the price is evaluated in the yield curve function to produce a yield rate. These two
+different settlement algorithms have to be linked to the "meta" layer, and retrieved by
+specifying the `mata_name`.
+
+It is recommended to have a clear understanding of both the common logic and
+the individual requirements of the above financial products in terms of their financial properties,
+for effectively utilizing the "meta" conception.
+
+
+### 1.6.2. Get Products
 
 - Returns a list of products
 
@@ -198,7 +224,7 @@ Example:
 
 ---
 
-### 1.6.2. Get Quote
+### 1.6.3. Get Quote
 
 - Get quote for placing an order by instrument info of a product.
 
@@ -279,7 +305,7 @@ Error Code:
 | 1002 | other error1  eg. No price (will **NOT** retry)                 |
 | 1003 | other error2  eg. price expire (will **NOT** retry)             |
 
-### 1.6.3. Place Order
+### 1.6.4. Place Order
 
 - Place Order by quote id. before placing order, quote api is called to get a quote.
 
@@ -329,7 +355,7 @@ Error Code:
 | 1002 | other error1  eg. No price (will **NOT** retry)                 |
 | 1003 | other error2  eg. price expire (will **NOT** retry)             |
 
-### 1.6.4. Get Redeem Quote
+### 1.6.5. Get Redeem Quote
 
 - Get quote for redeeming a previously placed order by the info of the order.
 
@@ -387,7 +413,7 @@ Error Code:
 | 1003 | other error2  eg. price expire (will **NOT** retry)             |
 
 
-### 1.6.5. Redeem Order
+### 1.6.6. Redeem Order
 
 - Redeem order. before calling redeem order api, redeem quote api is called to get a redeem quote.
 
@@ -440,7 +466,7 @@ Error Code:
 | 1002 | other error1  eg. No price (will **NOT** retry)                 |
 | 1003 | other error2  eg. price expire (will **NOT** retry)             |
 
-### 1.6.6. Query Order by Order ID or Client Order ID
+### 1.6.7. Query Order by Order ID or Client Order ID
 
 Get single order info by order_id or client_order_id
 
@@ -514,7 +540,7 @@ Get single order info by order_id or client_order_id
 | actual_settled_currency                       | string | settled currency                                                                                                                                  |
 | actual_settled_amount                         | string | settled amount                                                                                                                                    |
 
-### 1.6.7. Query Orders
+### 1.6.8. Query Orders
 
 Get order list by various conditions.
 
@@ -579,7 +605,7 @@ Get order list by various conditions.
 | items          | objects | order list, order info is same as in get order api, except for redeem record list. |
 
 
-### 1.6.8. Query Redeem Order by Redeem ID or Client Redeem ID
+### 1.6.9. Query Redeem Order by Redeem ID or Client Redeem ID
 
 Get single order info by redeem_id or client_redeem_id
 
@@ -647,7 +673,7 @@ Get single order info by redeem_id or client_redeem_id
 | premium_amount          | string | premium amount                                                                      |
 
 
-### 1.6.9. Settle price check
+### 1.6.10. Settle price check
 
 vendor check settle price
 
@@ -722,7 +748,7 @@ Example:
 | infos.valid                    | bool   |                                        | true          |
 
 
-### 1.6.10. Check Settlement per order
+### 1.6.11. Check Settlement per order
 
 vendor check settlement amount and currency of an order
 
@@ -780,7 +806,7 @@ Post Data Example:
 | request_vendor_net_pay        | string | client's expected settle amount   |               |
 
 
-### 1.6.11. Quarterly profit check
+### 1.6.12. Quarterly profit check
 - post matrixport calc quarterly profit,if check failed response an error code.
 - quarterly profit = (end_time_aum-start_time_aum) + last_quarter_profit - replenish_skitg
 - URL: /mp/api/v1/structured/profit/check
