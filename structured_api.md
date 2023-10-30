@@ -18,9 +18,8 @@
     - [1.6.7. Query Order by Order ID or Client Order ID](#167-query-order-by-order-id-or-client-order-id)
     - [1.6.8. Query Orders](#168-query-orders)
     - [1.6.9. Query Redeem Order by Redeem ID or Client Redeem ID](#169-query-redeem-order-by-redeem-id-or-client-redeem-id)
-    - [1.6.10. Settle price check](#1610-settle-price-check)
-    - [1.6.11. Check Settlement per order](#1611-check-settlement-per-order)
-    - [1.6.12. Quarterly profit check](#1612-quarterly-profit-check)
+    - [1.6.10. Check Settlement per order](#1610-check-settlement-per-order)
+    - [1.6.11. Quarterly profit check](#1611-quarterly-profit-check)
 
 <!-- /TOC -->
 
@@ -191,8 +190,38 @@ Example:
             "max_order_number_per_user": 1000000, //optional int, a user can place AT MOST how many orders
             "max_buy_per_user": "100000000", // optional string, max total buy amount per user
             "max_buy_product": "1000000000" // optional string, max total buy amount of this product
+        }
+    ]
+  }
+}
+```
 
-        },
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "meta_name": "snowball",
+    "items": [ //array, products
+        {
+            "invest_currency": "USDC", //string, investment currency
+            "underlying_currency": "BTC", //string, underlying currency
+            "tracking_source": "DERIBIT",  //string, trade source
+            "type": "CALL", // string, type
+            "term_mill": 604800000, // int, term length in millisecond. eg, 604800000 is 7 days
+            "take_profit_price": "38000", //string, take-profit price in string format
+            "protection_price": "30000", //string, protection price in string format
+            "take_profit_apy": "0.1",
+            "protection_apy": "-0.05",
+            "low_price_apy": "-0.05",
+            "high_price_apy": "0.1",
+            "min_buy_per_order": "0.1", //string, minimal buy amount per order
+            "max_buy_per_order": "100", //string, maximal buy amount per order
+            "buy_step": "0.1", // buy amount step, 0.1 means investment amount can change by 0.1
+            "max_order_number_per_user": 1000000, //optional int, a user can place AT MOST how many orders
+            "max_buy_per_user": "100000000", // optional string, max total buy amount per user
+            "max_buy_product": "1000000000" // optional string, max total buy amount of this product
+        }
     ]
   }
 }
@@ -274,6 +303,33 @@ Example:
   }
 }
 ```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "quote_id": "6634567890123456789", //string, quote id
+    "meta_name": "sharkfin", // string, name of the meta-product
+    "invest_currency": "USDT", //string, investment currency
+    "underlying_currency": "BTC", //string, underlying currency
+    "tracking_source": "DERIBIT",  //trade source  DERIBIT,BINANCE etc...
+    "type": "CALL", //string, product type
+    "term_mill": 1209600000, //int, term. e.g. 1209600000 is 14 days
+    "take_profit_price": "39000", //string, take-profit price in string format
+    "protection_price": "33000", // string, protection price in string format
+    "low_price_apy": "0.03", //string, low-price APY in string format, > 0
+    "high_price_apy": "0.04", //string, high-price APY in string format, > 0
+    "apy_points": [
+        {"price": "33000", "apy": "0.1"},
+        {"price": "39000", "apy": "0.2"}
+    ],
+    "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond,
+    "invest_amount": "10" //string, amount in string format
+  }
+}
+```
+
 
 | Parameter Name         | Type   | Description                                                                                                                                       |
 |:-----------------------|:-------|:--------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -490,6 +546,39 @@ Get single order info by order_id or client_order_id
   "code": 0,
   "message": "",
   "data": { //object,
+    "meta_name": "sharkfin", // string, name of the meta-product
+    "order_id": "7080019906774802435", //string, order id
+    "client_order_id": "client_order_id_7080019906774802435", //string, client_order_id
+    "order_status": 110, //int, 0 : Processing, 100 : success, 110 : failed
+    "invest_currency": "USDT", //string, investment currency
+    "underlying_currency": "BTC", //string, underlying currency
+    "tracking_source": "DERIBIT",  //trade source
+    "type": "CALL", //string, option type
+    "term_mill": 604800000, //int, term. e.g. 604800000 is 7 days
+    "take_profit_price": "40000", //string, take-profit price in string format
+    "protection_price": "31000", //string, protection price in string format
+    "invest_amount": "10", //string, investment amount in string format
+    "low_price_apy": "0.01",
+    "high_price_apy": "0.02",
+    "apy_points": [
+        {"price": "31000", "apy": "0.1"},
+        {"price": "40000", "apy": "0.2"}
+    ],
+    "success_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order being successfully placed
+    "value_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order starting to accure interest
+    "actual_settled_time_mill": 1692950400000, //int, vendor settled time
+    "actual_settled_price": "40000", //int, option settled index price in string format
+    "actual_settled_currency": "BTC", //int, settled currency
+    "actual_settled_amount": "0.02" //int, settled amount
+  }
+}
+```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": { //object,
     "meta_name": "dcp", // string, name of the meta-product
     "order_id": "7080019906774802432", //string, order id
     "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
@@ -511,6 +600,7 @@ Get single order info by order_id or client_order_id
   }
 }
 ```
+
 
 | Parameter Name                                | Type   | Description                                                                                                                                       |
 |:----------------------------------------------|:-------|:--------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -637,7 +727,7 @@ Get single order info by redeem_id or client_redeem_id
     "redeem_currency": "USDC", //string, redeem currency
     "redeem_amount": "1", //string, redeem principal amount, equal to order investment amount, in string format
     "redeem_settle_amount": "1", //string, redeem settle amount in string format
-    "redeem_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
+    "redeem_status": 0, //int, 0 : Processing, 100 : success, 110 : failed
     "redeem_active_time_mill": 1692926956000, //int,redeem active time
     "invest_currency": "USDC", //string, investment currency
     "underlying_currency": "BTC", //string, underlying currency
@@ -673,84 +763,11 @@ Get single order info by redeem_id or client_redeem_id
 | premium_amount          | string | premium amount                                                                      |
 
 
-### 1.6.10. Settle price check
+### 1.6.10. Check Settlement per order
 
-vendor check settle price
+vendor check settlement price, settlement amount and settlement currency of an order
 
-- post matrixport settle price,vendor check and return check result,if check failed response is an error code.
-
-- URL: /mp/api/v1/structured/settlement/fixing_list
-
-- method: Post
-
-- Parameters: json in body
-
-| Key                       | Type   | Required | Description                                               |
-|---------------------------|--------|----------|-----------------------------------------------------------|
-| settle_time_mill          | int    | yes      | settlement time in milliseconds                           |
-| infos                     | array  | yes      | infos                                                     |
-| infos.invest_currency     | string | yes      | investment currency                                       |
-| infos.underlying_currency | string | yes      | underlying currency                                       |
-| infos.tracking_source     | string | yes      | the fixing convention used to settle product payment      |
-| infos.settlement_index    | string | yes      | settlement price                                          |
-
-Post Data Example:
-
-```js
-{
-    "settle_time_mill":1692950400000,
-    "infos":[
-        {
-            "invest_currency": "USDC", //string, investment currency
-            "underlying_currency": "BTC", //string, underlying currency
-            "tracking_source":"DERIBIT",// tracking source eg. DERIBIT BINANCE
-            "settlement_index":"26000"// settlement index price
-        }
-    ]
-}
-```
-
-- Response: application/json
-
-Example:
-
-```js
-{
-  "code": 0,
-  "message": "",
-  "data": {
-    "settle_time_mill": 1692950400000,
-    "valid":true,
-    "infos":[ 
-      {
-        "invest_currency": "USDC", //string, investment currency
-        "underlying_currency": "BTC", //string, underlying currency
-        "tracking_source":"DERIBIT",  // tracking source eg. DERIBIT BINANCE
-        "settlement_index":"26000", // vendor settlement index price
-        "request_settlement_index":"26000",
-        "valid":true
-      }
-    ]
-  }
-}
-```
-
-| Parameter Name                 | Type   | Description                            | Example       |
-|:-------------------------------|:-------|:---------------------------------------|:--------------|
-| settle_time_mill               | int    | settlement time in milliseconds        | 1692950400000 |
-| valid                          | bool   |                                        | true          |
-| infos                          | list   | settlement index info                  |               |
-| infos.invest_currency          | string | investment currency                    | USDT          |
-| infos.underlying_currency      | string | underlying currency                    | BTC           |
-| infos.tracking_source          | string | tracking source eg. DERIBIT BINANCE... | DERIBIT       |
-| infos.settlement_index         | string | vendor settlement index.               | 26000         |
-| infos.request_settlement_index | string |                                        | 26000         |
-| infos.valid                    | bool   |                                        | true          |
-
-
-### 1.6.11. Check Settlement per order
-
-vendor check settlement amount and currency of an order
+- post matrixport settlement price, settlement amount and settlement currency, vendor check and return check result,if check failed response is an error code.
 
 - URL: /mp/api/v1/structured/settlement/order
 
@@ -763,6 +780,7 @@ vendor check settlement amount and currency of an order
 | order_id              | string | yes      | vendor order ID                   |               |
 | currency              | string | yes      | settle currency                   |               |
 | vendor_net_pay        | string | yes      | settle amount                     |               |
+| settlement_index      | string | yes      | settlement price                  | 38000.12      |
 
 Post Data Example:
 
@@ -771,8 +789,9 @@ Post Data Example:
     "meta_name": "dcp", // string, name of the meta-product
     "settle_time_mill": 1692950400000,
     "order_id": "138974182741274127",
-    "currency":"BTC", //string, settle currency
-    "vendor_net_pay":"100" //string, expected settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor.
+    "currency": "BTC", //string, settle currency
+    "vendor_net_pay": "100", //string, expected settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor.
+    "settlement_index":"26000"// settlement index price
 }
 ```
 
@@ -783,14 +802,19 @@ Post Data Example:
 {
   "code": 0,
   "message": "",
-  "data": { 
+  "data": {
     "settle_time_mill": 1692950400000,
     "meta_name": "dcp", // string, name of the meta-product
     "order_id": "138974182741274127",
     "valid":true,
-    "currency":"BTC", //string, settle currency
+    "settle_currency":"BTC", //string, settlement currency
     "vendor_net_pay":"100", //string, settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor. 
-    "request_vendor_net_pay":"100"
+    "request_vendor_net_pay":"100",
+    "invest_currency": "USDC", //string, investment currency
+    "underlying_currency": "BTC", //string, underlying currency
+    "tracking_source":"DERIBIT",  // tracking source eg. DERIBIT BINANCE
+    "settlement_index":"26000", // vendor settlement index price
+    "request_settlement_index":"26000"
   }
 }
 ```
@@ -801,12 +825,17 @@ Post Data Example:
 | meta_name                     | string | name of the meta-product          | dcp           |
 | order_id                      | string | vendor order id                   | 1237189247194 |
 | valid                         | bool   |                                   |               |
-| currency                      | string | settle currency                   | BTC           |
+| settle_currency               | string | settlement currency               | BTC           |
 | vendor_net_pay                | string | vendor's expected settle amount   | 100           |
 | request_vendor_net_pay        | string | client's expected settle amount   |               |
+| invest_currency               | string | order's investment currency       | USDT          |
+| underlying_currency           | string | order's underlying currency       | BTC           |
+| tracking_source               | string | order's tracking source           | DERIBIT       |
+| settlement_index              | string | vendor's expected settle index    | 26000         |
+| request_settlement_index      | string | client's expected settle index    | 26000         |
 
 
-### 1.6.12. Quarterly profit check
+### 1.6.11. Quarterly profit check
 - post matrixport calc quarterly profit,if check failed response an error code.
 - quarterly profit = (end_time_aum-start_time_aum) + last_quarter_profit - replenish_skitg
 - URL: /mp/api/v1/structured/profit/check
