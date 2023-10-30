@@ -133,12 +133,12 @@ aspects (mostly algorithms). Technically, Dual-Coin is a meta-product, Sharkfin
 is another meta-product. They differ in their sets of **settlement rules**,
 **interest accrual rules**, **redemption policies** and **auto-renewal policies**.
 
-For example, when we initiate the "settle" action, input data are basically the same -
-`settlement time` and `settlement price`. For Dual-Coin, the price is compared with
-a strike price to decide whether the underlying option is exercised; for Sharfin,
-the price is evaluated in the yield curve function to produce a yield rate. These two
-different settlement algorithms have to be linked to the "meta" layer, and retrieved by
-specifying the `mata_name`.
+For example, when we initiate the "settle" [action](#1610-check-settlement-per-order),
+input data are basically the same - `settlement price` and `settlement amount`.
+For Dual-Coin, the price is compared with a strike price to decide whether
+the underlying option is exercised; for Sharfin, the price is evaluated in the
+yield curve function to produce a yield rate. These two different settlement algorithms
+have to be linked to the "meta" layer, and retrieved by specifying the `mata_name`.
 
 It is recommended to have a clear understanding of both the common logic and
 the individual requirements of the above financial products in terms of their financial properties,
@@ -162,7 +162,7 @@ for effectively utilizing the "meta" conception.
 | meta_name           | string | yes      | name of the meta-product                                                                     | dcp, snowball   |
 | invest_currency     | string | no       | product's investment currency. Empty means all investment currencies.                        | USDT, BTC       |
 | underlying_currency | string | no       | product's underlying currency. Empty means all underlying currencies.                        | BTC, ETH        |
-| tracking_source     | string | no       | the fixing convention used to settle product payment                                         | DERIBIT,BINANCE |
+| tracking_source     | string | no       | the fixing convention used to settle product payment. Empty means all tracking sources.      | DERIBIT,BINANCE |
 | type                | string | no       | type, in uppercase. CALL=bullish products, PUT=bearish products. Empty means all types       | CALL, PUT       |
 
 - Response: application/json
@@ -566,10 +566,10 @@ Get single order info by order_id or client_order_id
     ],
     "success_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order being successfully placed
     "value_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order starting to accure interest
-    "actual_settled_time_mill": 1692950400000, //int, vendor settled time
+    "actual_settled_time_mill": 1693013356000, //int, vendor settled time
     "actual_settled_price": "40000", //int, option settled index price in string format
-    "actual_settled_currency": "BTC", //int, settled currency
-    "actual_settled_amount": "0.02" //int, settled amount
+    "actual_settled_currency": "USDT", //int, settled currency
+    "actual_settled_amount": "0.00547945" //int, settled amount
   }
 }
 ```
@@ -778,8 +778,8 @@ vendor check settlement price, settlement amount and settlement currency of an o
 | meta_name             | string | yes      | name of the meta-product          | dcp           |
 | settle_time_mill      | int    | yes      | settlement time in milliseconds   | 1692950400000 |
 | order_id              | string | yes      | vendor order ID                   |               |
-| currency              | string | yes      | settle currency                   |               |
-| vendor_net_pay        | string | yes      | settle amount                     |               |
+| currency              | string | yes      | settle currency                   | BTC           |
+| vendor_net_pay        | string | yes      | settle amount                     | 0.1           |
 | settlement_index      | string | yes      | settlement price                  | 38000.12      |
 
 Post Data Example:
