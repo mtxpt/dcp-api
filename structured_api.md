@@ -161,7 +161,7 @@ for effectively utilizing the "meta" conception.
 |---------------------|--------|----------|----------------------------------------------------------------------------------------------|-----------------|
 | meta_name           | string | yes      | name of the meta-product                                                                     | dcp, snowball   |
 | invest_currency     | string | no       | product's investment currency. Empty means all investment currencies.                        | USDT, BTC       |
-| underlying_currency | string | no       | product's underlying currency. Empty means all underlying currencies.                        | BTC, ETH        |
+| underlying          | string | no       | product's underlying asset. Empty means all underlying assets.                               | BTC-USDT        |
 | tracking_source     | string | no       | the fixing convention used to settle product payment. Empty means all tracking sources.      | DERIBIT,BINANCE |
 | type                | string | no       | type, in uppercase. CALL=bullish products, PUT=bearish products. Empty means all types       | CALL, PUT       |
 
@@ -178,7 +178,7 @@ Example:
     "items": [ //array, products
         {
             "invest_currency": "USDC", //string, investment currency
-            "underlying_currency": "BTC", //string, underlying currency
+            "underlying": "BTC-USDC", //string, underlying asset
             "tracking_source": "DERIBIT",  //string, trade source
             "type": "CALL", // string, type
             "term_mill": 1692950400000, // int, settle time in millisecond UNIX epoch. eg, 1692950400000 is 2023-08-25T16:00:00 +08:00
@@ -205,7 +205,7 @@ Example:
     "items": [ //array, products
         {
             "invest_currency": "USDC", //string, investment currency
-            "underlying_currency": "BTC", //string, underlying currency
+            "underlying": "BTC-USDC", //string, underlying asset
             "tracking_source": "DERIBIT",  //string, trade source
             "type": "CALL", // string, type
             "term_mill": 604800000, // int, term length in millisecond. eg, 604800000 is 7 days
@@ -232,7 +232,7 @@ Example:
 | meta_name                       | string           | name of the meta-product                                                                                                                                                                  |
 | items                           | array            | products                                                                                                                                                                                  |
 | items.invest_currency           | string           | investment currency                                                                                                                                                                       |
-| items.underlying_currency       | string           | underlying currency                                                                                                                                                                       |
+| items.underlying                | string           | underlying asset                                                                                                                                                                          |
 | items.tracking_source           | string           | tracking source                                                                                                                                                                           |
 | items.type                      | string           | type                                                                                                                                                                                      |
 | items.term_mill                 | int              | for a fixed mature time, this is millisecond UNIX epoch, eg. 1692950400000 is 2023-08-25T16:00:00 +08:00. For a fixed term length, this is the term in milliseconds, eg. 1day is 86400000 |
@@ -271,7 +271,7 @@ Example:
 |---------------------|--------|----------|----------------------------------------------------------------------------------------------------|
 | meta_name           | string | yes      | name of the meta-product. eg, "snowball", "dcp"                                                    |
 | invest_currency     | string | yes      | investment currency                                                                                |
-| underlying_currency | string | yes      | underlying currency                                                                                |
+| underlying          | string | yes      | underlying asset                                                                                   |
 | tracking_source     | string | yes      | the fixing convention used to settle product payment                                               |
 | type                | string | yes      | product type, "CALL" or "PUT"                                                                      |
 | term_mill           | int    | yes      | product's term.                                                                                    |
@@ -291,8 +291,8 @@ Example:
   "data": {
     "quote_id": "6633327782363410432", //string, quote id
     "meta_name": "dcp", // string, name of the meta-product
-    "invest_currency": "USDC", //string, investment currency
-    "underlying_currency": "BTC", //string, underlying currency
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
     "tracking_source": "DERIBIT",  //trade source  DERIBIT,BINANCE etc...
     "type": "CALL", //string, product type
     "term_mill": 1692950400000, //int, term
@@ -312,7 +312,7 @@ Example:
     "quote_id": "6634567890123456789", //string, quote id
     "meta_name": "sharkfin", // string, name of the meta-product
     "invest_currency": "USDT", //string, investment currency
-    "underlying_currency": "BTC", //string, underlying currency
+    "underlying": "BTC-USDT", //string, underlying asset
     "tracking_source": "DERIBIT",  //trade source  DERIBIT,BINANCE etc...
     "type": "CALL", //string, product type
     "term_mill": 1209600000, //int, term. e.g. 1209600000 is 14 days
@@ -336,7 +336,7 @@ Example:
 | quote_id               | string | quote id                                                                                                                                          |
 | meta_name              | string | name of the meta-product                                                                                                                          |
 | invest_currency        | string | investment currency                                                                                                                               |
-| underlying_currency    | string | underlying currency                                                                                                                               |
+| underlying             | string | underlying asset                                                                                                                                  |
 | tracking_source        | string | the fixing convention used to settle product payment                                                                                              |
 | type                   | string | product type (CALL or PUT)                                                                                                                        |
 | term_mill              | int    | product's term                                                                                                                                    |
@@ -551,7 +551,7 @@ Get single order info by order_id or client_order_id
     "client_order_id": "client_order_id_7080019906774802435", //string, client_order_id
     "order_status": 110, //int, 0 : Processing, 100 : success, 110 : failed
     "invest_currency": "USDT", //string, investment currency
-    "underlying_currency": "BTC", //string, underlying currency
+    "underlying": "BTC-USDT", //string, underlying asset
     "tracking_source": "DERIBIT",  //trade source
     "type": "CALL", //string, option type
     "term_mill": 604800000, //int, term. e.g. 604800000 is 7 days
@@ -584,7 +584,7 @@ Get single order info by order_id or client_order_id
     "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
     "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
     "invest_currency": "USDC", //string, investment currency
-    "underlying_currency": "BTC", //string, underlying currency
+    "underlying": "BTC-USDC", //string, underlying asset
     "tracking_source": "DERIBIT",  //trade source
     "type": "CALL", //string, option type
     "term_mill": 1692950400000, //int, term
@@ -609,7 +609,7 @@ Get single order info by order_id or client_order_id
 | client_order_id                               | string | client_order_id                                                                                                                                   |
 | order_status                                  | int    | 0 : Processing, 100 : success, 110 : failed                                                                                                       |
 | invest_currency                               | string | investment currency                                                                                                                               |
-| underlying_currency                           | string | underlying currency                                                                                                                               |
+| underlying                                    | string | underlying asset                                                                                                                                  |
 | tracking_source                               | string | the fixing convention used to settle product payment                                                                                              |
 | type                                          | string | type, CALL or PUT                                                                                                                                 |
 | term_mill                                     | int    | product's term                                                                                                                                    |
@@ -642,7 +642,7 @@ Get order list by various conditions.
 |:-----------------------|:-------|:---------|:-------------------------------------------------------------------------------------------|:-------------------|
 | meta_name              | string | yes      | name of the meta-product.                                                                  | "snowball", "dcp"  |
 | invest_currency        | string | no       | investment currency                                                                        | USDT, USDC         |
-| underlying_currency    | string | no       | underlying currency                                                                        | BTC, ETH           |
+| underlying             | string | no       | underlying asset                                                                           | BTC-USDT, ETH-USDC |
 | type                   | string | no       | product's type, in upper case;                                                             | CALL, PUT          |
 | strike_price           | string | no       | strike price in string format                                                              |                    |
 | take_profit_price      | string | no       | for products with a price interval: the price which triggers take-profit, in string format |                    |
@@ -670,7 +670,7 @@ Get order list by various conditions.
         "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
         "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
         "invest_currency": "USDC", //string, investment currency
-        "underlying_currency": "BTC", //string, underlying currency
+        "underlying": "BTC-USDC", //string, underlying asset
         "tracking_source": "DERIBIT",  //trade source
         "type": "CALL", //string, option type
         "term_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
@@ -730,7 +730,7 @@ Get single order info by redeem_id or client_redeem_id
     "redeem_status": 0, //int, 0 : Processing, 100 : success, 110 : failed
     "redeem_active_time_mill": 1692926956000, //int,redeem active time
     "invest_currency": "USDC", //string, investment currency
-    "underlying_currency": "BTC", //string, underlying currency
+    "underlying": "BTC-USDC", //string, underlying asset
     "tracking_source": "DERIBIT",  //trade source
     "type": "CALL", //string, type
     "term_milli": 1692950400000, //int, term
@@ -753,7 +753,7 @@ Get single order info by redeem_id or client_redeem_id
 | redeem_active_time_mill | int    | when order redeem success,filled this item with order redeem success time           |
 | redeem_settle_amount    | string | redeem settle amount in string format                                               |
 | invest_currency         | string | investment currency                                                                 |
-| underlying_currency     | string | underlying currency                                                                 |
+| underlying              | string | underlying asset                                                                    |
 | tracking_source         | string | tracking source refers to the fixing convention used to settle product payment      |
 | type                    | string | type                                                                                |
 | term_mill               | int    | product's term                                                                      |
@@ -811,7 +811,7 @@ Post Data Example:
     "vendor_net_pay":"100", //string, settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor. 
     "request_vendor_net_pay":"100",
     "invest_currency": "USDC", //string, investment currency
-    "underlying_currency": "BTC", //string, underlying currency
+    "underlying": "BTC-USDC", //string, underlying asset
     "tracking_source":"DERIBIT",  // tracking source eg. DERIBIT BINANCE
     "settlement_index":"26000", // vendor settlement index price
     "request_settlement_index":"26000"
@@ -829,7 +829,7 @@ Post Data Example:
 | vendor_net_pay                | string | vendor's expected settle amount   | 100           |
 | request_vendor_net_pay        | string | client's expected settle amount   |               |
 | invest_currency               | string | order's investment currency       | USDT          |
-| underlying_currency           | string | order's underlying currency       | BTC           |
+| underlying                    | string | order's underlying asset          | BTC-USDT      |
 | tracking_source               | string | order's tracking source           | DERIBIT       |
 | settlement_index              | string | vendor's expected settle index    | 26000         |
 | request_settlement_index      | string | client's expected settle index    | 26000         |
