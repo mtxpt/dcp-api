@@ -213,6 +213,7 @@ Example:
             "protection_price": "30000", //string, protection price in string format
             "take_profit_apy": "0.1",
             "protection_apy": "-0.05",
+            "zero_price_apy": "-0.1",
             "low_price_apy": "-0.05",
             "high_price_apy": "0.1",
             "min_buy_per_order": "0.1", //string, minimal buy amount per order
@@ -242,6 +243,7 @@ Example:
 | items.apy                       | string           | for products with one annual percentage yield: in string format                                                                                                                           |
 | items.take_profit_apy           | string           | for products with a price interval: the maximum annual percentage yield the product will pay within the price interval, in string format                                                  |
 | items.protection_apy            | string           | for products with a price interval: the minimum annual percentage yield the product will pay within the price interval, in string format                                                  |
+| items.zero_price_apy            | string           | for products with a price interval: the annual percentage yield when the price is zero (connected to low price APY to draw a line), in string format                                                       |
 | items.low_price_apy             | string           | for products with a price interval: the annual percentage yield when the price is smaller than the price interval, in string format                                                       |
 | items.high_price_apy            | string           | for products with a price interval: the annual percentage yield when the price is larger than the price interval, in string format                                                        |
 | items.min_buy_per_order         | string           | minimal buy amount per order                                                                                                                                                              |
@@ -318,8 +320,9 @@ Example:
     "term_mill": 1209600000, //int, term. e.g. 1209600000 is 14 days
     "take_profit_price": "39000", //string, take-profit price in string format
     "protection_price": "33000", // string, protection price in string format
-    "low_price_apy": "0.03", //string, low-price APY in string format, > 0
-    "high_price_apy": "0.04", //string, high-price APY in string format, > 0
+    "zero_price_apy": "0.03", //string, zero-price APY in string format
+    "low_price_apy": "0.03", //string, low-price APY in string format
+    "high_price_apy": "0.04", //string, high-price APY in string format
     "apy_points": [
         {"price": "33000", "apy": "0.1"},
         {"price": "39000", "apy": "0.2"}
@@ -344,6 +347,7 @@ Example:
 | take_profit_price      | string | for products with a price interval: the price which triggers take-profit, in string format                                                        |
 | protection_price       | string | for products with a price interval, the price which triggers stop-loss, in string format                                                          |
 | premium_amount         | string | for products with one fixed premium value: premium_amount in string format, premium_amount > 0                                                    |
+| zero_price_apy         | string | for products with a price interval: the annual percentage yield when the price is zero, in string format                                          |
 | low_price_apy          | string | for products with a price interval: the annual percentage yield when the price is smaller than the price interval, in string format               |
 | high_price_apy         | string | for products with a price interval: the annual percentage yield when the price is larger than the price interval, in string format                |
 | apy_points             | array  | for products with a price interval: within the price interval, points of {price, annual percentage yield} construct the piecewise function of APY |
@@ -557,7 +561,9 @@ Get single order info by order_id or client_order_id
     "term_mill": 604800000, //int, term. e.g. 604800000 is 7 days
     "take_profit_price": "40000", //string, take-profit price in string format
     "protection_price": "31000", //string, protection price in string format
+    "is_evaluated": true, // prices are evaluated
     "invest_amount": "10", //string, investment amount in string format
+    "zero_price_apy": "0.01",
     "low_price_apy": "0.01",
     "high_price_apy": "0.02",
     "apy_points": [
@@ -616,8 +622,10 @@ Get single order info by order_id or client_order_id
 | strike_price                                  | string | for products with only one strike price: strike price in string format                                                                            |
 | take_profit_price                             | string | for products with a price interval: the price which triggers take-profit, in string format                                                        |
 | protection_price                              | string | for products with a price interval, the price which triggers stop-loss, in string format                                                          |
+| is_evaluated                                  | bool   | for products whose attributes (such as prices) are evaluated at a later time, this flag indicates whether the attributes are evaluated or not     |
 | invest_amount                                 | string | investment amount in string format                                                                                                                |
 | premium_amount                                | string | for products with one fixed premium value: premium_amount in string format, premium_amount > 0                                                    |
+| zero_price_apy                                | string | for products with a price interval: the annual percentage yield when the price is zero, in string format                                          |
 | low_price_apy                                 | string | for products with a price interval: the annual percentage yield when the price is smaller than the price interval, in string format               |
 | high_price_apy                                | string | for products with a price interval: the annual percentage yield when the price is larger than the price interval, in string format                |
 | apy_points                                    | array  | for products with a price interval: within the price interval, points of {price, annual percentage yield} construct the piecewise function of APY |
