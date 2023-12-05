@@ -454,14 +454,30 @@ Example:
 }
 ```
 
-| Parameter Name         | Type   | Description                                            |
-|:-----------------------|:-------|:-------------------------------------------------------|
-| quote_id               | string | quote id                                               |
-| meta_name              | string | name of the meta-product                               |
-| premium_amount         | string | premium amount in string format, premium_amount <= 0   |
-| price_expire_time_mill | int    | price expire time in millisecond                       |
-| order_id               | string | vendor order ID                                        |
-| redeem_amount          | string | amount to redeem from the order, in string format      |
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "quote_id": "7633327782363410433", //string, quote id
+    "meta_name": "snowball", // string, name of the meta-product
+    "redeem_settle_amount": "1.2", // string, final settle amount in string format
+    "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond
+    "order_id": "708001990677480243210", //string, vendor order ID
+    "redeem_amount": "1.1" // amount to redeem from the order
+  }
+}
+```
+
+| Parameter Name         | Type   | Description                                                                            |
+|:-----------------------|:-------|:---------------------------------------------------------------------------------------|
+| quote_id               | string | quote id                                                                               |
+| meta_name              | string | name of the meta-product                                                               |
+| premium_amount         | string | for redemption with a cost: premium amount in string format, premium_amount <= 0       |
+| redeem_settle_amount   | string | for redemption with a final amount: amount in string format, redeem_settle_amount >= 0 |
+| price_expire_time_mill | int    | price expire time in millisecond                                                       |
+| order_id               | string | vendor order ID                                                                        |
+| redeem_amount          | string | amount to redeem from the order, in string format                                      |
 
 Error Code:
 
@@ -491,7 +507,6 @@ Error Code:
 | order_id          | string | yes      | vendor order id                                                          |
 | client_redeem_id  | string | yes      | client redeem id, for idempotence                                        |
 | quote_id          | string | yes      | quote id                                                                 |
-| premium_amount    | string | yes      | premium_amount need cost, premium_amount <= 0, string format             |
 | redeem_amount     | string | yes      | redeem amount, > 0, amount in string format (<=order investment amount)  |
 
 - Response: application/json
@@ -768,7 +783,7 @@ Get single order info by redeem_id or client_redeem_id
 | strike_price            | string | for products with only one strike price: strike price in string format              |
 | take_profit_price       | string | for products with a price interval: the price which triggers take-profit            |
 | protection_price        | string | for products with a price interval: the price which triggers stop-loss              |
-| premium_amount          | string | premium amount                                                                      |
+| premium_amount          | string | for redemption with a cost: premium amount for the redemption                       |
 
 
 ### 1.6.10. Check Settlement per order
