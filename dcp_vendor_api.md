@@ -204,6 +204,7 @@ Example:
 | type             | string | yes      | option type                                                                         |
 | settle_time_mill | int    | yes      | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
 | strike_price     | string | yes      | strike price in string format                                                       |
+| order_id         | string | no       | only when action=REDEEM, vendor order id                                            |
 
 - Response: application/json
 
