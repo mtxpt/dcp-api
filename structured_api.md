@@ -796,14 +796,15 @@ vendor check settlement price, settlement amount and settlement currency of an o
 
 - method: POST
 
-| Parameter Name        | Type   | Required | Description                       | Example       |
-|:----------------------|:-------|:---------|:----------------------------------|:--------------|
-| meta_name             | string | yes      | name of the meta-product          | dcp           |
-| settle_time_mill      | int    | yes      | settlement time in milliseconds   | 1692950400000 |
-| order_id              | string | yes      | vendor order ID                   |               |
-| currency              | string | yes      | settle currency                   | BTC           |
-| vendor_net_pay        | string | yes      | settle amount                     | 0.1           |
-| settlement_index      | string | yes      | settlement price                  | 38000.12      |
+| Parameter Name        | Type   | Required                        | Description                       | Example       |
+|:----------------------|:-------|:--------------------------------|:----------------------------------|:--------------|
+| meta_name             | string | yes                             | name of the meta-product          | dcp           |
+| settle_time_mill      | int    | yes                             | settlement time in milliseconds   | 1692950400000 |
+| order_id              | string | yes                             | vendor order ID                   |               |
+| currency              | string | yes                             | settle currency                   | BTC           |
+| vendor_net_pay        | string | yes                             | settle amount                     | 0.1           |
+| settlement_index      | string | yes                             | settlement price                  | 38000.12      |
+| initial_price         | string | only when settlment requires it | price on the first value date     | 37500.99      |
 
 Post Data Example:
 
@@ -815,6 +816,18 @@ Post Data Example:
     "currency": "BTC", //string, settle currency
     "vendor_net_pay": "100", //string, expected settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor.
     "settlement_index":"26000"// settlement index price
+}
+```
+
+```js
+{
+    "meta_name": "snowball", // string, name of the meta-product
+    "settle_time_mill": 1692950400000,
+    "order_id": "138974127412741892",
+    "currency": "ETH", //string, settle currency
+    "vendor_net_pay": "5", //string, expected settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor.
+    "settlement_index":"2100", // settlement index price
+    "initial_price": "2000" // price on the first value date
 }
 ```
 
@@ -842,6 +855,29 @@ Post Data Example:
 }
 ```
 
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "settle_time_mill": 1692950400000,
+    "meta_name": "snowball", // string, name of the meta-product
+    "order_id": "13892741271093",
+    "valid":true,
+    "settle_currency":"BTC", //string, settlement currency
+    "vendor_net_pay":"100", //string, settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor. 
+    "request_vendor_net_pay":"100",
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
+    "tracking_source":"DERIBIT",  // tracking source eg. DERIBIT BINANCE
+    "settlement_index":"26000", // vendor settlement index price
+    "request_settlement_index":"26000",
+    "initial_price": "30000.5",
+    "request_initial_price": "30000.5"
+  }
+}
+```
+
 | Parameter Name                | Type   | Description                       | Example       |
 |:------------------------------|:-------|:----------------------------------|:--------------|
 | settle_time_mill              | int    | settlement time in milliseconds   | 1692950400000 |
@@ -856,6 +892,8 @@ Post Data Example:
 | tracking_source               | string | order's tracking source           | DERIBIT       |
 | settlement_index              | string | vendor's expected settle index    | 26000         |
 | request_settlement_index      | string | client's expected settle index    | 26000         |
+| initial_price                 | string | vendor's initial price            | 37500.99      |
+| request_initial_price         | string | client's initial price            | 37500.99      |
 
 
 ### 1.6.11. Quarterly profit check
