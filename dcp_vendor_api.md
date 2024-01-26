@@ -15,10 +15,11 @@
     - [1.6.4. Redeem Order](#164-redeem-order)
     - [1.6.5. Query Order by Order ID or Client Order ID](#165-query-order-by-order-id-or-client-order-id)
     - [1.6.6. Query Orders](#166-query-orders)
-    - [1.6.7. Query Redeem Order by Redeem ID or Client Order ID](#167-query-redeem-order-by-redeem-id-or-client-order-id)
+    - [1.6.7. Query Redeem Order by Redeem ID or Client REDEEM ID](#167-query-redeem-order-by-redeem-id-or-client-redeem-id)
     - [1.6.8. settle price check](#168-settle-price-check)
     - [1.6.9. Check Settlement summary](#169-check-settlement-summary)
     - [1.6.10. Quarterly profit check](#1610-quarterly-profit-check)
+    - [1.6.11. Monthly profit check](#1611-monthly-profit-check)
 
 <!-- /TOC -->
 
@@ -319,13 +320,13 @@ Error Code:
 
 - Parameters: json in body
 
-| Key               | Type   | Required | Description                                                                                       |
-|-------------------|--------|----------|---------------------------------------------------------------------------------------------------|
-| order_id          | string | yes      | vendor order id                                                                                   |
-| client_redeem_id  | string | yes      | client redeem id, for idempotent                                                                  |
-| quote_id          | string | no       | quote id (if get quote api don't response quote id,place order will don't filled this item empty) |
-| premium_amount    | string | yes      | premium_amount need cost,premium_amount <= 0, string format                                       |
-| redeem_amount     | string | yes      | redeem amount, > 0,amount in string format (order deposit amount)                                 |
+| Key              | Type   | Required | Description                                                                                       |
+|------------------|--------|----------|---------------------------------------------------------------------------------------------------|
+| order_id         | string | yes      | vendor order id                                                                                   |
+| client_redeem_id | string | yes      | client redeem id, for idempotent                                                                  |
+| quote_id         | string | no       | quote id (if get quote api don't response quote id,place order will don't filled this item empty) |
+| premium_amount   | string | yes      | premium_amount need cost,premium_amount <= 0, string format                                       |
+| redeem_amount    | string | yes      | redeem amount, > 0,amount in string format (order deposit amount)                                 |
 
 - Response: application/json
   Example:
@@ -342,11 +343,11 @@ Error Code:
 }
 ```
 
-| Parameter Name                 | Type   | Description                          |
-|:-------------------------------|:-------|:-------------------------------------|
-| order_id                       | string | order id                             |
-| redeem_id                      | string | vendor redeem id                     |
-| client_redeem_id               | string | dcp client redeem id, for idempotent |
+| Parameter Name   | Type   | Description                          |
+|:-----------------|:-------|:-------------------------------------|
+| order_id         | string | order id                             |
+| redeem_id        | string | vendor redeem id                     |
+| client_redeem_id | string | dcp client redeem id, for idempotent |
 
 Error Code:
 
@@ -401,25 +402,25 @@ Get single order info by order_id or client_order_id
 }
 ```
 
-| Parameter Name                                | Type   | Description                                                                         |
-|:----------------------------------------------|:-------|:------------------------------------------------------------------------------------|
-| order_id                                      | string | vendor order id                                                                     |
-| client_order_id                               | string | dcp client_order_id                                                                 |
-| order_status                                  | int    | 0 : Processing, 100 : success, 110 : failed                                         |
-| underlying_pair                               | string | underlying pair                                                                     |
-| tracking_source                               | string | tracking source refers to the fixing convention used to settle product payment      |
-| type                                          | string | option type                                                                         |
-| settle_time_mill                              | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
-| strike_price                                  | string | strike price in string format                                                       |
-| deposit_currency                              | string | deposit currency                                                                    |
-| deposit_amount                                | string | deposit amount in string format                                                     |
-| active_time_mill                              | int    | when order success,filled this item with order success time                         |
-| redeemable                                    | bool   | is order redeemable                                                                 |
-| actual_settled_time_mill                      | int    | vendor settled time                                                                 |
-| actual_settled_price                          | int    | actual option settled price in string format                                        |
-| actual_settled_currency                       | int    | settled currency                                                                    |
-| actual_settled_amount                         | int    | settled amount                                                                      |
-| premium_amount                                | int    | premium amount                                                                      |
+| Parameter Name           | Type   | Description                                                                         |
+|:-------------------------|:-------|:------------------------------------------------------------------------------------|
+| order_id                 | string | vendor order id                                                                     |
+| client_order_id          | string | dcp client_order_id                                                                 |
+| order_status             | int    | 0 : Processing, 100 : success, 110 : failed                                         |
+| underlying_pair          | string | underlying pair                                                                     |
+| tracking_source          | string | tracking source refers to the fixing convention used to settle product payment      |
+| type                     | string | option type                                                                         |
+| settle_time_mill         | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000. |
+| strike_price             | string | strike price in string format                                                       |
+| deposit_currency         | string | deposit currency                                                                    |
+| deposit_amount           | string | deposit amount in string format                                                     |
+| active_time_mill         | int    | when order success,filled this item with order success time                         |
+| redeemable               | bool   | is order redeemable                                                                 |
+| actual_settled_time_mill | int    | vendor settled time                                                                 |
+| actual_settled_price     | int    | actual option settled price in string format                                        |
+| actual_settled_currency  | int    | settled currency                                                                    |
+| actual_settled_amount    | int    | settled amount                                                                      |
+| premium_amount           | int    | premium amount                                                                      |
 
 ### 1.6.6. Query Orders
 
@@ -627,12 +628,12 @@ if settle index <= strike price  settle_amount=Rounddown((deposit_amount + premi
 
 - method: POST
 
-| Parameter Name        | Type   | Required | Description                       | Example       |
-|:----------------------|:-------|:---------|:----------------------------------|:--------------|
-| settle_time_mill      | int    | yes      | option settle time in millisecond | 1692950400000 |
-| infos                 | list   | yes      | settlement info                   |               |
-| infos.currency        | string | yes      | settle currency                   |               |
-| infos.vendor_net_pay  | string | yes      | settle amount                     |               |
+| Parameter Name       | Type   | Required | Description                       | Example       |
+|:---------------------|:-------|:---------|:----------------------------------|:--------------|
+| settle_time_mill     | int    | yes      | option settle time in millisecond | 1692950400000 |
+| infos                | list   | yes      | settlement info                   |               |
+| infos.currency       | string | yes      | settle currency                   |               |
+| infos.vendor_net_pay | string | yes      | settle amount                     |               |
 
 Post Data Example:
 
@@ -670,15 +671,15 @@ Post Data Example:
 }
 ```
 
-| Parameter Name                | Type   | Description                       | Example       |
-|:------------------------------|:-------|:----------------------------------|:--------------|
-| settle_time_mill              | int    | option settle time in millisecond | 1692950400000 |
-| valid                         | bool   |                                   |               |
-| infos                         | list   | settle info                       |               |
-| infos.currency                | string | settle currency                   | BTC           |
-| infos.vendor_net_pay          | string | currency need settle amount       | 100           |
-| infos.request_vendor_net_pay  | string |                                   |               |
-| infos.valid                   | bool   |                                   |               |
+| Parameter Name               | Type   | Description                       | Example       |
+|:-----------------------------|:-------|:----------------------------------|:--------------|
+| settle_time_mill             | int    | option settle time in millisecond | 1692950400000 |
+| valid                        | bool   |                                   |               |
+| infos                        | list   | settle info                       |               |
+| infos.currency               | string | settle currency                   | BTC           |
+| infos.vendor_net_pay         | string | currency need settle amount       | 100           |
+| infos.request_vendor_net_pay | string |                                   |               |
+| infos.valid                  | bool   |                                   |               |
 
 
 ### 1.6.10. Quarterly profit check
@@ -712,3 +713,56 @@ Example:
   }
 }
 ```
+
+
+
+### 1.6.11. Monthly profit check
+- post matrixport calc monthly profit,if check failed response an error code.
+- matrixport monthly profit = SUM$(Premium * Platform Profit Rate * relevant settlement price of settlement currency with respect to the Structured Product on the maturity date of the Order) 
+- URL: /mp/api/v1/dcp/monthly-profit/check
+
+- method: Post
+
+- Parameters: json in body
+  
+| Key                    | Type   | Required | Description                                                       |
+|------------------------|--------|----------|:------------------------------------------------------------------|
+| expiry_start_time_mill | int    | Y        | period expiry start time (UTC 0:00 on the 1st day of each month.) |
+| expiry_end_time_mill   | int    | Y        | period expiry end time (UTC 0:00 on the 1st day of each month.)   |
+| profit                 | string | Y        | amount of usdc distributed to matrixport in string format         |
+| infos                  | array  | Y        | infos                                                             |
+| infos.timestamp        | int    | Y        | expiry times for each day                                         |
+| infos.underlying_pair  | string | Y        | underlying pair (must contain USDC)                               |
+| infos.price            | string | Y        | price between underlying pair                                     |
+
+
+Post Data Example:
+
+```js
+{
+  "start_time_mill": 1698768480000,
+  "end_time_mill": 1701360480000,
+  "profit": "28123.8999"
+}
+```
+
+Response: application/json
+Example:
+
+```js
+{
+  "code": 0,
+  "data": {
+    "valid": true,
+    "vendor_pay_profit": "28123.8999",
+    "request_vendor_pay_profit": "28123.8999"
+  },
+  "message": ""
+}
+```
+
+| Parameter Name            | Type   | Description                                      |
+|:--------------------------|--------|:-------------------------------------------------|
+| valid                     | bool   | true means bill check ok                         |
+| vendor_pay_profit         | string | profit calculated by matrixport in string format |
+| request_vendor_pay_profit | string | profit calculated by vendor in string format     |
