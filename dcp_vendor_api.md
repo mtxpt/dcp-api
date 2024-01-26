@@ -725,11 +725,16 @@ Example:
 
 - Parameters: json in body
   
-| Key             | Type   | Required | Description                                                |
-|-----------------|--------|----------|:-----------------------------------------------------------|
-| start_time_mill | int    | Y        | period start time (UTC 0:00 on the 1st day of each month.) |
-| end_time_mill   | int    | Y        | period end time (UTC 0:00 on the 1st day of each month.)   |
-| profit          | string | Y        | amount of usdc distributed to matrixport in string format  |
+| Key                    | Type   | Required | Description                                                       |
+|------------------------|--------|----------|:------------------------------------------------------------------|
+| expiry_start_time_mill | int    | Y        | period expiry start time (UTC 0:00 on the 1st day of each month.) |
+| expiry_end_time_mill   | int    | Y        | period expiry end time (UTC 0:00 on the 1st day of each month.)   |
+| profit                 | string | Y        | amount of usdc distributed to matrixport in string format         |
+| infos                  | array  | Y        | infos                                                             |
+| infos.timestamp        | int    | Y        | expiry times for each day                                         |
+| infos.underlying_pair  | string | Y        | underlying pair (must contain USDC)                               |
+| infos.price            | string | Y        | price between underlying pair                                     |
+
 
 Post Data Example:
 
