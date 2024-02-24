@@ -727,8 +727,8 @@ Example:
   
 | Key                    | Type   | Required | Description                                                       |
 |------------------------|--------|----------|:------------------------------------------------------------------|
-| expiry_start_time_mill | int    | Y        | period expiry start time (UTC 0:00 on the 1st day of each month.) |
-| expiry_end_time_mill   | int    | Y        | period expiry end time (UTC 0:00 on the 1st day of each month.)   |
+| year                   | int    | Y        | Order expiry in UTC that matches the year will be included        |
+| month                  | int    | Y        | Order expiry in UTC taht matches the month will be included       |
 | profit                 | string | Y        | amount of usdc distributed to matrixport in string format         |
 | infos                  | array  | Y        | infos                                                             |
 | infos.timestamp        | int    | Y        | expiry times for each day                                         |
@@ -740,8 +740,8 @@ Post Data Example:
 
 ```js
 {
-  "start_time_mill": 1698768480000,
-  "end_time_mill": 1701360480000,
+  "year": 2024,
+  "month": 3,
   "profit": "28123.8999"
 }
 ```
