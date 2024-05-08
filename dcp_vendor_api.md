@@ -762,9 +762,9 @@ Example:
     "request_vendor_pay_profit": "28123.8999"
     "infos": [
       {
-        "timestamp": 1,
+        "timestamp": 1697356800000,
         "underlying_pair": "USDCUSDT",
-        "price": "1.00001"
+        "price": "1.00003033"
       }
     ]
   },
