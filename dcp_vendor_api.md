@@ -35,7 +35,7 @@ The request and response data for all interfaces is formatted in UTF-8. Content 
 Below common parameters in HTTP headers are recommended to added in request, facilitating debugging and tracing each request.
 
 | Key          | Type   | Position | Required | Description                                                     |
-|--------------|--------|----------|----------|-----------------------------------------------------------------|
+| ------------ | ------ | -------- | -------- | --------------------------------------------------------------- |
 | x-request-id | string | header   | false    | uuid for trace the request, not included in signing the request |
 
 ## 1.3. Authentication
@@ -49,7 +49,7 @@ Below common parameters in HTTP headers are recommended to added in request, fac
 - For POST request, Header `Content-Type` should be set as `application/json`.
 
 | Key       | Type   | Position      | Required | Description              |
-|-----------|--------|---------------|----------|--------------------------|
+| --------- | ------ | ------------- | -------- | ------------------------ |
 | timestamp | int    | query or body | true     | epoch in millisecond     |
 | signature | string | query or body | true     | signature of the request |
 
@@ -131,7 +131,7 @@ Explanation:
 - Parameters: in query
 
 | Key             | Type   | Required | Description                                                                                   | Example            |
-|-----------------|--------|----------|-----------------------------------------------------------------------------------------------|--------------------|
+| --------------- | ------ | -------- | --------------------------------------------------------------------------------------------- | ------------------ |
 | underlying_pair | string | no       | Option's underlying currency pair, separate by "-"; Empty means all underlying currency pairs | BTC-USDT, BTC-USDC |
 | tracking_source | string | no       | tracking source refers to the fixing convention used to settle product payment                | DERIBIT,BINANCE    |
 | type            | string | no       | option's type , in upper case; Empty means all types                                          | CALL, PUT          |
@@ -165,7 +165,7 @@ Example:
 ```
 
 | Parameter Name         | Type   | Description                                                                                                                                                       |
-|:-----------------------|:-------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| :--------------------- | :----- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | items                  | array  | products                                                                                                                                                          |
 | items.underlying_pair  | string | underlying pair                                                                                                                                                   |
 | items.tracking_source  | string | tracking source                                                                                                                                                   |
@@ -196,7 +196,7 @@ Example:
 - Parameters: json in body
 
 | Key              | Type   | Required | Description                                                                         |
-|------------------|--------|----------|-------------------------------------------------------------------------------------|
+| ---------------- | ------ | -------- | ----------------------------------------------------------------------------------- |
 | deposit_currency | string | yes      | deposit currency                                                                    |
 | deposit_amount   | string | yes      | deposit_amount in string format                                                     |
 | action           | string | yes      | NEW or REDEEM; NEW place new order, REDEEM: redeem exist order                      |
@@ -232,7 +232,7 @@ Example:
 ```
 
 | Parameter Name         | Type   | Description                                                                                      |
-|:-----------------------|:-------|:-------------------------------------------------------------------------------------------------|
+| :--------------------- | :----- | :----------------------------------------------------------------------------------------------- |
 | quote_id               | string | quote id  (if response emtpy,place order will post an empty quote id)                            |
 | underlying_pair        | string | underlying pair                                                                                  |
 | tracking_source        | string | tracking source refers to the fixing convention used to settle product payment                   |
@@ -248,7 +248,7 @@ Example:
 Error Code:
 
 | Code | Message                                                         |
-|------|-----------------------------------------------------------------|
+| ---- | --------------------------------------------------------------- |
 | 0    | Success                                                         |
 | 1001 | some error (will retry several time according to product logic) |
 | 1002 | other error1  eg. No price (will **NOT** retry)                 |
@@ -267,7 +267,7 @@ Error Code:
 - Parameters: json in body
 
 | Key              | Type   | Required | Description                                                                                               |
-|------------------|--------|----------|-----------------------------------------------------------------------------------------------------------|
+| ---------------- | ------ | -------- | --------------------------------------------------------------------------------------------------------- |
 | quote_id         | string | no       | quote id, unique (if get quote api don't response quote id,place order will don't filled this item empty) |
 | client_order_id  | string | yes      | client order id, for idempotent                                                                           |
 | underlying_pair  | string | yes      | underlying pair, BTC-USDT,ETH-USDT                                                                        |
@@ -295,14 +295,14 @@ Example:
 ```
 
 | Parameter Name  | Type   | Description     |
-|:----------------|:-------|:----------------|
+| :-------------- | :----- | :-------------- |
 | order_id        | string | vendor order id |
 | client_order_id | string | dcp order id    |
 
 Error Code:
 
 | Code | Message                                                         |
-|------|-----------------------------------------------------------------|
+| ---- | --------------------------------------------------------------- |
 | 0    | Success                                                         |
 | 1001 | some error (will retry several time according to product logic) |
 | 1002 | other error1  eg. No price (will **NOT** retry)                 |
@@ -321,7 +321,7 @@ Error Code:
 - Parameters: json in body
 
 | Key              | Type   | Required | Description                                                                                       |
-|------------------|--------|----------|---------------------------------------------------------------------------------------------------|
+| ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------- |
 | order_id         | string | yes      | vendor order id                                                                                   |
 | client_redeem_id | string | yes      | client redeem id, for idempotent                                                                  |
 | quote_id         | string | no       | quote id (if get quote api don't response quote id,place order will don't filled this item empty) |
@@ -344,7 +344,7 @@ Error Code:
 ```
 
 | Parameter Name   | Type   | Description                          |
-|:-----------------|:-------|:-------------------------------------|
+| :--------------- | :----- | :----------------------------------- |
 | order_id         | string | order id                             |
 | redeem_id        | string | vendor redeem id                     |
 | client_redeem_id | string | dcp client redeem id, for idempotent |
@@ -352,7 +352,7 @@ Error Code:
 Error Code:
 
 | Code | Message                                                         |
-|------|-----------------------------------------------------------------|
+| ---- | --------------------------------------------------------------- |
 | 0    | Success                                                         |
 | 1001 | some error (will retry several time according to product logic) |
 | 1002 | other error1  eg. No price (will **NOT** retry)                 |
@@ -369,7 +369,7 @@ Get single order info by order_id or client_order_id
 - Parameters: in query
 
 | Key             | Type   | Required | Description         |
-|-----------------|--------|----------|---------------------|
+| --------------- | ------ | -------- | ------------------- |
 | order_id        | string | optional | vendor order id     |
 | client_order_id | string | yes      | dcp client order id |
 
@@ -403,7 +403,7 @@ Get single order info by order_id or client_order_id
 ```
 
 | Parameter Name           | Type   | Description                                                                         |
-|:-------------------------|:-------|:------------------------------------------------------------------------------------|
+| :----------------------- | :----- | :---------------------------------------------------------------------------------- |
 | order_id                 | string | vendor order id                                                                     |
 | client_order_id          | string | dcp client_order_id                                                                 |
 | order_status             | int    | 0 : Processing, 100 : success, 110 : failed                                         |
@@ -431,7 +431,7 @@ Get order list by various conditions.
 - method: Get
 
 | Parameter Name         | Type   | Required | Description                                         | Example            |
-|:-----------------------|:-------|:---------|:----------------------------------------------------|:-------------------|
+| :--------------------- | :----- | :------- | :-------------------------------------------------- | :----------------- |
 | underlying_pair        | string | no       | Option's underlying currency pair, separate by "-"; | BTC-USDT, BTC-USDC |
 | type                   | string | no       | option's type , in upper case;                      | CALL, PUT          |
 | strike_price           | string | no       | strike price in string format                       |                    |
@@ -478,7 +478,7 @@ Get order list by various conditions.
 ```
 
 | Parameter Name | Type    | Description                                                                        |
-|:---------------|:--------|:-----------------------------------------------------------------------------------|
+| :------------- | :------ | :--------------------------------------------------------------------------------- |
 | count          | int     | total count                                                                        |
 | items          | objects | order list, order info is same as in get order api, except for redeem record list. |
 
@@ -494,7 +494,7 @@ Get single order info by redeem_id or client_redeem_id
 - Parameters: in query
 
 | Key              | Type   | Required | Description                |
-|------------------|--------|----------|----------------------------|
+| ---------------- | ------ | -------- | -------------------------- |
 | redeem_id        | string | optional | vendor redeem id           |
 | client_redeem_id | string | yes      | dcp client redeem order id |
 
@@ -526,7 +526,7 @@ Get single order info by redeem_id or client_redeem_id
 ```
 
 | Parameter Name          | Type   | Description                                                                         |
-|:------------------------|:-------|:------------------------------------------------------------------------------------|
+| :---------------------- | :----- | :---------------------------------------------------------------------------------- |
 | order_id                | string | order id                                                                            |
 | client_order_id         | string | client_order_id                                                                     |
 | redeem_id               | string | order id                                                                            |
@@ -555,7 +555,7 @@ vendor check settle price
 - Parameters: json in body
 
 | Key                    | Type   | Required | Description                                                                         |
-|------------------------|--------|----------|-------------------------------------------------------------------------------------|
+| ---------------------- | ------ | -------- | ----------------------------------------------------------------------------------- |
 | settle_time_mill       | int    | yes      | option settle time in millisecond                                                   |
 | infos                  | array  | yes      | infos                                                                               |
 | infos.underlying_pair  | string | yes      | underlying pair                                                                     |
@@ -602,7 +602,7 @@ Example:
 ```
 
 | Parameter Name                 | Type   | Description                            | Example       |
-|:-------------------------------|:-------|:---------------------------------------|:--------------|
+| :----------------------------- | :----- | :------------------------------------- | :------------ |
 | settle_time_mill               | int    | option settle time in millisecond      | 1692950400000 |
 | valid                          | bool   |                                        | true          |
 | infos                          | list   | settlement index info                  |               |
@@ -629,7 +629,7 @@ if settle index <= strike price  settle_amount=Rounddown((deposit_amount + premi
 - method: POST
 
 | Parameter Name       | Type   | Required | Description                       | Example       |
-|:---------------------|:-------|:---------|:----------------------------------|:--------------|
+| :------------------- | :----- | :------- | :-------------------------------- | :------------ |
 | settle_time_mill     | int    | yes      | option settle time in millisecond | 1692950400000 |
 | infos                | list   | yes      | settlement info                   |               |
 | infos.currency       | string | yes      | settle currency                   |               |
@@ -672,7 +672,7 @@ Post Data Example:
 ```
 
 | Parameter Name               | Type   | Description                       | Example       |
-|:-----------------------------|:-------|:----------------------------------|:--------------|
+| :--------------------------- | :----- | :-------------------------------- | :------------ |
 | settle_time_mill             | int    | option settle time in millisecond | 1692950400000 |
 | valid                        | bool   |                                   |               |
 | infos                        | list   | settle info                       |               |
@@ -692,7 +692,7 @@ Post Data Example:
 - Parameters: json in body
 
 | Key                 | Type   | Required | Description         |
-|---------------------|--------|----------|---------------------|
+| ------------------- | ------ | -------- | ------------------- |
 | start_time_mill     | int    | yes      | period start time   |
 | end_time_mill       | int    | yes      | period end time     |
 | start_time_aum      | string | yes      | start time aum      |
@@ -725,15 +725,15 @@ Example:
 
 - Parameters: json in body
   
-| Key                    | Type   | Required | Description                                                       |
-|------------------------|--------|----------|:------------------------------------------------------------------|
-| expiry_start_time_mill | int    | Y        | period expiry start time (UTC 0:00 on the 1st day of each month.) |
-| expiry_end_time_mill   | int    | Y        | period expiry end time (UTC 0:00 on the 1st day of each month.)   |
-| profit                 | string | Y        | amount of usdc distributed to matrixport in string format         |
-| infos                  | array  | Y        | infos                                                             |
-| infos.timestamp        | int    | Y        | expiry times for each day                                         |
-| infos.underlying_pair  | string | Y        | underlying pair (must contain USDC)                               |
-| infos.price            | string | Y        | price between underlying pair                                     |
+| Key                   | Type   | Required | Description                                                        |
+| --------------------- | ------ | -------- | :----------------------------------------------------------------- |
+| start_time_mill       | int    | Y        | period expiry start time (UTC 00:00 on the 1st day of each month.) |
+| end_time_mill         | int    | Y        | period expiry end time (UTC 00:00 on the 1st day of each month.)   |
+| profit                | string | Y        | amount of usdc distributed to matrixport in string format          |
+| infos                 | array  | Y        | infos (optional)                                                   |
+| infos.timestamp       | int    | Y        | expiry times for each day                                          |
+| infos.underlying_pair | string | Y        | underlying pair                                                    |
+| infos.price           | string | Y        | price between underlying pair                                      |
 
 
 Post Data Example:
@@ -746,6 +746,10 @@ Post Data Example:
 }
 ```
 
+```js
+Will find orders with expiration maturity_time >= 1698768480000 and maturity_time < 1701360480000
+```
+
 Response: application/json
 Example:
 
@@ -756,13 +760,20 @@ Example:
     "valid": true,
     "vendor_pay_profit": "28123.8999",
     "request_vendor_pay_profit": "28123.8999"
+    "infos": [
+      {
+        "timestamp": 1697356800000,
+        "underlying_pair": "USDCUSDT",
+        "price": "1.00003033"
+      }
+    ]
   },
   "message": ""
 }
 ```
 
 | Parameter Name            | Type   | Description                                      |
-|:--------------------------|--------|:-------------------------------------------------|
+| :------------------------ | ------ | :----------------------------------------------- |
 | valid                     | bool   | true means bill check ok                         |
 | vendor_pay_profit         | string | profit calculated by matrixport in string format |
 | request_vendor_pay_profit | string | profit calculated by vendor in string format     |
