@@ -746,6 +746,10 @@ Post Data Example:
 }
 ```
 
+```js
+Will find orders with expiration maturity_time >= 1698768480000 and maturity_time < 1701360480000
+```
+
 Response: application/json
 Example:
 
