@@ -742,7 +742,14 @@ Post Data Example:
 {
   "start_time_mill": 1698768480000,
   "end_time_mill": 1701360480000,
-  "profit": "28123.8999"
+  "profit": "28123.8999",
+  "infos": [
+    {
+      "timestamp": 1697356800000,
+      "underlying_pair": "USDCUSDT",
+      "price": "1.00003033"
+    }
+  ]
 }
 ```
 
@@ -760,13 +767,6 @@ Example:
     "valid": true,
     "vendor_pay_profit": "28123.8999",
     "request_vendor_pay_profit": "28123.8999"
-    "infos": [
-      {
-        "timestamp": 1697356800000,
-        "underlying_pair": "USDCUSDT",
-        "price": "1.00003033"
-      }
-    ]
   },
   "message": ""
 }
