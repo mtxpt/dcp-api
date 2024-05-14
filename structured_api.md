@@ -2,7 +2,7 @@
 
 <!-- TOC -->
 
-- [1. structured-api](#1-api-for-structured-product)
+- [1. API for Structured Product](#1-api-for-structured-product)
   - [1.1. Encoding](#11-encoding)
   - [1.2. Common parameters in HTTP headers](#12-common-parameters-in-http-headers)
   - [1.3. Authentication](#13-authentication)
@@ -19,7 +19,7 @@
     - [1.6.8. Query Orders](#168-query-orders)
     - [1.6.9. Query Redeem Order by Redeem ID or Client Redeem ID](#169-query-redeem-order-by-redeem-id-or-client-redeem-id)
     - [1.6.10. Check Settlement per order](#1610-check-settlement-per-order)
-    - [1.6.11. Quarterly profit check](#1611-quarterly-profit-check)
+    - [1.6.11. Monthly profit check](#1611-monthly-profit-check)
 
 <!-- /TOC -->
 
@@ -36,13 +36,14 @@ Vendors should provide the following APIs
 
 Below, common parameters in HTTP headers are recommended to be added in request, facilitating debugging and tracing.
 
-| Key          | Type   | Position | Required | Description                                                     |
-|--------------|--------|----------|----------|-----------------------------------------------------------------|
-| x-request-id | string | header   | false    | UUID to trace the request, not included in signing the request  |
+| Key          | Type   | Position | Required | Description                                                    |
+| ------------ | ------ | -------- | -------- | -------------------------------------------------------------- |
+| x-request-id | string | header   | false    | UUID to trace the request, not included in signing the request |
 
 ## 1.3. Authentication
 
 ## 1.4. Private API mandatory fields
+
 - Client put Access Key in http request header X-Access-Key
 - Client and Server use same private secret key to sign the request.
 - Client must add `timestamp` (epoch in millisecond) field in request parameter (query string for GET, JSON body for POST), API server will check this timestamp, if `abs(server_timestamp - request_timestamp) > 5000`, the request will be rejected.
@@ -51,7 +52,7 @@ Below, common parameters in HTTP headers are recommended to be added in request,
 - For POST request, Header `Content-Type` should be set as `application/json`.
 
 | Key       | Type   | Position      | Required | Description              |
-|-----------|--------|---------------|----------|--------------------------|
+| --------- | ------ | ------------- | -------- | ------------------------ |
 | timestamp | int    | query or body | true     | epoch in millisecond     |
 | signature | string | query or body | true     | signature of the request |
 
@@ -108,15 +109,20 @@ class Auth:
         ).hexdigest()
         return sig
 ```
+
 Explanation:
+
 1. Request parameters: JSON Body for POST, query string for GET
 1. Encode string to sign, for simple json object, sort your parameter keys alphabetically, and join them with '&' like ```'param1=value1&param2=value2'```, then get ```str_to_sign = api_path + '&' + 'param1=value1&param2=value2'```
-  - For nested array objects, encode each object and sort them alphabetically, join them with ```'&'``` and embraced with ```'[', ']'```
-  - e.g.```str_to_sign = api_path + '&' + 'param1=value1&array_key1=[array_item1&array_item2]'```.
+
+- For nested array objects, encode each object and sort them alphabetically, join them with ```'&'``` and embraced with ```'[', ']'```
+- e.g.```str_to_sign = api_path + '&' + 'param1=value1&array_key1=[array_item1&array_item2]'```.
+
 1. ```Signature = hex(hmac_sha256(str_to_sign, secret_key))```
 1. Add `signature` field to request parameter:
-  - for query string, add ```'&signature=YOUR_SIGNATURE'```
-  - for JSON body, add ```{"signature":YOUR_SIGNATURE}```
+
+- for query string, add ```'&signature=YOUR_SIGNATURE'```
+- for JSON body, add ```{"signature":YOUR_SIGNATURE}```
 
 ## 1.6. Structured Product Vendor RESTful API
 
@@ -144,7 +150,6 @@ It is recommended to have a clear understanding of both the common logic and
 the individual requirements of the above financial products in terms of their financial properties,
 for effectively utilizing the "meta" conception.
 
-
 ### 1.6.2. Get Products
 
 - Returns a list of products
@@ -157,13 +162,13 @@ for effectively utilizing the "meta" conception.
 
 - Parameters: in query
 
-| Key                 | Type   | Required | Description                                                                                  | Example         |
-|---------------------|--------|----------|----------------------------------------------------------------------------------------------|-----------------|
-| meta_name           | string | yes      | name of the meta-product                                                                     | dcp, snowball   |
-| invest_currency     | string | no       | product's investment currency. Empty means all investment currencies.                        | USDT, BTC       |
-| underlying          | string | no       | product's underlying asset. Empty means all underlying assets.                               | BTC-USDT        |
-| tracking_source     | string | no       | the fixing convention used to settle product payment. Empty means all tracking sources.      | DERIBIT,BINANCE |
-| type                | string | no       | type, in uppercase. CALL=bullish products, PUT=bearish products. Empty means all types       | CALL, PUT       |
+| Key             | Type   | Required | Description                                                                             | Example         |
+| --------------- | ------ | -------- | --------------------------------------------------------------------------------------- | --------------- |
+| meta_name       | string | yes      | name of the meta-product                                                                | dcp, snowball   |
+| invest_currency | string | no       | product's investment currency. Empty means all investment currencies.                   | USDT, BTC       |
+| underlying      | string | no       | product's underlying asset. Empty means all underlying assets.                          | BTC-USDT        |
+| tracking_source | string | no       | the fixing convention used to settle product payment. Empty means all tracking sources. | DERIBIT,BINANCE |
+| type            | string | no       | type, in uppercase. CALL=bullish products, PUT=bearish products. Empty means all types  | CALL, PUT       |
 
 - Response: application/json
 
@@ -229,7 +234,7 @@ Example:
 ```
 
 | Parameter Name                  | Type             | Description                                                                                                                                                                               |
-|:--------------------------------|:-----------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| :------------------------------ | :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | meta_name                       | string           | name of the meta-product                                                                                                                                                                  |
 | items                           | array            | products                                                                                                                                                                                  |
 | items.invest_currency           | string           | investment currency                                                                                                                                                                       |
@@ -243,7 +248,7 @@ Example:
 | items.apy                       | string           | for products with one annual percentage yield: in string format                                                                                                                           |
 | items.take_profit_apy           | string           | for products with a price interval: the maximum annual percentage yield the product will pay within the price interval, in string format                                                  |
 | items.protection_apy            | string           | for products with a price interval: the minimum annual percentage yield the product will pay within the price interval, in string format                                                  |
-| items.zero_price_apy            | string           | for products with a price interval: the annual percentage yield when the price is zero (connected to low price APY to draw a line), in string format                                                       |
+| items.zero_price_apy            | string           | for products with a price interval: the annual percentage yield when the price is zero (connected to low price APY to draw a line), in string format                                      |
 | items.low_price_apy             | string           | for products with a price interval: the annual percentage yield when the price is smaller than the price interval, in string format                                                       |
 | items.high_price_apy            | string           | for products with a price interval: the annual percentage yield when the price is larger than the price interval, in string format                                                        |
 | items.min_buy_per_order         | string           | minimal buy amount per order                                                                                                                                                              |
@@ -269,18 +274,18 @@ Example:
 
 - Parameters: json in body
 
-| Key                 | Type   | Required | Description                                                                                        |
-|---------------------|--------|----------|----------------------------------------------------------------------------------------------------|
-| meta_name           | string | yes      | name of the meta-product. eg, "snowball", "dcp"                                                    |
-| invest_currency     | string | yes      | investment currency                                                                                |
-| underlying          | string | yes      | underlying asset                                                                                   |
-| tracking_source     | string | yes      | the fixing convention used to settle product payment                                               |
-| type                | string | yes      | product type, "CALL" or "PUT"                                                                      |
-| term_mill           | int    | yes      | product's term.                                                                                    |
-| strike_price        | string | yes      | for products with only one strike price to decide settlement: strike price in string format        |
-| take_profit_price   | string | yes      | for products with a price interval: this is the price which triggers take-profit, in string format |
-| protection_price    | string | yes      | for products with a price interval, this is the price which triggers stop-loss, in string format   |
-| invest_amount       | string | yes      | amount to invest in the product, in string format                                                  |
+| Key               | Type   | Required | Description                                                                                        |
+| ----------------- | ------ | -------- | -------------------------------------------------------------------------------------------------- |
+| meta_name         | string | yes      | name of the meta-product. eg, "snowball", "dcp"                                                    |
+| invest_currency   | string | yes      | investment currency                                                                                |
+| underlying        | string | yes      | underlying asset                                                                                   |
+| tracking_source   | string | yes      | the fixing convention used to settle product payment                                               |
+| type              | string | yes      | product type, "CALL" or "PUT"                                                                      |
+| term_mill         | int    | yes      | product's term.                                                                                    |
+| strike_price      | string | yes      | for products with only one strike price to decide settlement: strike price in string format        |
+| take_profit_price | string | yes      | for products with a price interval: this is the price which triggers take-profit, in string format |
+| protection_price  | string | yes      | for products with a price interval, this is the price which triggers stop-loss, in string format   |
+| invest_amount     | string | yes      | amount to invest in the product, in string format                                                  |
 
 - Response: application/json
 
@@ -333,9 +338,8 @@ Example:
 }
 ```
 
-
 | Parameter Name         | Type   | Description                                                                                                                                       |
-|:-----------------------|:-------|:--------------------------------------------------------------------------------------------------------------------------------------------------|
+| :--------------------- | :----- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
 | quote_id               | string | quote id                                                                                                                                          |
 | meta_name              | string | name of the meta-product                                                                                                                          |
 | invest_currency        | string | investment currency                                                                                                                               |
@@ -358,12 +362,12 @@ Example:
 
 Error Code:
 
-| Code | Message                                                         |
-|------|-----------------------------------------------------------------|
-| 0    | Success                                                         |
-| 1001 | retryable error (may retry according to product logic)          |
-| 1002 | other error1  eg. No price (will **NOT** retry)                 |
-| 1003 | other error2  eg. price expire (will **NOT** retry)             |
+| Code | Message                                                |
+| ---- | ------------------------------------------------------ |
+| 0    | Success                                                |
+| 1001 | retryable error (may retry according to product logic) |
+| 1002 | other error1  eg. No price (will **NOT** retry)        |
+| 1003 | other error2  eg. price expire (will **NOT** retry)    |
 
 ### 1.6.4. Place Order
 
@@ -377,12 +381,12 @@ Error Code:
 
 - Parameters: json in body
 
-| Key             | Type   | Required | Description                                                                                        |
-|-----------------|--------|----------|----------------------------------------------------------------------------------------------------|
-| meta_name       | string | yes      | name of the meta-product. eg, "snowball", "dcp"                                                    |
-| invest_amount   | string | yes      | amount in string format                                                                            |
-| quote_id        | string | yes      | quote id, unique                                                                                   |
-| client_order_id | string | yes      | client order id, for idempotence                                                                   |
+| Key             | Type   | Required | Description                                     |
+| --------------- | ------ | -------- | ----------------------------------------------- |
+| meta_name       | string | yes      | name of the meta-product. eg, "snowball", "dcp" |
+| invest_amount   | string | yes      | amount in string format                         |
+| quote_id        | string | yes      | quote id, unique                                |
+| client_order_id | string | yes      | client order id, for idempotence                |
 
 - Response: application/json
 
@@ -401,19 +405,19 @@ Example:
 ```
 
 | Parameter Name  | Type   | Description              |
-|:----------------|:-------|:-------------------------|
+| :-------------- | :----- | :----------------------- |
 | meta_name       | string | name of the meta-product |
 | order_id        | string | vendor order id          |
 | client_order_id | string | client order id          |
 
 Error Code:
 
-| Code | Message                                                         |
-|------|-----------------------------------------------------------------|
-| 0    | Success                                                         |
-| 1001 | retryable error (may retry according to product logic)          |
-| 1002 | other error1  eg. No price (will **NOT** retry)                 |
-| 1003 | other error2  eg. price expire (will **NOT** retry)             |
+| Code | Message                                                |
+| ---- | ------------------------------------------------------ |
+| 0    | Success                                                |
+| 1001 | retryable error (may retry according to product logic) |
+| 1002 | other error1  eg. No price (will **NOT** retry)        |
+| 1003 | other error2  eg. price expire (will **NOT** retry)    |
 
 ### 1.6.5. Get Redeem Quote
 
@@ -430,7 +434,7 @@ Error Code:
 - Parameters: json in body
 
 | Key           | Type   | Required | Description                                       |
-|---------------|--------|----------|---------------------------------------------------|
+| ------------- | ------ | -------- | ------------------------------------------------- |
 | meta_name     | string | yes      | name of the meta-product. eg, "snowball", "dcp"   |
 | order_id      | string | yes      | vendor order ID                                   |
 | redeem_amount | string | yes      | amount to redeem from the order, in string format |
@@ -470,7 +474,7 @@ Example:
 ```
 
 | Parameter Name         | Type   | Description                                                                            |
-|:-----------------------|:-------|:---------------------------------------------------------------------------------------|
+| :--------------------- | :----- | :------------------------------------------------------------------------------------- |
 | quote_id               | string | quote id                                                                               |
 | meta_name              | string | name of the meta-product                                                               |
 | premium_amount         | string | for redemption with a cost: premium amount in string format, premium_amount <= 0       |
@@ -481,13 +485,12 @@ Example:
 
 Error Code:
 
-| Code | Message                                                         |
-|------|-----------------------------------------------------------------|
-| 0    | Success                                                         |
-| 1001 | retryable error (may retry according to product logic)          |
-| 1002 | other error1  eg. No price (will **NOT** retry)                 |
-| 1003 | other error2  eg. price expire (will **NOT** retry)             |
-
+| Code | Message                                                |
+| ---- | ------------------------------------------------------ |
+| 0    | Success                                                |
+| 1001 | retryable error (may retry according to product logic) |
+| 1002 | other error1  eg. No price (will **NOT** retry)        |
+| 1003 | other error2  eg. price expire (will **NOT** retry)    |
 
 ### 1.6.6. Redeem Order
 
@@ -501,13 +504,13 @@ Error Code:
 
 - Parameters: json in body
 
-| Key               | Type   | Required | Description                                                              |
-|-------------------|--------|----------|--------------------------------------------------------------------------|
-| meta_name         | string | yes      | name of the meta-product. eg, "snowball", "dcp"                          |
-| order_id          | string | yes      | vendor order id                                                          |
-| client_redeem_id  | string | yes      | client redeem id, for idempotence                                        |
-| quote_id          | string | yes      | quote id                                                                 |
-| redeem_amount     | string | yes      | redeem amount, > 0, amount in string format (<=order investment amount)  |
+| Key              | Type   | Required | Description                                                             |
+| ---------------- | ------ | -------- | ----------------------------------------------------------------------- |
+| meta_name        | string | yes      | name of the meta-product. eg, "snowball", "dcp"                         |
+| order_id         | string | yes      | vendor order id                                                         |
+| client_redeem_id | string | yes      | client redeem id, for idempotence                                       |
+| quote_id         | string | yes      | quote id                                                                |
+| redeem_amount    | string | yes      | redeem amount, > 0, amount in string format (<=order investment amount) |
 
 - Response: application/json
   Example:
@@ -525,21 +528,21 @@ Error Code:
 }
 ```
 
-| Parameter Name                 | Type   | Description                       |
-|:-------------------------------|:-------|:----------------------------------|
-| meta_name                      | string | name of the meta-product          |
-| order_id                       | string | vendor order id                   |
-| redeem_id                      | string | vendor redeem id                  |
-| client_redeem_id               | string | client redeem id, for idempotence |
+| Parameter Name   | Type   | Description                       |
+| :--------------- | :----- | :-------------------------------- |
+| meta_name        | string | name of the meta-product          |
+| order_id         | string | vendor order id                   |
+| redeem_id        | string | vendor redeem id                  |
+| client_redeem_id | string | client redeem id, for idempotence |
 
 Error Code:
 
-| Code | Message                                                         |
-|------|-----------------------------------------------------------------|
-| 0    | Success                                                         |
-| 1001 | retryable error (may retry according to product logic)          |
-| 1002 | other error1  eg. No price (will **NOT** retry)                 |
-| 1003 | other error2  eg. price expire (will **NOT** retry)             |
+| Code | Message                                                |
+| ---- | ------------------------------------------------------ |
+| 0    | Success                                                |
+| 1001 | retryable error (may retry according to product logic) |
+| 1002 | other error1  eg. No price (will **NOT** retry)        |
+| 1003 | other error2  eg. price expire (will **NOT** retry)    |
 
 ### 1.6.7. Query Order by Order ID or Client Order ID
 
@@ -552,7 +555,7 @@ Get single order info by order_id or client_order_id
 - Parameters: in query
 
 | Key             | Type   | Required | Description                                     |
-|-----------------|--------|----------|-------------------------------------------------|
+| --------------- | ------ | -------- | ----------------------------------------------- |
 | meta_name       | string | yes      | name of the meta-product. eg, "snowball", "dcp" |
 | order_id        | string | optional | vendor order id                                 |
 | client_order_id | string | yes      | client order id                                 |
@@ -622,36 +625,35 @@ Get single order info by order_id or client_order_id
 }
 ```
 
-
-| Parameter Name                                | Type   | Description                                                                                                                                       |
-|:----------------------------------------------|:-------|:--------------------------------------------------------------------------------------------------------------------------------------------------|
-| meta_name                                     | string | name of the meta-product                                                                                                                          |
-| order_id                                      | string | vendor order id                                                                                                                                   |
-| client_order_id                               | string | client_order_id                                                                                                                                   |
-| order_status                                  | int    | 0 : Processing, 100 : success, 110 : failed                                                                                                       |
-| invest_currency                               | string | investment currency                                                                                                                               |
-| underlying                                    | string | underlying asset                                                                                                                                  |
-| tracking_source                               | string | the fixing convention used to settle product payment                                                                                              |
-| type                                          | string | type, CALL or PUT                                                                                                                                 |
-| term_mill                                     | int    | product's term                                                                                                                                    |
-| strike_price                                  | string | for products with only one strike price: strike price in string format                                                                            |
-| take_profit_price                             | string | for products with a price interval: the price which triggers take-profit, in string format                                                        |
-| protection_price                              | string | for products with a price interval, the price which triggers stop-loss, in string format                                                          |
-| is_evaluated                                  | bool   | for products whose attributes (such as prices) are evaluated at a later time, this flag indicates whether the attributes are evaluated or not     |
-| invest_amount                                 | string | investment amount in string format                                                                                                                |
-| premium_amount                                | string | for products with one fixed premium value: premium_amount in string format, premium_amount > 0                                                    |
-| zero_price_apy                                | string | for products with a price interval: the annual percentage yield when the price is zero, in string format                                          |
-| low_price_apy                                 | string | for products with a price interval: the annual percentage yield when the price is smaller than the price interval, in string format               |
-| high_price_apy                                | string | for products with a price interval: the annual percentage yield when the price is larger than the price interval, in string format                |
-| apy_points                                    | array  | for products with a price interval: within the price interval, points of {price, annual percentage yield} construct the piecewise function of APY |
-| apy_points.price                              | string | price, in string format                                                                                                                           |
-| apy_points.apy                                | string | annual percentage yield, in string format                                                                                                         |
-| success_time_mill                             | int    | millisecond UNIX epoch of the order being successfully placed                                                                                     |
-| value_time_mill                               | int    | millisecond UNIX epoch of the order starting to accure interest                                                                                   |
-| actual_settled_time_mill                      | int    | vendor settled time                                                                                                                               |
-| actual_settled_price                          | string | actual settlement price in string format                                                                                                          |
-| actual_settled_currency                       | string | settled currency                                                                                                                                  |
-| actual_settled_amount                         | string | settled amount                                                                                                                                    |
+| Parameter Name           | Type   | Description                                                                                                                                       |
+| :----------------------- | :----- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
+| meta_name                | string | name of the meta-product                                                                                                                          |
+| order_id                 | string | vendor order id                                                                                                                                   |
+| client_order_id          | string | client_order_id                                                                                                                                   |
+| order_status             | int    | 0 : Processing, 100 : success, 110 : failed                                                                                                       |
+| invest_currency          | string | investment currency                                                                                                                               |
+| underlying               | string | underlying asset                                                                                                                                  |
+| tracking_source          | string | the fixing convention used to settle product payment                                                                                              |
+| type                     | string | type, CALL or PUT                                                                                                                                 |
+| term_mill                | int    | product's term                                                                                                                                    |
+| strike_price             | string | for products with only one strike price: strike price in string format                                                                            |
+| take_profit_price        | string | for products with a price interval: the price which triggers take-profit, in string format                                                        |
+| protection_price         | string | for products with a price interval, the price which triggers stop-loss, in string format                                                          |
+| is_evaluated             | bool   | for products whose attributes (such as prices) are evaluated at a later time, this flag indicates whether the attributes are evaluated or not     |
+| invest_amount            | string | investment amount in string format                                                                                                                |
+| premium_amount           | string | for products with one fixed premium value: premium_amount in string format, premium_amount > 0                                                    |
+| zero_price_apy           | string | for products with a price interval: the annual percentage yield when the price is zero, in string format                                          |
+| low_price_apy            | string | for products with a price interval: the annual percentage yield when the price is smaller than the price interval, in string format               |
+| high_price_apy           | string | for products with a price interval: the annual percentage yield when the price is larger than the price interval, in string format                |
+| apy_points               | array  | for products with a price interval: within the price interval, points of {price, annual percentage yield} construct the piecewise function of APY |
+| apy_points.price         | string | price, in string format                                                                                                                           |
+| apy_points.apy           | string | annual percentage yield, in string format                                                                                                         |
+| success_time_mill        | int    | millisecond UNIX epoch of the order being successfully placed                                                                                     |
+| value_time_mill          | int    | millisecond UNIX epoch of the order starting to accure interest                                                                                   |
+| actual_settled_time_mill | int    | vendor settled time                                                                                                                               |
+| actual_settled_price     | string | actual settlement price in string format                                                                                                          |
+| actual_settled_currency  | string | settled currency                                                                                                                                  |
+| actual_settled_amount    | string | settled amount                                                                                                                                    |
 
 ### 1.6.8. Query Orders
 
@@ -662,7 +664,7 @@ Get order list by various conditions.
 - method: Get
 
 | Parameter Name         | Type   | Required | Description                                                                                | Example            |
-|:-----------------------|:-------|:---------|:-------------------------------------------------------------------------------------------|:-------------------|
+| :--------------------- | :----- | :------- | :----------------------------------------------------------------------------------------- | :----------------- |
 | meta_name              | string | yes      | name of the meta-product.                                                                  | "snowball", "dcp"  |
 | invest_currency        | string | no       | investment currency                                                                        | USDT, USDC         |
 | underlying             | string | no       | underlying asset                                                                           | BTC-USDT, ETH-USDC |
@@ -713,10 +715,9 @@ Get order list by various conditions.
 ```
 
 | Parameter Name | Type    | Description                                                                        |
-|:---------------|:--------|:-----------------------------------------------------------------------------------|
+| :------------- | :------ | :--------------------------------------------------------------------------------- |
 | count          | int     | total count                                                                        |
 | items          | objects | order list, order info is same as in get order api, except for redeem record list. |
-
 
 ### 1.6.9. Query Redeem Order by Redeem ID or Client Redeem ID
 
@@ -728,11 +729,11 @@ Get single order info by redeem_id or client_redeem_id
 
 - Parameters: in query
 
-| Key              | Type   | Required | Description                |
-|------------------|--------|----------|----------------------------|
-| meta_name        | string | yes      | name of the meta-product   |
-| redeem_id        | string | optional | vendor redeem id           |
-| client_redeem_id | string | yes      | client redeem order id     |
+| Key              | Type   | Required | Description              |
+| ---------------- | ------ | -------- | ------------------------ |
+| meta_name        | string | yes      | name of the meta-product |
+| redeem_id        | string | optional | vendor redeem id         |
+| client_redeem_id | string | yes      | client redeem order id   |
 
 - Response: application/json
   Example:
@@ -763,28 +764,27 @@ Get single order info by redeem_id or client_redeem_id
 }
 ```
 
-| Parameter Name          | Type   | Description                                                                         |
-|:------------------------|:-------|:------------------------------------------------------------------------------------|
-| meta_name               | string | name of the meta-product                                                            |
-| order_id                | string | order id                                                                            |
-| client_order_id         | string | client_order_id                                                                     |
-| redeem_id               | string | redeem order id                                                                     |
-| client_redeem_id        | string | client redeem id                                                                    |
-| redeem_currency         | string | redeem currency                                                                     |
-| redeem_amount           | string | redeem amount in string format                                                      |
-| redeem_status           | int    | 0 : Processing, 100 : success, 110 : failed                                         |
-| redeem_active_time_mill | int    | when order redeem success,filled this item with order redeem success time           |
-| redeem_settle_amount    | string | redeem settle amount in string format                                               |
-| invest_currency         | string | investment currency                                                                 |
-| underlying              | string | underlying asset                                                                    |
-| tracking_source         | string | tracking source refers to the fixing convention used to settle product payment      |
-| type                    | string | type                                                                                |
-| term_mill               | int    | product's term                                                                      |
-| strike_price            | string | for products with only one strike price: strike price in string format              |
-| take_profit_price       | string | for products with a price interval: the price which triggers take-profit            |
-| protection_price        | string | for products with a price interval: the price which triggers stop-loss              |
-| premium_amount          | string | for redemption with a cost: premium amount for the redemption                       |
-
+| Parameter Name          | Type   | Description                                                                    |
+| :---------------------- | :----- | :----------------------------------------------------------------------------- |
+| meta_name               | string | name of the meta-product                                                       |
+| order_id                | string | order id                                                                       |
+| client_order_id         | string | client_order_id                                                                |
+| redeem_id               | string | redeem order id                                                                |
+| client_redeem_id        | string | client redeem id                                                               |
+| redeem_currency         | string | redeem currency                                                                |
+| redeem_amount           | string | redeem amount in string format                                                 |
+| redeem_status           | int    | 0 : Processing, 100 : success, 110 : failed                                    |
+| redeem_active_time_mill | int    | when order redeem success,filled this item with order redeem success time      |
+| redeem_settle_amount    | string | redeem settle amount in string format                                          |
+| invest_currency         | string | investment currency                                                            |
+| underlying              | string | underlying asset                                                               |
+| tracking_source         | string | tracking source refers to the fixing convention used to settle product payment |
+| type                    | string | type                                                                           |
+| term_mill               | int    | product's term                                                                 |
+| strike_price            | string | for products with only one strike price: strike price in string format         |
+| take_profit_price       | string | for products with a price interval: the price which triggers take-profit       |
+| protection_price        | string | for products with a price interval: the price which triggers stop-loss         |
+| premium_amount          | string | for redemption with a cost: premium amount for the redemption                  |
 
 ### 1.6.10. Check Settlement per order
 
@@ -796,15 +796,15 @@ vendor check settlement price, settlement amount and settlement currency of an o
 
 - method: POST
 
-| Parameter Name        | Type   | Required                        | Description                       | Example       |
-|:----------------------|:-------|:--------------------------------|:----------------------------------|:--------------|
-| meta_name             | string | yes                             | name of the meta-product          | dcp           |
-| settle_time_mill      | int    | yes                             | settlement time in milliseconds   | 1692950400000 |
-| order_id              | string | yes                             | vendor order ID                   |               |
-| currency              | string | yes                             | settle currency                   | BTC           |
-| vendor_net_pay        | string | yes                             | settle amount                     | 0.1           |
-| settlement_index      | string | yes                             | settlement price                  | 38000.12      |
-| initial_price         | string | only when settlment requires it | price on the first value date     | 37500.99      |
+| Parameter Name   | Type   | Required                        | Description                     | Example       |
+| :--------------- | :----- | :------------------------------ | :------------------------------ | :------------ |
+| meta_name        | string | yes                             | name of the meta-product        | dcp           |
+| settle_time_mill | int    | yes                             | settlement time in milliseconds | 1692950400000 |
+| order_id         | string | yes                             | vendor order ID                 |               |
+| currency         | string | yes                             | settle currency                 | BTC           |
+| vendor_net_pay   | string | yes                             | settle amount                   | 0.1           |
+| settlement_index | string | yes                             | settlement price                | 38000.12      |
+| initial_price    | string | only when settlment requires it | price on the first value date   | 37500.99      |
 
 Post Data Example:
 
@@ -878,52 +878,81 @@ Post Data Example:
 }
 ```
 
-| Parameter Name                | Type   | Description                       | Example       |
-|:------------------------------|:-------|:----------------------------------|:--------------|
-| settle_time_mill              | int    | settlement time in milliseconds   | 1692950400000 |
-| meta_name                     | string | name of the meta-product          | dcp           |
-| order_id                      | string | vendor order id                   | 1237189247194 |
-| valid                         | bool   |                                   |               |
-| settle_currency               | string | settlement currency               | BTC           |
-| vendor_net_pay                | string | vendor's expected settle amount   | 100           |
-| request_vendor_net_pay        | string | client's expected settle amount   |               |
-| invest_currency               | string | order's investment currency       | USDT          |
-| underlying                    | string | order's underlying asset          | BTC-USDT      |
-| tracking_source               | string | order's tracking source           | DERIBIT       |
-| settlement_index              | string | vendor's expected settle index    | 26000         |
-| request_settlement_index      | string | client's expected settle index    | 26000         |
-| initial_price                 | string | vendor's initial price            | 37500.99      |
-| request_initial_price         | string | client's initial price            | 37500.99      |
+| Parameter Name           | Type   | Description                     | Example       |
+| :----------------------- | :----- | :------------------------------ | :------------ |
+| settle_time_mill         | int    | settlement time in milliseconds | 1692950400000 |
+| meta_name                | string | name of the meta-product        | dcp           |
+| order_id                 | string | vendor order id                 | 1237189247194 |
+| valid                    | bool   |                                 |               |
+| settle_currency          | string | settlement currency             | BTC           |
+| vendor_net_pay           | string | vendor's expected settle amount | 100           |
+| request_vendor_net_pay   | string | client's expected settle amount |               |
+| invest_currency          | string | order's investment currency     | USDT          |
+| underlying               | string | order's underlying asset        | BTC-USDT      |
+| tracking_source          | string | order's tracking source         | DERIBIT       |
+| settlement_index         | string | vendor's expected settle index  | 26000         |
+| request_settlement_index | string | client's expected settle index  | 26000         |
+| initial_price            | string | vendor's initial price          | 37500.99      |
+| request_initial_price    | string | client's initial price          | 37500.99      |
 
+### 1.6.11. Monthly profit check
 
-### 1.6.11. Quarterly profit check
-- post matrixport calc quarterly profit,if check failed response an error code.
-- quarterly profit = (end_time_aum-start_time_aum) + last_quarter_profit - replenish_skitg
-- URL: /mp/api/v1/structured/profit/check
+- post matrixport calc monthly profit,if check failed response an error code.
+- matrixport monthly profit = SUM$(Premium *Platform Profit Rate* relevant settlement price of settlement currency with respect to the Structured Product on the maturity date of the Order)
+- URL: /mp/api/v1/structured/monthly-profit/check
 
 - method: Post
 
 - Parameters: json in body
+  
+| Key                   | Type   | Required | Description                                                        |
+| --------------------- | ------ | -------- | :----------------------------------------------------------------- |
+| start_time_mill       | int    | Y        | period expiry start time (UTC 00:00 on the 1st day of each month.) |
+| end_time_mill         | int    | Y        | period expiry end time (UTC 00:00 on the 1st day of each month.)   |
+| profit                | string | Y        | amount of usdc distributed to matrixport in string format          |
+| infos                 | array  | Y        | infos (optional)                                                   |
+| infos.timestamp       | int    | Y        | expiry times for each day                                          |
+| infos.underlying_pair | string | Y        | underlying pair                                                    |
+| infos.price           | string | Y        | price between underlying pair                                      |
 
-| Key                 | Type   | Required | Description         |
-|---------------------|--------|----------|---------------------|
-| start_time_mill     | int    | yes      | period start time   |
-| end_time_mill       | int    | yes      | period end time     |
-| start_time_aum      | string | yes      | start time aum      |
-| end_time_aum        | string | yes      | end time aum        |
-| last_quarter_profit | string | yes      | last quarter profit |
-| replenish_skitg     | string | yes      | replenish skitg     |
+Post Data Example:
 
+```js
+{
+  "start_time_mill": 1698768480000,
+  "end_time_mill": 1701360480000,
+  "profit": "28123.8999"
+}
+```
 
-- Response: application/json
+```js
+Will find orders with expiration maturity_time >= 1698768480000 and maturity_time < 1701360480000
+```
 
+Response: application/json
 Example:
 
 ```js
 {
   "code": 0,
-  "message": "",
   "data": {
-  }
+    "valid": true,
+    "vendor_pay_profit": "28123.8999",
+    "request_vendor_pay_profit": "28123.8999"
+    "infos": [
+      {
+        "timestamp": 1697356800000,
+        "underlying_pair": "USDCUSDT",
+        "price": "1.00003033"
+      }
+    ]
+  },
+  "message": ""
 }
 ```
+
+| Parameter Name            | Type   | Description                                      |
+| :------------------------ | ------ | :----------------------------------------------- |
+| valid                     | bool   | true means bill check ok                         |
+| vendor_pay_profit         | string | profit calculated by matrixport in string format |
+| request_vendor_pay_profit | string | profit calculated by vendor in string format     |
