@@ -233,6 +233,34 @@ Example:
 }
 ```
 
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "meta_name": "dnt",
+    "items": [ //array, products
+        {
+            "invest_currency": "USDT", //string, investment currency
+            "underlying": "BTC-USDT", //string, underlying asset
+            "tracking_source": "BINANCE-PERP",  //string, tracking source
+            "term_mill": 1692950400000, // int, settle time in millisecond UNIX epoch. eg, 1692950400000 is 2023-08-25T16:00:00 +08:00
+            "take_profit_price": "38000", //string, upper bound price to trigger knock event
+            "protection_price": "30000", //string, lower bound price to trigger knock event
+            "take_profit_apy": "0.5",
+            "protection_apy": "0.5",
+            "zero_price_apy": "-0.1",
+            "low_price_apy": "-0.1",
+            "high_price_apy": "-0.1",
+            "min_buy_per_order": "10", //string, minimal buy amount per order
+            "max_buy_per_order": "10000", //string, maximal buy amount per order
+            "max_buy_product": "1000000000" // optional string, max total buy amount of this product
+        }
+    ]
+  }
+}
+```
+
 | Parameter Name                  | Type             | Description                                                                                                                                                                               |
 | :------------------------------ | :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | meta_name                       | string           | name of the meta-product                                                                                                                                                                  |
@@ -280,12 +308,13 @@ Example:
 | invest_currency   | string | yes      | investment currency                                                                                |
 | underlying        | string | yes      | underlying asset                                                                                   |
 | tracking_source   | string | yes      | the fixing convention used to settle product payment                                               |
-| type              | string | yes      | product type, "CALL" or "PUT"                                                                      |
+| type              | string | no       | product type, "CALL" or "PUT" (required for products with this attribute)                          |
 | term_mill         | int    | yes      | product's term.                                                                                    |
 | strike_price      | string | yes      | for products with only one strike price to decide settlement: strike price in string format        |
 | take_profit_price | string | yes      | for products with a price interval: this is the price which triggers take-profit, in string format |
 | protection_price  | string | yes      | for products with a price interval, this is the price which triggers stop-loss, in string format   |
 | invest_amount     | string | yes      | amount to invest in the product, in string format                                                  |
+| high_price_apy    | string | no       | required when products need to be uniquely identified with this attribute                          |
 
 - Response: application/json
 
@@ -333,6 +362,32 @@ Example:
         {"price": "39000", "apy": "0.2"}
     ],
     "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond,
+    "invest_amount": "10" //string, amount in string format
+  }
+}
+```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "quote_id": "6634567890123456789", //string, quote id
+    "meta_name": "dnt", // string, name of the meta-product
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
+    "tracking_source": "BINANCE-PERP",  //tracking source
+    "term_mill": 1692950400000,// int, settle time in millisecond UNIX epoch. eg, 1692950400000 is 2023-08-25T16:00:00 +08:00
+    "take_profit_price": "39000", //string, upper bound price to trigger knock event
+    "protection_price": "33000", // string, lower bound price to trigger knock event
+    "zero_price_apy": "0.03", //string, zero-price APY in string format
+    "low_price_apy": "0.03", //string, low-price APY in string format
+    "high_price_apy": "0.03", //string, high-price APY in string format
+    "apy_points": [
+        {"price": "33000", "apy": "0.2"},
+        {"price": "39000", "apy": "0.2"}
+    ],
+    "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond
     "invest_amount": "10" //string, amount in string format
   }
 }
@@ -469,6 +524,21 @@ Example:
     "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond
     "order_id": "708001990677480243210", //string, vendor order ID
     "redeem_amount": "1.1" // amount to redeem from the order
+  }
+}
+```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "quote_id": "7633327782363410433", //string, quote id
+    "meta_name": "dnt", // string, name of the meta-product
+    "redeem_settle_amount": "1.2", // string, final settle amount in string format
+    "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond
+    "order_id": "708001990677480243210", //string, vendor order ID
+    "redeem_amount": "1.3" // amount to redeem from the order
   }
 }
 ```
@@ -625,6 +695,39 @@ Get single order info by order_id or client_order_id
 }
 ```
 
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": { //object,
+    "meta_name": "dnt", // string, name of the meta-product
+    "order_id": "7080019906774802433", //string, order id
+    "client_order_id": "client_order_id_7080019906774802433", //string, client_order_id
+    "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
+    "tracking_source": "BINANCE-PERP",  //tracking source
+    "term_mill": 1692950400000, //int, settle time in millisecond UNIX epoch
+    "take_profit_price": "39000", //string, upper bound price to trigger knock event
+    "protection_price": "33000", // string, lower bound price to trigger knock event
+    "invest_amount": "10", //string, investment amount in string format
+    "zero_price_apy": "0.03", //string, zero-price APY in string format
+    "low_price_apy": "0.03", //string, low-price APY in string format
+    "high_price_apy": "0.03", //string, high-price APY in string format
+    "apy_points": [
+        {"price": "33000", "apy": "1.115923566880118"},
+        {"price": "39000", "apy": "1.115923566880118"}
+    ],
+    "success_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order being successfully placed
+    "value_time_mill": 1692927000000, //int, millisecond UNIX epoch of the order starting to accure interest
+    "actual_settled_time_mill": 1693209600000, //int, vendor settled time
+    "actual_settled_price": "35000", //int, option settled index price in string format
+    "actual_settled_currency": "USDT", //int, settled currency
+    "actual_settled_amount": "10.1" //int, settled amount
+  }
+}
+```
+
 | Parameter Name           | Type   | Description                                                                                                                                       |
 | :----------------------- | :----- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
 | meta_name                | string | name of the meta-product                                                                                                                          |
@@ -760,6 +863,31 @@ Get single order info by redeem_id or client_redeem_id
     "term_milli": 1692950400000, //int, term
     "strike_price": "30000", //string, strike price in string format
     "premium_amount": "-1" //string, premium amount, <= 0 
+  }
+}
+```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": { //object, redeem order
+    "meta_name": "dnt", // string, name of the meta-product
+    "order_id": "7080019906774802432", //string,vendor order id
+    "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
+    "redeem_id": "redeem_7080019906774802432", //string,vendor redeem id
+    "client_redeem_id": "redeem_7080019906774802432", //string, client redeem id
+    "redeem_currency": "USDT", //string, redeem currency
+    "redeem_amount": "1.1", //string, redeem principal amount, equal to order investment amount, in string format
+    "redeem_settle_amount": "1", //string, redeem settle amount in string format
+    "redeem_status": 0, //int, 0 : Processing, 100 : success, 110 : failed
+    "redeem_active_time_mill": 1692926956000, //int,redeem active time
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
+    "tracking_source": "BINANCE-PERP",  //tracking source
+    "term_milli": 1692950400000, //int, term
+    "take_profit_price": "39000", //string, upper bound price to trigger knock event
+    "protection_price": "33000" // string, lower bound price to trigger knock event
   }
 }
 ```
