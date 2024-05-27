@@ -571,10 +571,10 @@ Get single order info by order_id or client_order_id
     "meta_name": "sharkfin", // string, name of the meta-product
     "order_id": "7080019906774802435", //string, order id
     "client_order_id": "client_order_id_7080019906774802435", //string, client_order_id
-    "order_status": 110, //int, 0 : Processing, 100 : success, 110 : failed
+    "order_status": 100, //int, 0 : Processing, 100 : success, 110 : failed
     "invest_currency": "USDT", //string, investment currency
     "underlying": "BTC-USDT", //string, underlying asset
-    "tracking_source": "DERIBIT",  //trade source
+    "tracking_source": "DERIBIT",  //tracking source
     "type": "CALL", //string, option type
     "term_mill": 604800000, //int, term. e.g. 604800000 is 7 days
     "take_profit_price": "40000", //string, take-profit price in string format
@@ -590,10 +590,10 @@ Get single order info by order_id or client_order_id
     ],
     "success_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order being successfully placed
     "value_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order starting to accure interest
-    "actual_settled_time_mill": 1693013356000, //int, vendor settled time
-    "actual_settled_price": "40000", //int, option settled index price in string format
-    "actual_settled_currency": "USDT", //int, settled currency
-    "actual_settled_amount": "0.00547945" //int, settled amount
+    "actual_settled_time_mill": 1693555200000, //int, vendor settled time
+    "actual_settled_price": "40000", //string, option settled index price in string format
+    "actual_settled_currency": "USDT", //string, settled currency
+    "actual_settled_amount": "10.00398429" //string, settled amount
   }
 }
 ```
@@ -609,18 +609,18 @@ Get single order info by order_id or client_order_id
     "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
     "invest_currency": "USDC", //string, investment currency
     "underlying": "BTC-USDC", //string, underlying asset
-    "tracking_source": "DERIBIT",  //trade source
+    "tracking_source": "DERIBIT",  //tracking source
     "type": "CALL", //string, option type
     "term_mill": 1692950400000, //int, term
     "strike_price": "30000", //string, strike price in string format
     "invest_amount": "1", //string, investment amount in string format
-    "premium_amount": "1", //int, premium amount
+    "premium_amount": "1", //string, premium amount
     "success_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order being successfully placed
     "value_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order starting to accure interest
     "actual_settled_time_mill": 1692950400000, //int, vendor settled time
-    "actual_settled_price": "32000", //int, option settled index price in string format
-    "actual_settled_currency": "BTC", //int, settled currency
-    "actual_settled_amount": "1" //int, settled amount
+    "actual_settled_price": "32000", //string, option settled index price in string format
+    "actual_settled_currency": "BTC", //string, settled currency
+    "actual_settled_amount": "60000" //string, settled amount
   }
 }
 ```
