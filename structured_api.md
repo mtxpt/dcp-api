@@ -142,7 +142,7 @@ is another meta-product. They differ in their sets of **settlement rules**,
 For example, when we initiate the "settle" [action](#1610-check-settlement-per-order),
 input data are basically the same - `settlement price` and `settlement amount`.
 For Dual-Coin, the price is compared with a strike price to decide whether
-the underlying option is exercised; for Sharfin, the price is evaluated in the
+the underlying option is exercised; for Sharkfin, the price is evaluated in the
 yield curve function to produce a yield rate. These two different settlement algorithms
 have to be linked to the "meta" layer, and retrieved by specifying the `mata_name`.
 
@@ -223,6 +223,38 @@ Example:
             "high_price_apy": "0.1",
             "min_buy_per_order": "0.1", //string, minimal buy amount per order
             "max_buy_per_order": "100", //string, maximal buy amount per order
+            "buy_step": "0.1", // buy amount step, 0.1 means investment amount can change by 0.1
+            "max_order_number_per_user": 1000000, //optional int, a user can place AT MOST how many orders
+            "max_buy_per_user": "100000000", // optional string, max total buy amount per user
+            "max_buy_product": "1000000000" // optional string, max total buy amount of this product
+        }
+    ]
+  }
+}
+```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "meta_name": "sharkfin",
+    "items": [ //array, products
+        {
+            "invest_currency": "USDT", //string, investment currency
+            "underlying": "BTC-USDT", //string, underlying asset
+            "tracking_source": "DERIBIT",  //string, tracking source
+            "type": "CALL", // string, type
+            "term_mill": 604800000, // int, term length in millisecond. eg, 604800000 is 7 days
+            "take_profit_price": "38000", //string, take-profit price in string format
+            "protection_price": "30000", //string, protection price in string format
+            "take_profit_apy": "0.2",
+            "protection_apy": "0.1",
+            "zero_price_apy": "0.05",
+            "low_price_apy": "0.05",
+            "high_price_apy": "0.05",
+            "min_buy_per_order": "1", //string, minimal buy amount per order
+            "max_buy_per_order": "100000", //string, maximal buy amount per order
             "buy_step": "0.1", // buy amount step, 0.1 means investment amount can change by 0.1
             "max_order_number_per_user": 1000000, //optional int, a user can place AT MOST how many orders
             "max_buy_per_user": "100000000", // optional string, max total buy amount per user
@@ -468,6 +500,21 @@ Example:
     "redeem_settle_amount": "1.2", // string, final settle amount in string format
     "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond
     "order_id": "708001990677480243210", //string, vendor order ID
+    "redeem_amount": "1.1" // amount to redeem from the order
+  }
+}
+```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "quote_id": "7633327782363410434", //string, quote id
+    "meta_name": "sharkfin", // string, name of the meta-product
+    "redeem_settle_amount": "1.05", // string, final settle amount in string format
+    "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond
+    "order_id": "708001990677480243211", //string, vendor order ID
     "redeem_amount": "1.1" // amount to redeem from the order
   }
 }
@@ -760,6 +807,32 @@ Get single order info by redeem_id or client_redeem_id
     "term_milli": 1692950400000, //int, term
     "strike_price": "30000", //string, strike price in string format
     "premium_amount": "-1" //string, premium amount, <= 0 
+  }
+}
+```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": { //object, redeem order
+    "meta_name": "sharkfin", // string, name of the meta-product
+    "order_id": "7080019906774802433", //string,vendor order id
+    "client_order_id": "client_order_id_7080019906774802433", //string, client_order_id
+    "redeem_id": "redeem_7080019906774802435", //string,vendor redeem id
+    "client_redeem_id": "redeem_7080019906774802435", //string, client redeem id
+    "redeem_currency": "USDT", //string, redeem currency
+    "redeem_amount": "1.1", //string, redeem principal amount, equal to order investment amount, in string format
+    "redeem_settle_amount": "1.05", //string, redeem settle amount in string format
+    "redeem_status": 100, //int, 0 : Processing, 100 : success, 110 : failed
+    "redeem_active_time_mill": 1692926956000, //int,redeem active time
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
+    "tracking_source": "DERIBIT",  //tracking source
+    "type": "CALL", //string, type
+    "term_milli": 604800000, //int, term
+    "take_profit_price": "40000", //string, take-profit price in string format
+    "protection_price": "31000", //string, protection price in string format
   }
 }
 ```
