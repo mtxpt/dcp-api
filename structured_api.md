@@ -419,6 +419,7 @@ Error Code:
 | invest_amount   | string | yes      | amount in string format                         |
 | quote_id        | string | yes      | quote id, unique                                |
 | client_order_id | string | yes      | client order id, for idempotence                |
+| parent_order_id | string | no       | vendor order id of the parent order, to renew   |
 
 - Response: application/json
 
