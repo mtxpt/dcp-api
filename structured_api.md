@@ -1042,11 +1042,11 @@ Check the total accumulated difference between mp and vendor after the final ren
 
 - Parameters: json in body
 
-| Key              | Type   | Required | Description                             |
-| ---------------- | ------ | -------- | :-------------------------------------- |
-| client_order_id  | string | Y        | client order id                         |
-| total_difference | string | Y        | accumulated difference in string format |
-| currency         | string | Y        | currency                                |
+| Key              | Type   | Required | Description                               |
+| ---------------- | ------ | -------- | :---------------------------------------- |
+| client_order_id  | string | Y        | the final renewal order's client order id |
+| total_difference | string | Y        | accumulated difference in string format   |
+| currency         | string | Y        | currency                                  |
 
 Post Data Example:
 
@@ -1083,3 +1083,4 @@ Example:
 | valid                     | bool   |                              |
 | vendor_difference         | string | vendor's expected difference |
 | request_vendor_difference | string | client's expected difference |
+| currency                  | string | currency                     |
