@@ -20,6 +20,7 @@
     - [1.6.9. Query Redeem Order by Redeem ID or Client Redeem ID](#169-query-redeem-order-by-redeem-id-or-client-redeem-id)
     - [1.6.10. Check Settlement per order](#1610-check-settlement-per-order)
     - [1.6.11. Monthly profit check](#1611-monthly-profit-check)
+    - [1.6.12. Renew diff check](#1612-renew-diff-check)
 
 <!-- /TOC -->
 
@@ -1030,3 +1031,55 @@ Example:
 | valid                     | bool   | true means bill check ok                         |
 | vendor_pay_profit         | string | profit calculated by matrixport in string format |
 | request_vendor_pay_profit | string | profit calculated by vendor in string format     |
+
+### 1.6.12. Renew diff check
+
+Check the total accumulated difference between mp and vendor after the final renewal order is settled.
+
+- URL: /mp/api/v1/structured/info_renew/diff_check
+
+- method: Post
+
+- Parameters: json in body
+
+| Key              | Type   | Required | Description                             |
+| ---------------- | ------ | -------- | :-------------------------------------- |
+| client_order_id  | string | Y        | client order id                         |
+| total_difference | string | Y        | accumulated difference in string format |
+| currency         | string | Y        | currency                                |
+
+Post Data Example:
+
+```js
+{
+  "code": 0,
+  "data": {
+    "client_order_id": "7080019906774802432",
+    "total_difference": "10.3",
+    "currency": "USDT"
+  },
+  "message": ""
+}
+```
+
+Response: application/json
+Example:
+
+```js
+{
+  "code": 0,
+  "data": {
+    "valid": true,
+    "vendor_difference": "10.3",
+    "request_vendor_difference": "10.3",
+    "currency": "USDT"
+  },
+  "message": ""
+}
+```
+
+| Parameter Name            | Type   | Description                  |
+| :------------------------ | ------ | :--------------------------- |
+| valid                     | bool   |                              |
+| vendor_difference         | string | vendor's expected difference |
+| request_vendor_difference | string | client's expected difference |
