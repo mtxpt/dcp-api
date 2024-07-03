@@ -1045,7 +1045,7 @@ Check the total accumulated difference between mp and vendor after the final ren
 
 | Key              | Type   | Required | Description                               |
 | ---------------- | ------ | -------- | :---------------------------------------- |
-| client_order_id  | string | Y        | the final renewal order's client order id |
+| vendor_order_id  | string | Y        | the final renewal order's vendor order id |
 | total_difference | string | Y        | accumulated difference in string format   |
 | currency         | string | Y        | currency                                  |
 
@@ -1053,7 +1053,7 @@ Post Data Example:
 
 ```js
 {
-  "client_order_id": "7080019906774802432",
+  "vendor_order_id": "7080019906774802432",
   "total_difference": "10.3",
   "currency": "USDT"
 }
