@@ -981,20 +981,22 @@ Post Data Example:
 
 - Parameters: json in body
   
-| Key                   | Type   | Required | Description                                                        |
-| --------------------- | ------ | -------- | :----------------------------------------------------------------- |
-| start_time_mill       | int    | Y        | period expiry start time (UTC 00:00 on the 1st day of each month.) |
-| end_time_mill         | int    | Y        | period expiry end time (UTC 00:00 on the 1st day of each month.)   |
-| profit                | string | Y        | amount of usdc distributed to matrixport in string format          |
-| infos                 | array  | Y        | infos (optional)                                                   |
-| infos.timestamp       | int    | Y        | expiry times for each day                                          |
-| infos.underlying_pair | string | Y        | underlying pair                                                    |
-| infos.price           | string | Y        | price between underlying pair                                      |
+| Key                   | Type   | Required | Description                                               |
+| --------------------- | ------ | -------- | :-------------------------------------------------------- |
+| meta_name             | string | yes      | name of the meta-product. eg, "snowball", "trend"         |
+| start_time_mill       | int    | yes      | start expiry time in millisecond UNIX epoch (inclusive)   |
+| end_time_mill         | int    | yes      | end  expiry  time in millisecond UNIX epoch (exclusive)   |
+| profit                | string | yes      | amount of usdc distributed to matrixport in string format |
+| infos                 | array  | optional | price info                                                |
+| infos.timestamp       | int    |          | expiry times for each day                                 |
+| infos.underlying_pair | string |          | underlying pair                                           |
+| infos.price           | string |          | price between underlying pair                             |
 
 Post Data Example:
 
 ```js
 {
+  "meta_name": "trend",
   "start_time_mill": 1698768480000,
   "end_time_mill": 1701360480000,
   "profit": "28123.8999"
@@ -1027,11 +1029,11 @@ Example:
 }
 ```
 
-| Parameter Name            | Type   | Description                                      |
-| :------------------------ | ------ | :----------------------------------------------- |
-| valid                     | bool   | true means bill check ok                         |
-| vendor_pay_profit         | string | profit calculated by matrixport in string format |
-| request_vendor_pay_profit | string | profit calculated by vendor in string format     |
+| Parameter Name            | Type   | Description              |
+| :------------------------ | ------ | :----------------------- |
+| valid                     | bool   | true means bill check ok |
+| vendor_pay_profit         | string | vendor's expect profit   |
+| request_vendor_pay_profit | string | client's expect profit   |
 
 ### 1.6.12. Renew diff check
 
@@ -1043,16 +1045,18 @@ Check the total accumulated difference between mp and vendor after the final ren
 
 - Parameters: json in body
 
-| Key              | Type   | Required | Description                               |
-| ---------------- | ------ | -------- | :---------------------------------------- |
-| vendor_order_id  | string | Y        | the final renewal order's vendor order id |
-| total_difference | string | Y        | accumulated difference in string format   |
-| currency         | string | Y        | currency                                  |
+| Key              | Type   | Required | Description                                       |
+| ---------------- | ------ | -------- | :------------------------------------------------ |
+| meta_name        | string | yes      | name of the meta-product. eg, "snowball", "trend" |
+| vendor_order_id  | string | yes      | the final renewal order's vendor order id         |
+| total_difference | string | yes      | accumulated difference in string format           |
+| currency         | string | yes      | currency                                          |
 
 Post Data Example:
 
 ```js
 {
+  "meta_name": "trend",
   "vendor_order_id": "7080019906774802432",
   "total_difference": "10.3",
   "currency": "USDT"
@@ -1095,18 +1099,20 @@ Check the total investment amount and total renewal amount between the mp and ve
 
 | Key                | Type   | Required | Description                                                           |
 | ------------------ | ------ | -------- | :-------------------------------------------------------------------- |
-| start_time_mill    | int    | Y        | The start order successful time in millisecond UNIX epoch (inclusive) |
-| end_time_mill      | int    | Y        | The end order successful time in millisecond UNIX epoch (exclusive)   |
-| count              | int    | Y        | The count of successful order for a give time range                   |
-| infos              | list   | Y        | investment and renewal info                                           |
-| infos.currency     | string | Y        | investment currency                                                   |
-| infos.total_amount | string | Y        | total investment amount                                               |
-| infos.renew_amount | string | Y        | total renewal amount                                                  |
+| meta_name          | string | yes      | name of the meta-product. eg, "snowball", "trend"                     |
+| start_time_mill    | int    | yes      | The start order successful time in millisecond UNIX epoch (inclusive) |
+| end_time_mill      | int    | yes      | The end order successful time in millisecond UNIX epoch (exclusive)   |
+| count              | int    | yes      | The count of successful order for a give time range                   |
+| infos              | list   | yes      | investment and renewal info                                           |
+| infos.currency     | string | yes      | investment currency                                                   |
+| infos.total_amount | string | yes      | total investment amount                                               |
+| infos.renew_amount | string | no       | total renewal amount                                                  |
 
 Post Data Example:
 
 ```js
 {
+  "meta_name": "trend",
   "start_time_mill": 1698768480000,
   "end_time_mill": 1701360480000,
   "count" 2,
