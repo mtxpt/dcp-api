@@ -21,6 +21,7 @@
     - [1.6.10. Check Settlement per order](#1610-check-settlement-per-order)
     - [1.6.11. Monthly profit check](#1611-monthly-profit-check)
     - [1.6.12. Renew diff check](#1612-renew-diff-check)
+    - [1.6.13 Audit orders](#1613-audit-orders)
 
 <!-- /TOC -->
 
@@ -1052,13 +1053,9 @@ Post Data Example:
 
 ```js
 {
-  "code": 0,
-  "data": {
-    "client_order_id": "7080019906774802432",
-    "total_difference": "10.3",
-    "currency": "USDT"
-  },
-  "message": ""
+  "client_order_id": "7080019906774802432",
+  "total_difference": "10.3",
+  "currency": "USDT"
 }
 ```
 
@@ -1070,17 +1067,106 @@ Example:
   "code": 0,
   "data": {
     "valid": true,
-    "vendor_difference": "10.3",
-    "request_vendor_difference": "10.3",
+    "total_difference": "10.3",
+    "request_total_difference": "10.3",
     "currency": "USDT"
   },
   "message": ""
 }
 ```
 
-| Parameter Name            | Type   | Description                  |
-| :------------------------ | ------ | :--------------------------- |
-| valid                     | bool   |                              |
-| vendor_difference         | string | vendor's expected difference |
-| request_vendor_difference | string | client's expected difference |
-| currency                  | string | currency                     |
+| Parameter Name           | Type   | Description                  |
+| :----------------------- | ------ | :--------------------------- |
+| valid                    | bool   |                              |
+| total_difference         | string | vendor's expected difference |
+| request_total_difference | string | client's expected difference |
+| currency                 | string | currency                     |
+
+
+### 1.6.13 Audit orders
+
+Check the total investment amount and total renewal amount between the mp and vendor for a given time range.
+
+- URL: /mp/api/v1/structured/audit_orders
+
+- method: Post
+
+- Parameters: json in body
+
+| Key                | Type   | Required | Description                                                           |
+| ------------------ | ------ | -------- | :-------------------------------------------------------------------- |
+| start_time_mill    | int    | Y        | The start order successful time in millisecond UNIX epoch (inclusive) |
+| end_time_mill      | int    | Y        | The end order successful time in millisecond UNIX epoch (exclusive)   |
+| count              | int    | Y        | The count of successful order for a give time range                   |
+| infos              | list   | Y        | investment and renewal info                                           |
+| infos.currency     | string | Y        | investment currency                                                   |
+| infos.total_amount | string | Y        | total investment amount                                               |
+| infos.renew_amount | string | Y        | total renewal amount                                                  |
+
+Post Data Example:
+
+```js
+{
+  "start_time_mill": 1698768480000,
+  "end_time_mill": 1701360480000,
+  "count" 2,
+  "infos": [
+    {
+      "currency": "USDT",
+      "total_amount": "8700.5",
+      "renew_amount": "1200"
+    },
+    {
+      "currency": "ETH",
+      "total_amount": "1.5",
+      "renew_amount": "0.4"
+    }
+  ]
+}
+```
+
+Response: application/json
+Example:
+
+```js
+{
+  "code": 0,
+  "data": {
+    "valid": true,
+    "count": 2,
+    "request_count": 2,
+    "infos": [
+      {
+        "valid": true,
+        "currency": "USDT",
+        "total_amount": "8700.5",
+        "request_total_amount": "8700.5",
+        "renew_amount": "1200",
+        "request_renew_amount": "1200"
+      },
+      {
+        "valid": true,
+        "currency": "ETH",
+        "total_amount": "1.5",
+        "request_total_amount": "1.5",
+        "renew_amount": "0.4",
+        "request_renew_amount": "0.4",
+      }
+    ]
+  },
+  "message": ""
+}
+```
+
+| Parameter Name             | Type   | Description                               |
+| :------------------------- | ------ | :---------------------------------------- |
+| valid                      | bool   |                                           |
+| count                      | int    | vendor's expected order count             |
+| request_count              | int    | client's expected order count             |
+| infos                      | list   | investment and renewal info               |
+| infos.valid                | bool   |                                           |
+| infos.currency             | string | investment currency                       |
+| infos.total_amount         | string | vendor's expected total investment amount |
+| infos.request_total_amount | string | client's expected total investment amount |
+| infos.renew_amount         | string | vendor's expected total renewal amount    |
+| infos.request_renew_amount | string | client's expected total renewal amount    |
