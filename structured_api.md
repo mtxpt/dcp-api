@@ -290,6 +290,65 @@ Example:
 }
 ```
 
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "meta_name": "dnt",
+    "items": [ //array, products
+        {
+            "invest_currency": "USDT", //string, investment currency
+            "underlying": "BTC-USDT", //string, underlying asset
+            "tracking_source": "BINANCE-PERP",  //string, tracking source
+            "term_mill": 1692950400000, // int, settle time in millisecond UNIX epoch. eg, 1692950400000 is 2023-08-25T16:00:00 +08:00
+            "take_profit_price": "38000", //string, upper bound price to trigger knock event
+            "protection_price": "30000", //string, lower bound price to trigger knock event
+            "min_buy_per_order": "1", //string, minimal buy amount per order
+            "max_buy_per_order": "100000", //string, maximal buy amount per order
+            "buy_step": "0.1", // buy amount step, 0.1 means investment amount can change by 0.1
+            "max_order_number_per_user": 1000000, //optional int, a user can place AT MOST how many orders
+            "max_buy_per_user": "100000000", // optional string, max total buy amount per user
+            "max_buy_product": "1000000000", // optional string, max total buy amount of this product
+            "invest_amount": "100", // for reference, user will invest 100
+            "booking_premium":"1", // the portion of invest_amount will be utilized to subscribe DNT
+            "booking_quantity":"1.6" // quantity/share of the subscription
+        }
+    ]
+  }
+}
+```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "meta_name": "dnt",
+    "items": [ //array, products
+        {
+            "invest_currency": "USDT", //string, investment currency
+            "underlying": "BTC-USDT", //string, underlying asset
+            "tracking_source": "BINANCE-PERP",  //string, tracking source
+            "term_mill": 1692950400000, // int, settle time in millisecond UNIX epoch. eg, 1692950400000 is 2023-08-25T16:00:00 +08:00
+            "take_profit_price": "38000", //string, upper bound price to trigger knock event
+            "protection_price": "30000", //string, lower bound price to trigger knock event
+            "min_buy_per_order": "1", //string, minimal buy amount per order
+            "max_buy_per_order": "100000", //string, maximal buy amount per order
+            "buy_step": "0.1", // buy amount step, 0.1 means investment amount can change by 0.1
+            "max_order_number_per_user": 1000000, //optional int, a user can place AT MOST how many orders
+            "max_buy_per_user": "100000000", // optional string, max total buy amount per user
+            "max_buy_product": "1000000000", // optional string, max total buy amount of this product
+            "invest_amount": "100", // for reference, user will invest 100
+            "funding_amount": "1.5", // the funding amount
+            "booking_premium":"1", // the portion of funding_amount will be utilized to subscribe DNT
+            "booking_quantity":"1.6" // quantity/share of the subscription
+        }
+    ]
+  }
+}
+```
+
 | Parameter Name                  | Type             | Description                                                                                                                                                                               |
 | :------------------------------ | :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | meta_name                       | string           | name of the meta-product                                                                                                                                                                  |
@@ -319,6 +378,9 @@ Example:
 | items.invest_amount             | string, optional | reference amount from the user, in string format                                                                                                                                          |
 | items.low_price_quantity        | string, optional | (seagull) the profit if price lower than price interval, in string format                                                                                                                 |
 | items.high_price_quantity       | string, optional | (seagull) the profit if price higher than price interval, in string format                                                                                                                |
+| items.funding_amount            | string, optional | the funding amount                                                                                                                                                                        |
+| items.booking_premium           | string, optional | premium amount utilized to subscribe the product                                                                                                                                          |
+| items.booking_quantity          | string, optional | quantity/share of the subscription                                                                                                                                                        |
 
 ---
 
@@ -342,14 +404,33 @@ Example:
 | invest_currency      | string | yes      | investment currency                                                                                |
 | underlying           | string | yes      | underlying asset                                                                                   |
 | tracking_source      | string | yes      | the fixing convention used to settle product payment                                               |
-| type                 | string | yes      | product type, "CALL" or "PUT"                                                                      |
+| type                 | string | no       | product type, "CALL" or "PUT" (required for products with this attribute)                          |
 | term_mill            | int    | yes      | product's term.                                                                                    |
 | take_profit_price    | string | yes      | for products with a price interval: this is the price which triggers take-profit, in string format |
 | protection_price     | string | yes      | for products with a price interval, this is the price which triggers stop-loss, in string format   |
 | strike_convert_price | string | seagull  | the price which triggers currency conversion, in string format                                     |
 | strike_start_price   | string | seagull  | (seagull) the price which starts to generate additional profit, in string format                   |
 | strike_end_price     | string | seagull  | (seagull) the price which yields the max profit, in string format                                  |
-| invest_amount        | string | yes      | amount to invest in the product, in string format                                                  |
+| invest_amount        | string | yes      | amount from the user to invest in the product, in string format                                    |
+| booking_premium      | string | no       | premium amount utilized for the subscription of the product                                        |
+| funding_amount       | string | no       | the funding amount                                                                                 |
+
+Request Data Example:
+
+```js
+{
+  "meta_name": "dnt",
+  "invest_currency": "USDT",
+  "underlying": "BTC-USDT",
+  "tracking_source": "BINANCE-PERP",
+  "term_mill": 1692950400000,
+  "take_profit_price": "38000",
+  "protection_price": "30000",
+  "invest_amount": "300",
+  "funding_amount": "4.5",
+  "booking_premium": "3"
+}
+```
 
 - Response: application/json
 
@@ -405,6 +486,48 @@ Example:
 }
 ```
 
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "meta_name": "dnt", // string, name of the meta-product
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
+    "tracking_source": "BINANCE-PERP",  //trade source  DERIBIT,BINANCE etc...
+    "term_mill": 1692950400000, // int, settle time in millisecond UNIX epoch. eg, 1692950400000 is 2023-08-25T16:00:00 +08:00
+    "take_profit_price": "39000", //string, upper bound price to trigger knock event
+    "protection_price": "33000", // string, lower bound price to trigger knock event
+    "booking_premium": "0.1", // e.g. invest_ratio=1%, 0.1 utilized to subscribe
+    "booking_quantity": "0.15", // quantity/share of the subscription
+    "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond UNIX epoch
+    "invest_amount": "10" //invest amount from user, in string format
+  }
+}
+```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "meta_name": "dnt", // string, name of the meta-product
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
+    "tracking_source": "BINANCE-PERP",  //trade source  DERIBIT,BINANCE etc...
+    "term_mill": 1692950400000, // int, settle time in millisecond UNIX epoch. eg, 1692950400000 is 2023-08-25T16:00:00 +08:00
+    "take_profit_price": "39000", //string, upper bound price to trigger knock event
+    "protection_price": "33000", // string, lower bound price to trigger knock event
+    "booking_premium": "0.2", // e.g. 0.2 (part of the funding amonut) utilized to subscribe
+    "booking_quantity": "0.3", // quantity/share of the subscription
+    "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond,
+    "invest_amount": "10", //invest amount from user, in string format
+    "funding_amount": "0.5" // the funding amount (this product has funding)
+  }
+}
+```
+
+
 | Parameter Name         | Type   | Description                                                                                                                                       |
 | :--------------------- | :----- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
 | quote_id               | string | quote id                                                                                                                                          |
@@ -428,7 +551,10 @@ Example:
 | low_price_quantity     | string | (seagull) the profit if price lower than price interval, in string format                                                                         |
 | high_price_quantity    | string | (seagull) the profit if price higher than price interval, in string format                                                                        |
 | price_expire_time_mill | int    | price expire time in millisecond                                                                                                                  |
-| invest_amount          | string | amount in string format                                                                                                                           |
+| invest_amount          | string | invest amount from user, in string format                                                                                                         |
+| funding_amount         | string | the funding amount (if the product supports it)                                                                                                   |
+| booking_premium        | string | the premium amount utilized for the subscription                                                                                                  |
+| booking_quantity       | string | the quantity/share of the subscription                                                                                                            |
 
 Error Code:
 
@@ -441,7 +567,7 @@ Error Code:
 
 ### 1.6.4. Place Order
 
-- Place Order by quote id. before placing order, quote api is called to get a quote.
+- Place Order by quote id / quote params. before placing order, quote api is called to get a quote.
 
 - The timeout for this interface call is 2000ms. Peak QPS: 50.
 
@@ -451,13 +577,22 @@ Error Code:
 
 - Parameters: json in body
 
-| Key             | Type   | Required | Description                                     |
-| --------------- | ------ | -------- | ----------------------------------------------- |
-| meta_name       | string | yes      | name of the meta-product. eg, "snowball", "dcp" |
-| invest_amount   | string | yes      | amount in string format                         |
-| quote_id        | string | yes      | quote id, unique                                |
-| client_order_id | string | yes      | client order id, for idempotence                |
-| parent_order_id | string | no       | vendor order id of the parent order, to renew   |
+| Key               | Type   | Required           | Description                                          |
+| ----------------- | ------ | ------------------ | ---------------------------------------------------- |
+| meta_name         | string | yes                | name of the meta-product. eg, "snowball", "dcp"      |
+| invest_amount     | string | yes                | amount in string format                              |
+| quote_id          | string | follows quote      | quote id, unique                                     |
+| client_order_id   | string | yes                | client order id, for idempotence                     |
+| parent_order_id   | string | no                 | vendor order id of the parent order, to renew        |
+| invest_currency   | string | if quote_id unused | investment currency                                  |
+| underlying        | string | if quote_id unused | underlying asset                                     |
+| tracking_source   | string | if quote_id unused | the fixing convention used to settle product payment |
+| term_mill         | int    | if quote_id unused | product's term                                       |
+| take_profit_price | string | if quote_id unused | upper bound price to trigger knock event             |
+| protection_price  | string | if quote_id unused | lower bound price to trigger knock event             |
+| booking_premium   | string | if quote_id unused | the premium amount utilized for the subscription     |
+| booking_quantity  | string | if quote_id unused | the quantity/share of the subscription               |
+| funding_amount    | string | if quote_id unused | the funding amount (if the product supports it)      |
 
 - Response: application/json
 
@@ -541,6 +676,20 @@ Example:
 }
 ```
 
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "meta_name": "dnt", // string, name of the meta-product
+    "redeem_settle_amount": "1.05", // string, final settle amount in string format
+    "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond
+    "order_id": "708001990677480243212" //string, vendor order ID
+  }
+}
+```
+
+
 | Parameter Name         | Type   | Description                                                                            |
 | :--------------------- | :----- | :------------------------------------------------------------------------------------- |
 | quote_id               | string | quote id                                                                               |
@@ -570,12 +719,13 @@ Error Code:
 
 - Parameters: json in body
 
-| Key              | Type   | Required | Description                                                             |
-| ---------------- | ------ | -------- | ----------------------------------------------------------------------- |
-| meta_name        | string | yes      | name of the meta-product. eg, "snowball", "dcp"                         |
-| order_id         | string | yes      | vendor order id                                                         |
-| client_redeem_id | string | yes      | client redeem id, for idempotence                                       |
-| quote_id         | string | yes      | quote id                                                                |
+| Key                  | Type   | Required           | Description                                                                            |
+| -------------------- | ------ | ------------------ | -------------------------------------------------------------------------------------- |
+| meta_name            | string | yes                | name of the meta-product. eg, "snowball", "dcp"                                        |
+| order_id             | string | yes                | vendor order id                                                                        |
+| client_redeem_id     | string | yes                | client redeem id, for idempotence                                                      |
+| quote_id             | string | follows quote      | quote id                                                                               |
+| redeem_settle_amount | string | if quote_id unused | for redemption with a final amount: amount in string format, redeem_settle_amount >= 0 |
 
 - Response: application/json
   Example:
@@ -645,7 +795,7 @@ Get single order info by order_id or client_order_id
     "take_profit_price": "40000", //string, take-profit price in string format
     "protection_price": "31000", //string, protection price in string format
     "is_evaluated": true, // prices are evaluated
-    "invest_amount": "10", //string, investment amount in string format
+    "invest_amount": "10", //string, investment amount from user
     "zero_price_apy": "0.01",
     "low_price_apy": "0.01",
     "high_price_apy": "0.02",
@@ -680,7 +830,7 @@ Get single order info by order_id or client_order_id
     "strike_convert_price": "34000", //string, the price which triggers currency conversion
     "strike_start_price": "38000", //string, the price which starts to generate additional profit
     "strike_end_price": "39000", //string, the price which yields the max profit
-    "invest_amount": "100", //string, investment amount in string format
+    "invest_amount": "100", //string, investment amount from user
     "low_price_quantity": "0.07", //string, the profit if price lower than price interval
     "high_price_quantity": "0.51", //string, the profit if price higher than profit interval
     "success_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order being successfully placed
@@ -689,6 +839,34 @@ Get single order info by order_id or client_order_id
     "actual_settled_price": "32000", //string, option settled index price in string format
     "actual_settled_currency": "BTC", //string, settled currency
     "actual_settled_amount": "0.00156359" //string, settled amount
+  }
+}
+```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": { //object,
+    "meta_name": "dnt", // string, name of the meta-product
+    "order_id": "9080019906774802435", //string, order id
+    "client_order_id": "client_order_id_9080019906774802435", //string, client_order_id
+    "order_status": 100, //int, 0 : Processing, 100 : success, 110 : failed
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
+    "tracking_source": "BINANCE-PERP",  //tracking source
+    "term_mill": 1692950400000, //int, term
+    "take_profit_price": "40000", //string, upper bound price to trigger knock event
+    "protection_price": "31000", //string, lower bound price to trigger knock event
+    "invest_amount": "10", // investment amount from user, in string format
+    "success_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order being successfully placed
+    "booking_premium": "0.2", // utilized to subscribe DNT
+    "booking_quantity": "0.4", // quantity/share of the subscription of DNT
+    "funding_amount": "0.5" // the funding amount (this product has funding)
+    "actual_settled_time_mill": 1693555200000, //int, settled time
+    "actual_settled_price": "41000", //string, option settled index price in string format
+    "actual_settled_currency": "USDT", //string, settled currency
+    "actual_settled_amount": "10.3" //string, settled amount
   }
 }
 ```
@@ -707,7 +885,10 @@ Get single order info by order_id or client_order_id
 | take_profit_price        | string | for products with a price interval: the price which triggers take-profit, in string format                                                        |
 | protection_price         | string | for products with a price interval, the price which triggers stop-loss, in string format                                                          |
 | is_evaluated             | bool   | for products whose attributes (such as prices) are evaluated at a later time, this flag indicates whether the attributes are evaluated or not     |
-| invest_amount            | string | investment amount in string format                                                                                                                |
+| invest_amount            | string | investment amount from user, in string format                                                                                                     |
+| booking_quantity         | string | for products with one booking quantity, in string format, > 0, e.g. premium amount in DCP, booking share in DNT                                   |
+| booking_premium          | string | the premium amount utilized for the subscription                                                                                                  |
+| funding_amount           | string | the funding amount (if the product supports it)                                                                                                   |
 | zero_price_apy           | string | for products with a price interval: the annual percentage yield when the price is zero, in string format                                          |
 | low_price_apy            | string | for products with a price interval: the annual percentage yield when the price is smaller than the price interval, in string format               |
 | high_price_apy           | string | for products with a price interval: the annual percentage yield when the price is larger than the price interval, in string format                |
@@ -864,6 +1045,17 @@ Post Data Example:
 }
 ```
 
+```js
+{
+    "meta_name": "dnt", // string, name of the meta-product
+    "settle_time_mill": 1692950400000,
+    "order_id": "138974127412741893",
+    "currency": "USDT", //string, settle currency
+    "vendor_net_pay": "5", //string, expected settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor.
+    "settlement_index":"2100" // settlement index price
+}
+```
+
 - Response: application/json
   Example:
 
@@ -907,6 +1099,27 @@ Post Data Example:
     "request_settlement_index":"26000",
     "initial_price": "30000.5",
     "request_initial_price": "30000.5"
+  }
+}
+```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "settle_time_mill": 1692950400000,
+    "meta_name": "dnt", // string, name of the meta-product
+    "order_id": "138974182741278957",
+    "valid":true,
+    "settle_currency":"USDT", //string, settlement currency
+    "vendor_net_pay":"100", //string, settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor. 
+    "request_vendor_net_pay":"100",
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
+    "tracking_source":"BINANCE-PERP", // tracking source
+    "settlement_index":"26000", // vendor settlement index price
+    "request_settlement_index":"26000"
   }
 }
 ```
@@ -1060,10 +1273,10 @@ Check the total investment amount and total renewal amount between the mp and ve
 | start_time_mill    | int    | yes      | The start order successful time in millisecond UNIX epoch (inclusive) |
 | end_time_mill      | int    | yes      | The end order successful time in millisecond UNIX epoch (exclusive)   |
 | count              | int    | yes      | The count of successful order for a give time range                   |
-| infos              | list   | yes      | investment and renewal info                                           |
-| infos.currency     | string | yes      | investment currency                                                   |
-| infos.total_amount | string | yes      | total investment amount                                               |
-| infos.renew_amount | string | no       | total renewal amount                                                  |
+| infos              | list   | optional | investment and renewal info                                           |
+| infos.currency     | string | optional | investment currency                                                   |
+| infos.total_amount | string | optional | total investment amount                                               |
+| infos.renew_amount | string | optional | total renewal amount                                                  |
 
 Post Data Example:
 
@@ -1087,6 +1300,16 @@ Post Data Example:
   ]
 }
 ```
+
+```js
+{
+  "meta_name": "dnt",
+  "start_time_mill": 1719802800000,
+  "end_time_mill": 1719806400000,
+  "count" 5
+}
+```
+
 
 Response: application/json
 Example:
