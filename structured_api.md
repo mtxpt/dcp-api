@@ -290,6 +290,35 @@ Example:
 }
 ```
 
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "meta_name": "installment",
+    "items": [ //array, products
+        {
+            "underlying": "BTC-USDT", //string, underlying asset
+            "tracking_source": "BINANCE",  //string, tracking source
+            "term_mill": 1721289600000, // int, maturity time in millisecond UNIX epoch. eg, 1721289600000 is 2024-07-18 16:00:00(UTC+8)
+            "strike_convert_price": "35000", // option's strike price
+            "booking_quantity": "1", // 1BTC
+            "invest_amount_base": "0.48", // initial invest amount in base currency (BTC)
+            "invest_amount_quote": "31000",// initial invest amount in quote currency (USDT)
+            "min_buy_per_order": "0.01", //string, minimal booking_quantity per order
+            "max_buy_per_order": "100", //string, maximal booking_quantity per order
+            "buy_step": "0.00000001", // step of booking_quantity
+            "max_order_number_per_user": 100, //optional int, a user can place at most how many orders
+            "max_buy_per_user": "10000", // optional string, max total booking_quantity per user
+            "max_buy_product": "100000", // optional string, max total booking_quantity of this product
+            "term_tag": "weekly", // tag of the term
+            "final_amount_ratio": "0.5" // final amount ratio
+        }
+    ]
+  }
+}
+```
+
 | Parameter Name                  | Type             | Description                                                                                                                                                                               |
 | :------------------------------ | :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | meta_name                       | string           | name of the meta-product                                                                                                                                                                  |
@@ -319,6 +348,11 @@ Example:
 | items.invest_amount             | string, optional | reference amount from the user, in string format                                                                                                                                          |
 | items.low_price_quantity        | string, optional | (seagull) the profit if price lower than price interval, in string format                                                                                                                 |
 | items.high_price_quantity       | string, optional | (seagull) the profit if price higher than price interval, in string format                                                                                                                |
+| items.booking_quantity          | string, optional | quantity/share of the subscription                                                                                                                                                        |
+| items.invest_amount_base        | string, optional | invest amount in base currency for initial payment, when the user chooses to pay in base currency                                                                                         |
+| items.invest_amount_quote       | string, optional | invest amount in quote currency for initial payment, when the user chooses to pay in quote currency                                                                                       |
+| items.term_tag                  | string, optional | tag of the term                                                                                                                                                                           |
+| items.final_amount_ratio        | string, optional | final amount ratio                                                                                                                                                                        |
 
 ---
 
@@ -346,10 +380,37 @@ Example:
 | term_mill            | int    | yes      | product's term.                                                                                    |
 | take_profit_price    | string | yes      | for products with a price interval: this is the price which triggers take-profit, in string format |
 | protection_price     | string | yes      | for products with a price interval, this is the price which triggers stop-loss, in string format   |
-| strike_convert_price | string | seagull  | the price which triggers currency conversion, in string format                                     |
+| strike_convert_price | string | optional | the price which triggers currency conversion, in string format                                     |
 | strike_start_price   | string | seagull  | (seagull) the price which starts to generate additional profit, in string format                   |
 | strike_end_price     | string | seagull  | (seagull) the price which yields the max profit, in string format                                  |
 | invest_amount        | string | yes      | amount to invest in the product, in string format                                                  |
+| booking_quantity     | string | optional | quantity/share of the subscription                                                                 |
+
+Request Example:
+
+```js
+// fixed booking_quantity (invest_amount may vary)
+{
+    "meta_name": "installment",
+    "invest_currency": "USDT",
+    "underlying": "BTC-USDT",
+    "tracking_source": "BINANCE",
+    "term_mill": 1721289600000,
+    "strike_convert_price": "35000",
+    "booking_quantity": "2"
+}
+
+// fixed invest_amount (booking_quantity may vary)
+{
+    "meta_name": "installment",
+    "invest_currency": "USDT",
+    "underlying": "BTC-USDT",
+    "tracking_source": "BINANCE",
+    "term_mill": 1721289600000,
+    "strike_convert_price": "35000",
+    "invest_amount": "62000"
+}
+```
 
 - Response: application/json
 
@@ -405,6 +466,46 @@ Example:
 }
 ```
 
+```js
+// fixed booking_quantity (invest_amount may vary)
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "quote_id": "9712367890123456789", //string, quote id
+    "meta_name": "installment", // string, name of the meta-product
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
+    "tracking_source": "BINANCE",  //trade source  DERIBIT,BINANCE etc...
+    "term_mill": 1721289600000, // int, maturity time in millisecond UNIX epoch. eg, 1721289600000 is 2024-07-18 16:00:00(UTC+8)
+    "strike_convert_price": "35000",
+    "price_expire_time_mill": 1721289650000, //int, price expire time in millisecond UNIX epoch
+    "booking_quantity": "2",
+    "invest_amount": "62200", //string, amount in string format
+    "final_amount": "70000"
+  }
+}
+
+// fixed invest_amount (booking_quantity may vary)
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "quote_id": "9712367890123456789", //string, quote id
+    "meta_name": "installment", // string, name of the meta-product
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
+    "tracking_source": "BINANCE",  //trade source  DERIBIT,BINANCE etc...
+    "term_mill": 1721289600000, // int, maturity time in millisecond UNIX epoch. eg, 1721289600000 is 2024-07-18 16:00:00(UTC+8)
+    "strike_convert_price": "35000",
+    "price_expire_time_mill": 1721289650000, //int, price expire time in millisecond UNIX epoch
+    "booking_quantity": "1.9",
+    "invest_amount": "62000", //string, amount in string format
+    "final_amount": "66500"
+  }
+}
+```
+
 | Parameter Name         | Type   | Description                                                                                                                                       |
 | :--------------------- | :----- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
 | quote_id               | string | quote id                                                                                                                                          |
@@ -429,6 +530,8 @@ Example:
 | high_price_quantity    | string | (seagull) the profit if price higher than price interval, in string format                                                                        |
 | price_expire_time_mill | int    | price expire time in millisecond                                                                                                                  |
 | invest_amount          | string | amount in string format                                                                                                                           |
+| booking_quantity       | string | quantity/share of the subscription                                                                                                                |
+| final_amount           | string | amount for final payment                                                                                                                          |
 
 Error Code:
 
@@ -693,6 +796,34 @@ Get single order info by order_id or client_order_id
 }
 ```
 
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": { //object,
+    "meta_name": "installment", // string, name of the meta-product
+    "order_id": "5678919906774802432", //string, order id
+    "client_order_id": "client_order_id_123", //string, client_order_id
+    "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
+    "invest_currency": "USDT", //string, investment currency
+    "underlying": "BTC-USDT", //string, underlying asset
+    "tracking_source": "BINANCE",  //tracking source
+    "term_mill": 1692950400000, //int, term
+    "strike_convert_price": "35000",
+    "invest_amount": "62200", //string, investment amount in string format
+    "booking_quantity": "2",
+    "final_amount": "70000",
+    "success_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order being successfully placed
+    "success_time_spot_price": "65432", //string, spot price when the order successfully placed
+    "value_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order starting to accure interest
+    "actual_settled_time_mill": 1692950400000, //int, vendor settled time
+    "actual_settled_price": "60000", //string, option settled index price in string format
+    "actual_settled_currency": "BTC", //string, settled currency
+    "actual_settled_amount": "0.83333333" //string, settled amount
+  }
+}
+```
+
 | Parameter Name           | Type   | Description                                                                                                                                       |
 | :----------------------- | :----- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
 | meta_name                | string | name of the meta-product                                                                                                                          |
@@ -719,7 +850,10 @@ Get single order info by order_id or client_order_id
 | strike_end_price         | string | (seagull) the price which yields the max profit, in string format                                                                                 |
 | low_price_quantity       | string | (seagull) the profit if price lower than price interval, in string format                                                                         |
 | high_price_quantity      | string | (seagull) the profit if price higher than price interval, in string format                                                                        |
+| booking_quantity         | string | quantity/share of the subscription                                                                                                                |
+| final_amount             | string | amount for final payment                                                                                                                          |
 | success_time_mill        | int    | millisecond UNIX epoch of the order being successfully placed                                                                                     |
+| success_time_spot_price  | string | spot price at the time of the order being successfully placed                                                                                     |
 | value_time_mill          | int    | millisecond UNIX epoch of the order starting to accure interest                                                                                   |
 | actual_settled_time_mill | int    | vendor settled time                                                                                                                               |
 | actual_settled_price     | string | actual settlement price in string format                                                                                                          |
@@ -1133,3 +1267,35 @@ Example:
 | infos.request_total_amount | string | client's expected total investment amount |
 | infos.renew_amount         | string | vendor's expected total renewal amount    |
 | infos.request_renew_amount | string | client's expected total renewal amount    |
+
+
+### 1.6.14 Pay Final Payment (Installment)
+
+- Pay final payment for installment
+
+- The timeout for this interface call is 2000ms.
+
+- URL: /mp/api/v1/structured/final_payment
+
+- method: Post
+
+- Parameters: json in body
+
+| Key             | Type   | Required | Description                                     |
+| --------------- | ------ | -------- | ----------------------------------------------- |
+| meta_name       | string | yes      | name of the meta-product. eg, "installment"     |
+| amount          | string | yes      | amount to pay in string format                  |
+| currency        | string | yes      | currency of final payment                       |
+| order_id        | string | yes      | vendor order id                                 |
+| transfer_sn     | string | yes      | transfer serial number                          |
+
+- Response: application/json
+
+Example:
+
+```js
+{
+  "code" : 0,
+  "message" : ""
+}
+```
