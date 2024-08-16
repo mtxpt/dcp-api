@@ -817,7 +817,8 @@ Get single order info by order_id or client_order_id
     "actual_settled_time_mill": 1692950400000, //int, vendor settled time
     "actual_settled_price": "60000", //string, option settled index price in string format
     "actual_settled_currency": "BTC", //string, settled currency
-    "actual_settled_amount": "0.83333333" //string, settled amount
+    "actual_settled_amount": "0.83333333", //string, settled amount
+    "term_tag": "1d"
   }
 }
 ```
@@ -857,6 +858,7 @@ Get single order info by order_id or client_order_id
 | actual_settled_price     | string | actual settlement price in string format                                                                                                          |
 | actual_settled_currency  | string | settled currency                                                                                                                                  |
 | actual_settled_amount    | string | settled amount                                                                                                                                    |
+| term_tag                 | string | tag of the term                                                                                                                                   |
 
 ### 1.6.8. Query Orders
 
