@@ -311,8 +311,7 @@ Example:
             "max_order_number_per_user": 100, //optional int, a user can place at most how many orders
             "max_buy_per_user": "10000", // optional string, max total booking_quantity per user
             "max_buy_product": "100000", // optional string, max total booking_quantity of this product
-            "term_tag": "weekly", // tag of the term
-            "final_amount_ratio": "0.5" // final amount ratio
+            "term_tag": "1w" // tag of the term. e.g. 1w = 1 week
         }
     ]
   }
@@ -349,10 +348,9 @@ Example:
 | items.low_price_quantity        | string, optional | (seagull) the profit if price lower than price interval, in string format                                                                                                                 |
 | items.high_price_quantity       | string, optional | (seagull) the profit if price higher than price interval, in string format                                                                                                                |
 | items.booking_quantity          | string, optional | quantity/share of the subscription                                                                                                                                                        |
-| items.invest_amount_base        | string, optional | invest amount in base currency for initial payment, when the user chooses to pay in base currency                                                                                         |
-| items.invest_amount_quote       | string, optional | invest amount in quote currency for initial payment, when the user chooses to pay in quote currency                                                                                       |
+| items.invest_amount_base        | string, optional | (based on booking_quantity) invest amount in base currency for initial payment, when the user chooses to pay in base currency                                                             |
+| items.invest_amount_quote       | string, optional | (based on booking_quantity) invest amount in quote currency for initial payment, when the user chooses to pay in quote currency                                                           |
 | items.term_tag                  | string, optional | tag of the term                                                                                                                                                                           |
-| items.final_amount_ratio        | string, optional | final amount ratio                                                                                                                                                                        |
 
 ---
 
@@ -557,7 +555,7 @@ Error Code:
 | Key             | Type   | Required | Description                                     |
 | --------------- | ------ | -------- | ----------------------------------------------- |
 | meta_name       | string | yes      | name of the meta-product. eg, "snowball", "dcp" |
-| invest_amount   | string | yes      | amount in string format                         |
+| invest_amount   | string | optional | amount in string format (backward compatible)   |
 | quote_id        | string | yes      | quote id, unique                                |
 | client_order_id | string | yes      | client order id, for idempotence                |
 | parent_order_id | string | no       | vendor order id of the parent order, to renew   |
@@ -853,7 +851,7 @@ Get single order info by order_id or client_order_id
 | booking_quantity         | string | quantity/share of the subscription                                                                                                                |
 | final_amount             | string | amount for final payment                                                                                                                          |
 | success_time_mill        | int    | millisecond UNIX epoch of the order being successfully placed                                                                                     |
-| success_time_spot_price  | string | spot price at the time of the order being successfully placed                                                                                     |
+| success_time_spot_price  | string | spot price at the time of the order being successfully placed (precision is determined by vendor)                                                 |
 | value_time_mill          | int    | millisecond UNIX epoch of the order starting to accure interest                                                                                   |
 | actual_settled_time_mill | int    | vendor settled time                                                                                                                               |
 | actual_settled_price     | string | actual settlement price in string format                                                                                                          |
