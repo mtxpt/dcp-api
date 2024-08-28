@@ -998,6 +998,17 @@ Post Data Example:
 }
 ```
 
+```js
+{
+    "meta_name": "installment", // string, name of the meta-product
+    "settle_time_mill": 1692950400000,
+    "order_id": "13897412741274555",
+    "currency": "ETH", //string, settle currency
+    "vendor_net_pay": "5.1", //string, expected settlement amount
+    "settlement_index":"2600" // settlement index price
+}
+```
+
 - Response: application/json
   Example:
 
@@ -1044,6 +1055,27 @@ Post Data Example:
   }
 }
 ```
+
+```js
+{
+  "code": 0,
+  "message": "",
+  "data": {
+    "settle_time_mill": 1692950400000,
+    "meta_name": "installment", // string, name of the meta-product
+    "order_id": "13897412741274555",
+    "valid":true,
+    "settle_currency":"ETH", //string, settlement currency
+    "vendor_net_pay":"5.1", //string, settlement amount
+    "request_vendor_net_pay":"5.1",
+    "underlying": "ETH-USDT", //string, underlying asset
+    "tracking_source":"BINANCE",  // tracking source
+    "settlement_index":"26000", // vendor settlement index price
+    "request_settlement_index":"26000"
+  }
+}
+```
+
 
 | Parameter Name           | Type   | Description                     | Example       |
 | :----------------------- | :----- | :------------------------------ | :------------ |
