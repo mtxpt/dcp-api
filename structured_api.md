@@ -300,6 +300,7 @@ Example:
         {
             "underlying": "BTC-USDT", //string, underlying asset
             "tracking_source": "BINANCE",  //string, tracking source
+            "type": "CALL", // string, type
             "term_mill": 1721289600000, // int, maturity time in millisecond UNIX epoch. eg, 1721289600000 is 2024-07-18 16:00:00(UTC+8)
             "strike_convert_price": "35000", // option's strike price
             "booking_quantity": "1", // 1BTC
@@ -393,6 +394,7 @@ Request Example:
     "invest_currency": "USDT",
     "underlying": "BTC-USDT",
     "tracking_source": "BINANCE",
+    "type": "CALL",
     "term_mill": 1721289600000,
     "strike_convert_price": "35000",
     "booking_quantity": "2"
@@ -404,6 +406,7 @@ Request Example:
     "invest_currency": "USDT",
     "underlying": "BTC-USDT",
     "tracking_source": "BINANCE",
+    "type": "CALL",
     "term_mill": 1721289600000,
     "strike_convert_price": "35000",
     "invest_amount": "62000"
@@ -475,6 +478,7 @@ Example:
     "invest_currency": "USDT", //string, investment currency
     "underlying": "BTC-USDT", //string, underlying asset
     "tracking_source": "BINANCE",  //trade source  DERIBIT,BINANCE etc...
+    "type": "CALL",
     "term_mill": 1721289600000, // int, maturity time in millisecond UNIX epoch. eg, 1721289600000 is 2024-07-18 16:00:00(UTC+8)
     "strike_convert_price": "35000",
     "price_expire_time_mill": 1721289650000, //int, price expire time in millisecond UNIX epoch
@@ -494,6 +498,7 @@ Example:
     "invest_currency": "USDT", //string, investment currency
     "underlying": "BTC-USDT", //string, underlying asset
     "tracking_source": "BINANCE",  //trade source  DERIBIT,BINANCE etc...
+    "type": "CALL",
     "term_mill": 1721289600000, // int, maturity time in millisecond UNIX epoch. eg, 1721289600000 is 2024-07-18 16:00:00(UTC+8)
     "strike_convert_price": "35000",
     "price_expire_time_mill": 1721289650000, //int, price expire time in millisecond UNIX epoch
@@ -806,6 +811,7 @@ Get single order info by order_id or client_order_id
     "invest_currency": "USDT", //string, investment currency
     "underlying": "BTC-USDT", //string, underlying asset
     "tracking_source": "BINANCE",  //tracking source
+    "type": "CALL", //string, option type
     "term_mill": 1692950400000, //int, term
     "strike_convert_price": "35000",
     "invest_amount": "62200", //string, investment amount in string format
