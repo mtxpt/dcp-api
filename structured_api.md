@@ -1285,7 +1285,7 @@ Post Data Example:
   "meta_name": "trend",
   "start_time_mill": 1698768480000,
   "end_time_mill": 1701360480000,
-  "count" 2,
+  "count": 2,
   "infos": [
     {
       "currency": "USDT",
@@ -1306,7 +1306,7 @@ Post Data Example:
   "meta_name": "dnt",
   "start_time_mill": 1719802800000,
   "end_time_mill": 1719806400000,
-  "count" 5
+  "count": 5
 }
 ```
 
