@@ -541,6 +541,7 @@ Error Code:
 | Code | Message                                                |
 | ---- | ------------------------------------------------------ |
 | 0    | Success                                                |
+| 5001 | invest principal too low (will **NOT** retry)          |
 | 1001 | retryable error (may retry according to product logic) |
 | 1002 | other error1  eg. No price (will **NOT** retry)        |
 | 1003 | other error2  eg. price expire (will **NOT** retry)    |
