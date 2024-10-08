@@ -397,7 +397,8 @@ Request Example:
     "type": "CALL",
     "term_mill": 1721289600000,
     "strike_convert_price": "35000",
-    "booking_quantity": "2"
+    "booking_quantity": "2",
+    "invest_amount": "0" // unused
 }
 
 // fixed invest_amount (booking_quantity may vary)
@@ -409,7 +410,8 @@ Request Example:
     "type": "CALL",
     "term_mill": 1721289600000,
     "strike_convert_price": "35000",
-    "invest_amount": "62000"
+    "invest_amount": "62000",
+    "booking_quantity": "0" // unused
 }
 ```
 
