@@ -300,7 +300,7 @@ Example:
         {
             "invest_currency": "USDT", //string, investment currency
             "underlying": "BTC-USDT", //string, underlying asset
-            "tracking_source": "BINANCE-PERP",  //string, tracking source
+            "tracking_source": "BINANCE",  //string, tracking source
             "term_mill": 1692950400000, // int, settle time in millisecond UNIX epoch. eg, 1692950400000 is 2023-08-25T16:00:00 +08:00
             "take_profit_price": "38000", //string, upper bound price to trigger knock event
             "protection_price": "30000", //string, lower bound price to trigger knock event
@@ -329,7 +329,7 @@ Example:
         {
             "invest_currency": "USDT", //string, investment currency
             "underlying": "BTC-USDT", //string, underlying asset
-            "tracking_source": "BINANCE-PERP",  //string, tracking source
+            "tracking_source": "BINANCE",  //string, tracking source
             "term_mill": 1692950400000, // int, settle time in millisecond UNIX epoch. eg, 1692950400000 is 2023-08-25T16:00:00 +08:00
             "take_profit_price": "38000", //string, upper bound price to trigger knock event
             "protection_price": "30000", //string, lower bound price to trigger knock event
@@ -422,7 +422,7 @@ Request Data Example:
   "meta_name": "dnt",
   "invest_currency": "USDT",
   "underlying": "BTC-USDT",
-  "tracking_source": "BINANCE-PERP",
+  "tracking_source": "BINANCE",
   "term_mill": 1692950400000,
   "take_profit_price": "38000",
   "protection_price": "30000",
@@ -494,7 +494,7 @@ Example:
     "meta_name": "dnt", // string, name of the meta-product
     "invest_currency": "USDT", //string, investment currency
     "underlying": "BTC-USDT", //string, underlying asset
-    "tracking_source": "BINANCE-PERP",  //trade source  DERIBIT,BINANCE etc...
+    "tracking_source": "BINANCE",  //trade source  DERIBIT,BINANCE etc...
     "term_mill": 1692950400000, // int, settle time in millisecond UNIX epoch. eg, 1692950400000 is 2023-08-25T16:00:00 +08:00
     "take_profit_price": "39000", //string, upper bound price to trigger knock event
     "protection_price": "33000", // string, lower bound price to trigger knock event
@@ -514,7 +514,7 @@ Example:
     "meta_name": "dnt", // string, name of the meta-product
     "invest_currency": "USDT", //string, investment currency
     "underlying": "BTC-USDT", //string, underlying asset
-    "tracking_source": "BINANCE-PERP",  //trade source  DERIBIT,BINANCE etc...
+    "tracking_source": "BINANCE",  //trade source  DERIBIT,BINANCE etc...
     "term_mill": 1692950400000, // int, settle time in millisecond UNIX epoch. eg, 1692950400000 is 2023-08-25T16:00:00 +08:00
     "take_profit_price": "39000", //string, upper bound price to trigger knock event
     "protection_price": "33000", // string, lower bound price to trigger knock event
@@ -854,7 +854,7 @@ Get single order info by order_id or client_order_id
     "order_status": 100, //int, 0 : Processing, 100 : success, 110 : failed
     "invest_currency": "USDT", //string, investment currency
     "underlying": "BTC-USDT", //string, underlying asset
-    "tracking_source": "BINANCE-PERP",  //tracking source
+    "tracking_source": "BINANCE",  //tracking source
     "term_mill": 1692950400000, //int, term
     "take_profit_price": "40000", //string, upper bound price to trigger knock event
     "protection_price": "31000", //string, lower bound price to trigger knock event
@@ -1117,7 +1117,7 @@ Post Data Example:
     "request_vendor_net_pay":"100",
     "invest_currency": "USDT", //string, investment currency
     "underlying": "BTC-USDT", //string, underlying asset
-    "tracking_source":"BINANCE-PERP", // tracking source
+    "tracking_source":"BINANCE", // tracking source
     "settlement_index":"26000", // vendor settlement index price
     "request_settlement_index":"26000"
   }
