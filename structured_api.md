@@ -580,7 +580,7 @@ Error Code:
 | Key               | Type   | Required           | Description                                          |
 | ----------------- | ------ | ------------------ | ---------------------------------------------------- |
 | meta_name         | string | yes                | name of the meta-product. eg, "snowball", "dcp"      |
-| invest_amount     | string | yes                | amount in string format                              |
+| invest_amount     | string | optional           | amount in string format (backward compatible)        |
 | quote_id          | string | follows quote      | quote id, unique                                     |
 | client_order_id   | string | yes                | client order id, for idempotence                     |
 | parent_order_id   | string | no                 | vendor order id of the parent order, to renew        |
