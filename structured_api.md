@@ -1017,7 +1017,7 @@ vendor check settlement price, settlement amount and settlement currency of an o
 | order_id         | string | yes                             | vendor order ID                 |               |
 | currency         | string | yes                             | settle currency                 | BTC           |
 | vendor_net_pay   | string | yes                             | settle amount                   | 0.1           |
-| settlement_index | string | yes                             | settlement price                | 38000.12      |
+| settlement_index | string | DNT: required only when knocked | settlement price / knock price  | 38000.12      |
 | initial_price    | string | only when settlment requires it | price on the first value date   | 37500.99      |
 
 Post Data Example:
