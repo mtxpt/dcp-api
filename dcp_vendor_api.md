@@ -173,9 +173,9 @@ Example:
 | items.settle_time_mill | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.                                                                               |
 | items.strike_price     | string | strike price in string format                                                                                                                                     |
 | items.deposit_currency | string | deposit currency                                                                                                                                                  |
-| items.min_buy          | string | minimal buy amount                                                                                                                                                |
+| items.min_buy          | string | minimal buy amount, must be a multiple of mini_buy_step                                                                                                           |
 | items.max_buy          | string | maximal buy amount, max_buy >= min_buy                                                                                                                            |
-| items.mini_buy_step    | string | buy amount mini step (if set 0.1 and mini_buy set 1 then available deposit amount is 1.1,1.2,1.3,1.4....)                                                         |
+| items.mini_buy_step    | string | buy amount step, must be a power of 10, e.g. 0.1, 1, 10. (if step=0.1 and min_buy=1 then available deposit amount is 1,1.1,1.2,1.3,1.4....)                       |
 | items.yield_rate       | string | yield rate; not converted: payback*amount = deposit_amount * (1 + yield_rate) ; converted: payback_amount = deposit_amount \*(/) target_price \* (1 + yield_rate) |
 | items.redeemable       | bool   | whether this product can be early redeemed.                                                                                                                       |
 
