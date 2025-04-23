@@ -181,88 +181,22 @@ Example:
   "code": 0,
   "message": "",
   "data": {
-    "meta_name": "snowball",
-    "items": [ //array, products
-        {
-            "invest_currency": "USDC", //string, investment currency
-            "underlying": "BTC-USDC", //string, underlying asset
-            "tracking_source": "DERIBIT",  //string, trade source
-            "type": "CALL", // string, type
-            "term_mill": 604800000, // int, term length in millisecond. eg, 604800000 is 7 days
-            "take_profit_price": "38000", //string, take-profit price in string format
-            "protection_price": "30000", //string, protection price in string format
-            "take_profit_apy": "0.1",
-            "protection_apy": "-0.05",
-            "zero_price_apy": "-0.1",
-            "low_price_apy": "-0.05",
-            "high_price_apy": "0.1",
-            "min_buy_per_order": "0.1", //string, minimal buy amount per order
-            "max_buy_per_order": "100", //string, maximal buy amount per order
-            "buy_step": "0.1", // buy amount step, 0.1 means investment amount can change by 0.1
-            "max_order_number_per_user": 1000000, //optional int, a user can place AT MOST how many orders
-            "max_buy_per_user": "100000000", // optional string, max total buy amount per user
-            "max_buy_product": "1000000000" // optional string, max total buy amount of this product
-        }
-    ]
-  }
-}
-```
-
-```js
-{
-  "code": 0,
-  "message": "",
-  "data": {
-    "meta_name": "sharkfin",
-    "items": [ //array, products
-        {
-            "invest_currency": "USDT", //string, investment currency
-            "underlying": "BTC-USDT", //string, underlying asset
-            "tracking_source": "DERIBIT",  //string, tracking source
-            "type": "CALL", // string, type
-            "term_mill": 604800000, // int, term length in millisecond. eg, 604800000 is 7 days
-            "take_profit_price": "38000", //string, take-profit price in string format
-            "protection_price": "30000", //string, protection price in string format
-            "take_profit_apy": "0.2",
-            "protection_apy": "0.1",
-            "zero_price_apy": "0.05",
-            "low_price_apy": "0.05",
-            "high_price_apy": "0.05",
-            "min_buy_per_order": "1", //string, minimal buy amount per order
-            "max_buy_per_order": "100000", //string, maximal buy amount per order
-            "buy_step": "0.1", // buy amount step, 0.1 means investment amount can change by 0.1
-            "max_order_number_per_user": 1000000, //optional int, a user can place AT MOST how many orders
-            "max_buy_per_user": "100000000", // optional string, max total buy amount per user
-            "max_buy_product": "1000000000" // optional string, max total buy amount of this product
-        }
-    ]
-  }
-}
-```
-
-```js
-{
-  "code": 0,
-  "message": "",
-  "data": {
-    "meta_name": "seagull",
+    "meta_name": "fcn",
     "items": [ //array, products
         {
             "invest_currency": "USDT", //string, investment currency
             "underlying": "BTC-USDT", //string, underlying asset
             "tracking_source": "BINANCE",  //string, tracking source
             "type": "CALL", // string, type
-            "term_mill": 1721289600000, // int, maturity time in millisecond UNIX epoch. eg, 1721289600000 is 2024-07-18 16:00:00(UTC+8)
-            "strike_convert_price": "64000", //string, the price which triggers currency conversion
-            "strike_start_price": "68000", //string, the price which starts to generate additional profit
-            "strike_end_price": "69000", //string, the price which yields the max profit
+            "term_mill": 604800000, // int, term length in millisecond. eg, 604800000 is 7 days
+            "take_profit_price": "88000", //string, take-profit price in string format
+            "protection_price": "80000", //string, protection price in string format
+            "booking_quantity": "2", // profit amount for full term based on invest_amount
             "invest_amount": "1000", // string, reference investment amount from the user
-            "low_price_quantity": "0.7725", // string, profit if price lower than price interval, based on invest_amount
-            "high_price_quantity": "5.4161", // string, profit if price higher than price interval, based on invest_amount
-            "min_buy_per_order": "1", //string, minimal buy amount per order
-            "max_buy_per_order": "100000", //string, maximal buy amount per order
-            "buy_step": "0.1", // buy amount step, 0.1 means investment amount can change by 0.1
-            "max_order_number_per_user": 1000000, //optional int, a user can place at most how many orders
+            "min_buy_per_order": "0.1", //string, minimal buy amount per order
+            "max_buy_per_order": "10000", //string, maximal buy amount per order
+            "buy_step": "0.00000001", // buy amount step, 0.1 means investment amount can change by 0.1
+            "max_order_number_per_user": 1000000, //optional int, a user can place AT MOST how many orders
             "max_buy_per_user": "100000000", // optional string, max total buy amount per user
             "max_buy_product": "1000000000" // optional string, max total buy amount of this product
         },
@@ -271,48 +205,17 @@ Example:
             "underlying": "BTC-USDT", //string, underlying asset
             "tracking_source": "BINANCE",  //string, tracking source
             "type": "PUT", // string, type
-            "term_mill": 1721289600000, // int, maturity time in millisecond UNIX epoch. eg, 1721289600000 is 2024-07-18 16:00:00(UTC+8)
-            "strike_convert_price": "67000", //string, the price which triggers currency conversion
-            "strike_start_price": "64000", //string, the price which starts to generate additional profit
-            "strike_end_price": "63000", //string, the price which yields the max profit
-            "invest_amount": "10", // string, reference investment amount from the user
-            "low_price_quantity": "0.054831", // string, profit if price lower than price interval, based on invest_amount
-            "high_price_quantity": "0.012106", // string, profit if price higher than price interval, based on invest_amount
-            "min_buy_per_order": "0.01", //string, minimal buy amount per order
-            "max_buy_per_order": "100", //string, maximal buy amount per order
-            "buy_step": "0.1", // buy amount step, 0.1 means investment amount can change by 0.1
-            "max_order_number_per_user": 100, //optional int, a user can place at most how many orders
-            "max_buy_per_user": "10000", // optional string, max total buy amount per user
-            "max_buy_product": "100000" // optional string, max total buy amount of this product
-        }
-    ]
-  }
-}
-```
-
-```js
-{
-  "code": 0,
-  "message": "",
-  "data": {
-    "meta_name": "installment",
-    "items": [ //array, products
-        {
-            "underlying": "BTC-USDT", //string, underlying asset
-            "tracking_source": "BINANCE",  //string, tracking source
-            "type": "CALL", // string, type
-            "term_mill": 1721289600000, // int, maturity time in millisecond UNIX epoch. eg, 1721289600000 is 2024-07-18 16:00:00(UTC+8)
-            "strike_convert_price": "35000", // option's strike price
-            "booking_quantity": "1", // 1BTC
-            "invest_amount_base": "0.48", // initial invest amount in base currency (BTC)
-            "invest_amount_quote": "31000",// initial invest amount in quote currency (USDT)
-            "min_buy_per_order": "0.01", //string, minimal booking_quantity per order
-            "max_buy_per_order": "100", //string, maximal booking_quantity per order
-            "buy_step": "0.00000001", // step of booking_quantity
-            "max_order_number_per_user": 100, //optional int, a user can place at most how many orders
-            "max_buy_per_user": "10000", // optional string, max total booking_quantity per user
-            "max_buy_product": "100000", // optional string, max total booking_quantity of this product
-            "term_tag": "1w" // tag of the term. e.g. 1w = 1 week
+            "term_mill": 604800000, // int, term length in millisecond. eg, 604800000 is 7 days
+            "take_profit_price": "70000", //string, take-profit price in string format
+            "protection_price": "90000", //string, protection price in string format
+            "booking_quantity": "1", // profit amount for full term based on invest_amount
+            "invest_amount": "1000", // string, reference investment amount from the user
+            "min_buy_per_order": "0.1", //string, minimal buy amount per order
+            "max_buy_per_order": "10000", //string, maximal buy amount per order
+            "buy_step": "0.00000001", // buy amount step, 0.1 means investment amount can change by 0.1
+            "max_order_number_per_user": 1000000, //optional int, a user can place AT MOST how many orders
+            "max_buy_per_user": "100000000", // optional string, max total buy amount per user
+            "max_buy_product": "1000000000" // optional string, max total buy amount of this product
         }
     ]
   }
@@ -327,31 +230,17 @@ Example:
 | items.underlying                | string           | underlying asset                                                                                                                                                                          |
 | items.tracking_source           | string           | tracking source                                                                                                                                                                           |
 | items.type                      | string           | type                                                                                                                                                                                      |
-| items.term_mill                 | int              | for a fixed mature time, this is millisecond UNIX epoch, eg. 1692950400000 is 2023-08-25T16:00:00 +08:00. For a fixed term length, this is the term in milliseconds, eg. 1day is 86400000 |
+| items.term_mill                 | int              | For a fixed term length, this is the term in milliseconds, eg. 1day is 86400000                                                                                                           |
 | items.take_profit_price         | string           | for products with a price interval: this is the price which triggers take-profit, in string format                                                                                        |
 | items.protection_price          | string           | for products with a price interval, this is the price which triggers stop-loss, in string format                                                                                          |
-| items.strike_convert_price      | string           | the price which triggers currency conversion, in string format                                                                                                                            |
-| items.strike_start_price        | string           | (seagull) the price which starts to generate additional profit, in string format                                                                                                          |
-| items.strike_end_price          | string           | (seagull) the price which yields the max profit, in string format                                                                                                                         |
-| items.apy                       | string           | for products with one annual percentage yield: in string format                                                                                                                           |
-| items.take_profit_apy           | string           | for products with a price interval: the maximum annual percentage yield the product will pay within the price interval, in string format                                                  |
-| items.protection_apy            | string           | for products with a price interval: the minimum annual percentage yield the product will pay within the price interval, in string format                                                  |
-| items.zero_price_apy            | string           | for products with a price interval: the annual percentage yield when the price is zero (connected to low price APY to draw a line), in string format                                      |
-| items.low_price_apy             | string           | for products with a price interval: the annual percentage yield when the price is smaller than the price interval, in string format                                                       |
-| items.high_price_apy            | string           | for products with a price interval: the annual percentage yield when the price is larger than the price interval, in string format                                                        |
+| items.invest_amount             | string           | reference amount from the user, in string format                                                                                                                                          |
+| items.booking_quantity          | string           | profit amount for full term based on invest_amount                                                                                                                                        |
 | items.min_buy_per_order         | string           | minimal buy amount per order                                                                                                                                                              |
 | items.max_buy_per_order         | string           | maximal buy amount per order                                                                                                                                                              |
 | items.buy_step                  | string           | buy amount step                                                                                                                                                                           |
 | items.max_order_number_per_user | int, optional    | max number of orders which a user can place                                                                                                                                               |
 | items.max_buy_per_user          | string, optional | max of total buy amount per user                                                                                                                                                          |
 | items.max_buy_product           | string, optional | max of total buy amount of this product                                                                                                                                                   |
-| items.invest_amount             | string, optional | reference amount from the user, in string format                                                                                                                                          |
-| items.low_price_quantity        | string, optional | (seagull) the profit if price lower than price interval, in string format                                                                                                                 |
-| items.high_price_quantity       | string, optional | (seagull) the profit if price higher than price interval, in string format                                                                                                                |
-| items.booking_quantity          | string, optional | quantity/share of the subscription                                                                                                                                                        |
-| items.invest_amount_base        | string, optional | (based on booking_quantity) invest amount in base currency for initial payment, when the user chooses to pay in base currency                                                             |
-| items.invest_amount_quote       | string, optional | (based on booking_quantity) invest amount in quote currency for initial payment, when the user chooses to pay in quote currency                                                           |
-| items.term_tag                  | string, optional | tag of the term                                                                                                                                                                           |
 
 ---
 
@@ -379,39 +268,21 @@ Example:
 | term_mill            | int    | yes      | product's term.                                                                                    |
 | take_profit_price    | string | yes      | for products with a price interval: this is the price which triggers take-profit, in string format |
 | protection_price     | string | yes      | for products with a price interval, this is the price which triggers stop-loss, in string format   |
-| strike_convert_price | string | optional | the price which triggers currency conversion, in string format                                     |
-| strike_start_price   | string | seagull  | (seagull) the price which starts to generate additional profit, in string format                   |
-| strike_end_price     | string | seagull  | (seagull) the price which yields the max profit, in string format                                  |
 | invest_amount        | string | yes      | amount to invest in the product, in string format                                                  |
-| booking_quantity     | string | optional | quantity/share of the subscription                                                                 |
 
 Request Example:
 
 ```js
-// fixed booking_quantity (invest_amount may vary)
 {
-    "meta_name": "installment",
+    "meta_name": "fcn",
     "invest_currency": "USDT",
     "underlying": "BTC-USDT",
     "tracking_source": "BINANCE",
     "type": "CALL",
-    "term_mill": 1721289600000,
-    "strike_convert_price": "35000",
-    "booking_quantity": "2",
-    "invest_amount": "0" // unused
-}
-
-// fixed invest_amount (booking_quantity may vary)
-{
-    "meta_name": "installment",
-    "invest_currency": "USDT",
-    "underlying": "BTC-USDT",
-    "tracking_source": "BINANCE",
-    "type": "CALL",
-    "term_mill": 1721289600000,
-    "strike_convert_price": "35000",
-    "invest_amount": "62000",
-    "booking_quantity": "0" // unused
+    "term_mill": 604800000,
+    "take_profit_price": "88000",
+    "protection_price": "80000",
+    "invest_amount": "500"
 }
 ```
 
@@ -425,88 +296,17 @@ Example:
   "message": "",
   "data": {
     "quote_id": "6634567890123456789", //string, quote id
-    "meta_name": "sharkfin", // string, name of the meta-product
+    "meta_name": "fcn", // string, name of the meta-product
     "invest_currency": "USDT", //string, investment currency
     "underlying": "BTC-USDT", //string, underlying asset
-    "tracking_source": "DERIBIT",  //trade source  DERIBIT,BINANCE etc...
+    "tracking_source": "BINANCE",  //trade source
     "type": "CALL", //string, product type
     "term_mill": 1209600000, //int, term. e.g. 1209600000 is 14 days
-    "take_profit_price": "39000", //string, take-profit price in string format
-    "protection_price": "33000", // string, protection price in string format
-    "zero_price_apy": "0.03", //string, zero-price APY in string format
-    "low_price_apy": "0.03", //string, low-price APY in string format
-    "high_price_apy": "0.04", //string, high-price APY in string format
-    "apy_points": [
-        {"price": "33000", "apy": "0.1"},
-        {"price": "39000", "apy": "0.2"}
-    ],
+    "take_profit_price": "89000", //string, take-profit price in string format
+    "protection_price": "83000", // string, protection price in string format
     "price_expire_time_mill": 1691727892000, //int, price expire time in millisecond,
-    "invest_amount": "10" //string, amount in string format
-  }
-}
-```
-
-```js
-{
-  "code": 0,
-  "message": "",
-  "data": {
-    "quote_id": "9634567890123456789", //string, quote id
-    "meta_name": "seagull", // string, name of the meta-product
-    "invest_currency": "USDT", //string, investment currency
-    "underlying": "BTC-USDT", //string, underlying asset
-    "tracking_source": "DERIBIT",  //trade source  DERIBIT,BINANCE etc...
-    "type": "CALL", //string, product type
-    "term_mill": 1721289600000, // int, maturity time in millisecond UNIX epoch. eg, 1721289600000 is 2024-07-18 16:00:00(UTC+8)
-    "strike_convert_price": "64000", //string, the price which triggers currency conversion
-    "strike_start_price": "68000", //string, the price which starts to generate additional profit
-    "strike_end_price": "69000", //string, the price which yields the max profit
-    "low_price_quantity": "0.07", //string, the profit if price lower than price interval
-    "high_price_quantity": "0.51", //string, the profit if price higher than price interval
-    "price_expire_time_mill": 1721289650000, //int, price expire time in millisecond UNIX epoch
-    "invest_amount": "100" //string, amount in string format
-  }
-}
-```
-
-```js
-// fixed booking_quantity (invest_amount may vary)
-{
-  "code": 0,
-  "message": "",
-  "data": {
-    "quote_id": "9712367890123456789", //string, quote id
-    "meta_name": "installment", // string, name of the meta-product
-    "invest_currency": "USDT", //string, investment currency
-    "underlying": "BTC-USDT", //string, underlying asset
-    "tracking_source": "BINANCE",  //trade source  DERIBIT,BINANCE etc...
-    "type": "CALL",
-    "term_mill": 1721289600000, // int, maturity time in millisecond UNIX epoch. eg, 1721289600000 is 2024-07-18 16:00:00(UTC+8)
-    "strike_convert_price": "35000",
-    "price_expire_time_mill": 1721289650000, //int, price expire time in millisecond UNIX epoch
-    "booking_quantity": "2",
-    "invest_amount": "62200", //string, amount in string format
-    "final_amount": "70000"
-  }
-}
-
-// fixed invest_amount (booking_quantity may vary)
-{
-  "code": 0,
-  "message": "",
-  "data": {
-    "quote_id": "9712367890123456789", //string, quote id
-    "meta_name": "installment", // string, name of the meta-product
-    "invest_currency": "USDT", //string, investment currency
-    "underlying": "BTC-USDT", //string, underlying asset
-    "tracking_source": "BINANCE",  //trade source  DERIBIT,BINANCE etc...
-    "type": "CALL",
-    "term_mill": 1721289600000, // int, maturity time in millisecond UNIX epoch. eg, 1721289600000 is 2024-07-18 16:00:00(UTC+8)
-    "strike_convert_price": "35000",
-    "price_expire_time_mill": 1721289650000, //int, price expire time in millisecond UNIX epoch
-    "booking_quantity": "1.9",
-    "invest_amount": "62000", //string, amount in string format
-    "final_amount": "66500"
+    "invest_amount": "100", //string, amount in string format
+    "booking_quantity": "1.2345" // profit amount for full term
   }
 }
 ```
@@ -522,21 +322,9 @@ Example:
 | term_mill              | int    | product's term                                                                                                                                    |
 | take_profit_price      | string | for products with a price interval: the price which triggers take-profit, in string format                                                        |
 | protection_price       | string | for products with a price interval, the price which triggers stop-loss, in string format                                                          |
-| zero_price_apy         | string | for products with a price interval: the annual percentage yield when the price is zero, in string format                                          |
-| low_price_apy          | string | for products with a price interval: the annual percentage yield when the price is smaller than the price interval, in string format               |
-| high_price_apy         | string | for products with a price interval: the annual percentage yield when the price is larger than the price interval, in string format                |
-| apy_points             | array  | for products with a price interval: within the price interval, points of {price, annual percentage yield} construct the piecewise function of APY |
-| apy_points.price       | string | price, in string format                                                                                                                           |
-| apy_points.apy         | string | annual percentage yield, in string format                                                                                                         |
-| strike_convert_price   | string | the price which triggers currency conversion, in string format                                                                                    |
-| strike_start_price     | string | (seagull) the price which starts to generate additional profit, in string format                                                                  |
-| strike_end_price       | string | (seagull) the price which yields the max profit, in string format                                                                                 |
-| low_price_quantity     | string | (seagull) the profit if price lower than price interval, in string format                                                                         |
-| high_price_quantity    | string | (seagull) the profit if price higher than price interval, in string format                                                                        |
 | price_expire_time_mill | int    | price expire time in millisecond                                                                                                                  |
 | invest_amount          | string | amount in string format                                                                                                                           |
-| booking_quantity       | string | quantity/share of the subscription                                                                                                                |
-| final_amount           | string | amount for final payment                                                                                                                          |
+| booking_quantity       | string | profit amount for full term. If early settled by knock-in or knock-out, actual profit will be (actual term / full term) × booking_quantity        |
 
 Error Code:
 
@@ -563,10 +351,8 @@ Error Code:
 | Key             | Type   | Required | Description                                     |
 | --------------- | ------ | -------- | ----------------------------------------------- |
 | meta_name       | string | yes      | name of the meta-product. eg, "snowball", "dcp" |
-| invest_amount   | string | optional | amount in string format (backward compatible)   |
 | quote_id        | string | yes      | quote id, unique                                |
 | client_order_id | string | yes      | client order id, for idempotence                |
-| parent_order_id | string | no       | vendor order id of the parent order, to renew   |
 
 - Response: application/json
 
@@ -577,7 +363,7 @@ Example:
   "code" : 0,
   "message" : "",
   "data" : {
-    "meta_name": "dcp",
+    "meta_name": "fcn",
     "order_id": "7080019906774802432", //string,vendor order id
     "client_order_id": "client_order_id_7080019906774802432" //string, client_order_id
   }
@@ -742,92 +528,25 @@ Get single order info by order_id or client_order_id
   "code": 0,
   "message": "",
   "data": { //object,
-    "meta_name": "sharkfin", // string, name of the meta-product
+    "meta_name": "fcn", // string, name of the meta-product
     "order_id": "7080019906774802435", //string, order id
     "client_order_id": "client_order_id_7080019906774802435", //string, client_order_id
     "order_status": 100, //int, 0 : Processing, 100 : success, 110 : failed
     "invest_currency": "USDT", //string, investment currency
     "underlying": "BTC-USDT", //string, underlying asset
-    "tracking_source": "DERIBIT",  //tracking source
+    "tracking_source": "BINANCE",  //tracking source
     "type": "CALL", //string, option type
     "term_mill": 604800000, //int, term. e.g. 604800000 is 7 days
     "take_profit_price": "40000", //string, take-profit price in string format
     "protection_price": "31000", //string, protection price in string format
-    "is_evaluated": true, // prices are evaluated
     "invest_amount": "10", //string, investment amount in string format
-    "zero_price_apy": "0.01",
-    "low_price_apy": "0.01",
-    "high_price_apy": "0.02",
-    "apy_points": [
-        {"price": "31000", "apy": "0.1"},
-        {"price": "40000", "apy": "0.2"}
-    ],
-    "success_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order being successfully placed
-    "value_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order starting to accure interest
-    "actual_settled_time_mill": 1693555200000, //int, vendor settled time
+    "booking_quantity": "0.23", // profit amount for full term
+    "success_time_mill": 1704161623000, //int, millisecond UNIX epoch of the order being successfully placed
+    "value_time_mill": 1704182400000, //int, millisecond UNIX epoch of the order starting to accure interest
+    "actual_settled_time_mill": 1704787200000, //int, vendor settled time
     "actual_settled_price": "40000", //string, option settled index price in string format
     "actual_settled_currency": "USDT", //string, settled currency
-    "actual_settled_amount": "10.00398429" //string, settled amount
-  }
-}
-```
-
-```js
-{
-  "code": 0,
-  "message": "",
-  "data": { //object,
-    "meta_name": "seagull", // string, name of the meta-product
-    "order_id": "7080019906774802432", //string, order id
-    "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
-    "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
-    "invest_currency": "USDC", //string, investment currency
-    "underlying": "BTC-USDC", //string, underlying asset
-    "tracking_source": "DERIBIT",  //tracking source
-    "type": "CALL", //string, option type
-    "term_mill": 1692950400000, //int, term
-    "strike_convert_price": "34000", //string, the price which triggers currency conversion
-    "strike_start_price": "38000", //string, the price which starts to generate additional profit
-    "strike_end_price": "39000", //string, the price which yields the max profit
-    "invest_amount": "100", //string, investment amount in string format
-    "low_price_quantity": "0.07", //string, the profit if price lower than price interval
-    "high_price_quantity": "0.51", //string, the profit if price higher than profit interval
-    "success_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order being successfully placed
-    "value_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order starting to accure interest
-    "actual_settled_time_mill": 1692950400000, //int, vendor settled time
-    "actual_settled_price": "32000", //string, option settled index price in string format
-    "actual_settled_currency": "BTC", //string, settled currency
-    "actual_settled_amount": "0.00156359" //string, settled amount
-  }
-}
-```
-
-```js
-{
-  "code": 0,
-  "message": "",
-  "data": { //object,
-    "meta_name": "installment", // string, name of the meta-product
-    "order_id": "5678919906774802432", //string, order id
-    "client_order_id": "client_order_id_123", //string, client_order_id
-    "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
-    "invest_currency": "USDT", //string, investment currency
-    "underlying": "BTC-USDT", //string, underlying asset
-    "tracking_source": "BINANCE",  //tracking source
-    "type": "CALL", //string, option type
-    "term_mill": 1692950400000, //int, term
-    "strike_convert_price": "35000",
-    "invest_amount": "62200", //string, investment amount in string format
-    "booking_quantity": "2",
-    "final_amount": "70000",
-    "success_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order being successfully placed
-    "success_time_spot_price": "65432", //string, spot price when the order successfully placed
-    "value_time_mill": 1692926956000, //int, millisecond UNIX epoch of the order starting to accure interest
-    "actual_settled_time_mill": 1692950400000, //int, vendor settled time
-    "actual_settled_price": "60000", //string, option settled index price in string format
-    "actual_settled_currency": "BTC", //string, settled currency
-    "actual_settled_amount": "0.83333333", //string, settled amount
-    "term_tag": "1d"
+    "actual_settled_amount": "10.23" //string, settled amount
   }
 }
 ```
@@ -845,29 +564,14 @@ Get single order info by order_id or client_order_id
 | term_mill                | int    | product's term                                                                                                                                    |
 | take_profit_price        | string | for products with a price interval: the price which triggers take-profit, in string format                                                        |
 | protection_price         | string | for products with a price interval, the price which triggers stop-loss, in string format                                                          |
-| is_evaluated             | bool   | for products whose attributes (such as prices) are evaluated at a later time, this flag indicates whether the attributes are evaluated or not     |
 | invest_amount            | string | investment amount in string format                                                                                                                |
-| zero_price_apy           | string | for products with a price interval: the annual percentage yield when the price is zero, in string format                                          |
-| low_price_apy            | string | for products with a price interval: the annual percentage yield when the price is smaller than the price interval, in string format               |
-| high_price_apy           | string | for products with a price interval: the annual percentage yield when the price is larger than the price interval, in string format                |
-| apy_points               | array  | for products with a price interval: within the price interval, points of {price, annual percentage yield} construct the piecewise function of APY |
-| apy_points.price         | string | price, in string format                                                                                                                           |
-| apy_points.apy           | string | annual percentage yield, in string format                                                                                                         |
-| strike_convert_price     | string | the price which triggers currency conversion, in string format                                                                                    |
-| strike_start_price       | string | (seagull) the price which starts to generate additional profit, in string format                                                                  |
-| strike_end_price         | string | (seagull) the price which yields the max profit, in string format                                                                                 |
-| low_price_quantity       | string | (seagull) the profit if price lower than price interval, in string format                                                                         |
-| high_price_quantity      | string | (seagull) the profit if price higher than price interval, in string format                                                                        |
-| booking_quantity         | string | quantity/share of the subscription                                                                                                                |
-| final_amount             | string | amount for final payment                                                                                                                          |
+| booking_quantity         | string | profit amount for full term                                                                                                                       |
 | success_time_mill        | int    | millisecond UNIX epoch of the order being successfully placed                                                                                     |
-| success_time_spot_price  | string | spot price at the time of the order being successfully placed (precision is determined by vendor)                                                 |
 | value_time_mill          | int    | millisecond UNIX epoch of the order starting to accure interest                                                                                   |
 | actual_settled_time_mill | int    | vendor settled time                                                                                                                               |
 | actual_settled_price     | string | actual settlement price in string format                                                                                                          |
 | actual_settled_currency  | string | settled currency                                                                                                                                  |
 | actual_settled_amount    | string | settled amount                                                                                                                                    |
-| term_tag                 | string | tag of the term                                                                                                                                   |
 
 ### 1.6.8. Query Orders
 
@@ -980,41 +684,17 @@ vendor check settlement price, settlement amount and settlement currency of an o
 | currency         | string | yes                             | settle currency                 | BTC           |
 | vendor_net_pay   | string | yes                             | settle amount                   | 0.1           |
 | settlement_index | string | yes                             | settlement price                | 38000.12      |
-| initial_price    | string | only when settlment requires it | price on the first value date   | 37500.99      |
 
 Post Data Example:
 
 ```js
 {
-    "meta_name": "seagull", // string, name of the meta-product
+    "meta_name": "fcn", // string, name of the meta-product
     "settle_time_mill": 1692950400000,
     "order_id": "138974182741274127",
     "currency": "BTC", //string, settle currency
     "vendor_net_pay": "100", //string, expected settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor.
     "settlement_index":"26000"// settlement index price
-}
-```
-
-```js
-{
-    "meta_name": "snowball", // string, name of the meta-product
-    "settle_time_mill": 1692950400000,
-    "order_id": "138974127412741892",
-    "currency": "ETH", //string, settle currency
-    "vendor_net_pay": "5", //string, expected settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor.
-    "settlement_index":"2100", // settlement index price
-    "initial_price": "2000" // price on the first value date
-}
-```
-
-```js
-{
-    "meta_name": "installment", // string, name of the meta-product
-    "settle_time_mill": 1692950400000,
-    "order_id": "13897412741274555",
-    "currency": "ETH", //string, settle currency
-    "vendor_net_pay": "5.1", //string, expected settlement amount
-    "settlement_index":"2600" // settlement index price
 }
 ```
 
@@ -1027,64 +707,20 @@ Post Data Example:
   "message": "",
   "data": {
     "settle_time_mill": 1692950400000,
-    "meta_name": "seagull", // string, name of the meta-product
+    "meta_name": "fcn", // string, name of the meta-product
     "order_id": "138974182741274127",
-    "valid":true,
-    "settle_currency":"BTC", //string, settlement currency
-    "vendor_net_pay":"100", //string, settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor. 
-    "request_vendor_net_pay":"100",
-    "invest_currency": "USDC", //string, investment currency
-    "underlying": "BTC-USDC", //string, underlying asset
-    "tracking_source":"DERIBIT",  // tracking source eg. DERIBIT BINANCE
-    "settlement_index":"26000", // vendor settlement index price
-    "request_settlement_index":"26000"
-  }
-}
-```
-
-```js
-{
-  "code": 0,
-  "message": "",
-  "data": {
-    "settle_time_mill": 1692950400000,
-    "meta_name": "snowball", // string, name of the meta-product
-    "order_id": "13892741271093",
     "valid":true,
     "settle_currency":"BTC", //string, settlement currency
     "vendor_net_pay":"100", //string, settlement amount. if amount > 0 vendor should transfer to matrixport, if less than zero matrixport should transfer to vendor. 
     "request_vendor_net_pay":"100",
     "invest_currency": "USDT", //string, investment currency
     "underlying": "BTC-USDT", //string, underlying asset
-    "tracking_source":"DERIBIT",  // tracking source eg. DERIBIT BINANCE
-    "settlement_index":"26000", // vendor settlement index price
-    "request_settlement_index":"26000",
-    "initial_price": "30000.5",
-    "request_initial_price": "30000.5"
-  }
-}
-```
-
-```js
-{
-  "code": 0,
-  "message": "",
-  "data": {
-    "settle_time_mill": 1692950400000,
-    "meta_name": "installment", // string, name of the meta-product
-    "order_id": "13897412741274555",
-    "valid":true,
-    "settle_currency":"ETH", //string, settlement currency
-    "vendor_net_pay":"5.1", //string, settlement amount
-    "request_vendor_net_pay":"5.1",
-    "underlying": "ETH-USDT", //string, underlying asset
     "tracking_source":"BINANCE",  // tracking source
     "settlement_index":"26000", // vendor settlement index price
     "request_settlement_index":"26000"
   }
 }
 ```
-
 
 | Parameter Name           | Type   | Description                     | Example       |
 | :----------------------- | :----- | :------------------------------ | :------------ |
@@ -1100,8 +736,6 @@ Post Data Example:
 | tracking_source          | string | order's tracking source         | DERIBIT       |
 | settlement_index         | string | vendor's expected settle index  | 26000         |
 | request_settlement_index | string | client's expected settle index  | 26000         |
-| initial_price            | string | vendor's initial price          | 37500.99      |
-| request_initial_price    | string | client's initial price          | 37500.99      |
 
 ### 1.6.11. Monthly profit check
 
@@ -1244,7 +878,7 @@ Post Data Example:
 
 ```js
 {
-  "meta_name": "trend",
+  "meta_name": "fcn",
   "start_time_mill": 1698768480000,
   "end_time_mill": 1701360480000,
   "count" 2,
@@ -1252,12 +886,12 @@ Post Data Example:
     {
       "currency": "USDT",
       "total_amount": "8700.5",
-      "renew_amount": "1200"
+      "renew_amount": "0"
     },
     {
       "currency": "ETH",
       "total_amount": "1.5",
-      "renew_amount": "0.4"
+      "renew_amount": "0"
     }
   ]
 }
@@ -1279,16 +913,16 @@ Example:
         "currency": "USDT",
         "total_amount": "8700.5",
         "request_total_amount": "8700.5",
-        "renew_amount": "1200",
-        "request_renew_amount": "1200"
+        "renew_amount": "0",
+        "request_renew_amount": "0"
       },
       {
         "valid": true,
         "currency": "ETH",
         "total_amount": "1.5",
         "request_total_amount": "1.5",
-        "renew_amount": "0.4",
-        "request_renew_amount": "0.4",
+        "renew_amount": "0",
+        "request_renew_amount": "0"
       }
     ]
   },
