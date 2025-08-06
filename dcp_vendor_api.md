@@ -384,18 +384,14 @@ Get single order info by order_id or client_order_id
     "order_id": "7080019906774802432", //string, order id
     "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
     "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
-    "underlying_pair": "BTC-USDC" //string, underlying pair
+    "underlying_pair": "BTC-USDC", //string, underlying pair
     "tracking_source": "DERIBIT",  //trade source
     "type": "CALL", //string, option type
     "settle_time_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
-    "strike_price": "30000" //string, strike price in string format
+    "strike_price": "30000", //string, strike price in string format
     "deposit_currency": "BTC", //string, deposit currency
     "deposit_amount": "1", //string, deposit amount in string format
-    "actual_settled_time_mill": 1692950400000 //int, vendor settled time
-    "actual_settled_price": "32000" //int, option settled index price in string format
-    "actual_settled_currency": "BTC" //int, settled currency
-    "actual_settled_amount": "1" //int, settled amount
-    "premium_amount": "1" //int, premium amount
+    "premium_amount": "1", //string, premium amount
     "active_time_mill": 1692926956000, //int,active time
     "redeemable":true //bool, is order redeemable
   }
@@ -416,11 +412,7 @@ Get single order info by order_id or client_order_id
 | deposit_amount           | string | deposit amount in string format                                                     |
 | active_time_mill         | int    | when order success,filled this item with order success time                         |
 | redeemable               | bool   | is order redeemable                                                                 |
-| actual_settled_time_mill | int    | vendor settled time                                                                 |
-| actual_settled_price     | int    | actual option settled price in string format                                        |
-| actual_settled_currency  | int    | settled currency                                                                    |
-| actual_settled_amount    | int    | settled amount                                                                      |
-| premium_amount           | int    | premium amount                                                                      |
+| premium_amount           | string | premium amount                                                                      |
 
 ### 1.6.6. Query Orders
 
@@ -457,18 +449,14 @@ Get order list by various conditions.
         "order_id": "7080019906774802432", //string, order id
         "client_order_id": "client_order_id_7080019906774802432", //string, client_order_id
         "order_status": 0, //int, 0 : Processing, 100 : success, 110 : failed 
-        "underlying_pair": "BTC-USDC" //string, underlying pair
+        "underlying_pair": "BTC-USDC", //string, underlying pair
         "tracking_source": "DERIBIT",  //trade source
         "type": "CALL", //string, option type
         "settle_time_mill": 1692950400000, //int, option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.
-        "strike_price": "30000" //string, strike price in string format
+        "strike_price": "30000", //string, strike price in string format
         "deposit_currency": "BTC", //string, deposit currency
         "deposit_amount": "1", //string, deposit amount in string format
-        "actual_settled_time_mill": 1692950400000 //int, vendor settled time
-        "actual_settled_price": "32000" //int, actual option settled index price in string format
-        "actual_settled_currency": "BTC" //int, settled currency
-        "actual_settled_amount": "1" //int, settled amount
-        "premium_amount": "1" //int, premium amount
+        "premium_amount": "1", //int, premium amount
         "active_time_mill": 1692926956000, //int,active time
         "redeemable":true //bool, is order redeemable
       }
