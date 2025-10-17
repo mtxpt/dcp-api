@@ -1,9 +1,14 @@
 <!-- TOC -->
 
+- [Authentication](#authentication)
 - [Vendor Risk](#vendor-risk)
 - [SKITG](#skitg)
 
 <!-- /TOC -->
+
+### Authentication
+
+Please refer to the Authentication documentation here: [Matrixport API Introduction](https://www.matrixport.com/docs/en-us/wallet.html#introduction)
 
 ### Vendor Risk
 
