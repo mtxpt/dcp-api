@@ -167,12 +167,12 @@ Example:
 | Parameter Name         | Type   | Description                                                                                                                                                       |
 | :--------------------- | :----- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | items                  | array  | products                                                                                                                                                          |
-| items.underlying_pair  | string | underlying pair                                                                                                                                                   |
-| items.tracking_source  | string | tracking source                                                                                                                                                   |
-| items.type             | string | type                                                                                                                                                              |
+| items.underlying_pair  | string | underlying pair,in upper case                                                                                                                                     |
+| items.tracking_source  | string | tracking source, in upper case                                                                                                                                    |
+| items.type             | string | type, in upper case                                                                                                                                               |
 | items.settle_time_mill | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.                                                                               |
 | items.strike_price     | string | strike price in string format                                                                                                                                     |
-| items.deposit_currency | string | deposit currency                                                                                                                                                  |
+| items.deposit_currency | string | deposit currency, in upper case                                                                                                                                   |
 | items.min_buy          | string | minimal buy amount, must be a multiple of mini_buy_step                                                                                                           |
 | items.max_buy          | string | maximal buy amount, max_buy >= min_buy                                                                                                                            |
 | items.mini_buy_step    | string | buy amount step, must be a power of 10, e.g. 0.1, 1, 10. (if step=0.1 and min_buy=1 then available deposit amount is 1,1.1,1.2,1.3,1.4....)                       |
@@ -233,16 +233,16 @@ Example:
 
 | Parameter Name         | Type   | Description                                                                                      |
 | :--------------------- | :----- | :----------------------------------------------------------------------------------------------- |
-| quote_id               | string | quote id  (if response emtpy,place order will post an empty quote id)                            |
-| underlying_pair        | string | underlying pair                                                                                  |
-| tracking_source        | string | tracking source refers to the fixing convention used to settle product payment                   |
+| quote_id               | string | quote id, max length 200  (if response emtpy,place order will post an empty quote id)            |
+| underlying_pair        | string | underlying pair, in upper case                                                                   |
+| tracking_source        | string | tracking source refers to the fixing convention used to settle product payment, in upper case    |
 | type                   | string | option type   (CALL or PUT)                                                                      |
 | settle_time_mill       | int    | option settle time in millisecond, eg. 2023-08-25T16:00:00 +08:00 is 1692950400000.              |
 | strike_price           | string | strike price in string format                                                                    |
 | premium_amount         | string | premium_amount in string format,for action NEW premium_amount > 0,for REDEEM premium_amount <= 0 |
 | price_expire_time_mill | int    | price expire time in millisecond                                                                 |
 | action                 | string | NEW or REDEEM; NEW place new order, REDEEM: redeem exist order                                   |
-| deposit_currency       | string | currency                                                                                         |
+| deposit_currency       | string | currency, in upper case                                                                          |
 | deposit_amount         | string | amount in string format                                                                          |
 
 Error Code:
@@ -294,10 +294,10 @@ Example:
 }
 ```
 
-| Parameter Name  | Type   | Description     |
-| :-------------- | :----- | :-------------- |
-| order_id        | string | vendor order id |
-| client_order_id | string | dcp order id    |
+| Parameter Name  | Type   | Description                    |
+| :-------------- | :----- | :----------------------------- |
+| order_id        | string | vendor order id, max length 40 |
+| client_order_id | string | dcp order id                   |
 
 Error Code:
 
@@ -346,7 +346,7 @@ Error Code:
 | Parameter Name   | Type   | Description                          |
 | :--------------- | :----- | :----------------------------------- |
 | order_id         | string | order id                             |
-| redeem_id        | string | vendor redeem id                     |
+| redeem_id        | string | vendor redeem id, max length 40      |
 | client_redeem_id | string | dcp client redeem id, for idempotent |
 
 Error Code:
