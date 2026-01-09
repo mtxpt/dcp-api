@@ -605,10 +605,10 @@ Example:
 vendor check settlement summary，summary each order need settle amount by settlement index,grouy by settle currency.<br />
 underlying_pair = BTC-USDT<br />
 for CALL  user invest BTC<br />
-if settle index < strike price   settle_amount=deposit_amount + premium_amount  (BTC)<br />
+if settle index < strike price   settle_amount=Rounddown(deposit_amount + premium_amount,8)  (BTC)<br />
 if settle index >= strike price  settle_amount=Rounddown((deposit_amount + premium_amount）* strike price,8) (USDT)<br />
 for PUT  user invest USDT<br />
-if settle index > strike price   settle_amount=deposit_amount + premium_amount  (USDT)<br />
+if settle index > strike price   settle_amount=Rounddown(deposit_amount + premium_amount,8)  (USDT)<br />
 if settle index <= strike price  settle_amount=Rounddown((deposit_amount + premium_amount）/ strike price,8) (BTC)
 
 
